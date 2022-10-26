@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "./myMovie/",
+  "homepage": "https://fish750710.github.io/myMovie/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
