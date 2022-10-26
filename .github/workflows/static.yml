@@ -17,6 +17,7 @@ jobs:
         run: |
           #cd my-resumes # 进入项目目录
           npm install  # 安装依赖
+          rm -rf dist
           npm run build  # 执行打包
   
       # 连接到ssh，并且做一个拷贝操作的action

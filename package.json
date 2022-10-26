@@ -1,12 +1,13 @@
 {
   "name": "vite-project",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://fish750710.github.io/my-movie/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "prebuild": "rm -rf dist",
     "preview": "vite preview"
   },
   "dependencies": {

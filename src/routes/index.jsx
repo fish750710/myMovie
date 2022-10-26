@@ -14,7 +14,7 @@ import Drama from "../pages/drama";
 import ThemePavilion from "../pages/themePavilion";
 import MyMovies from "../pages/myMovies";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
