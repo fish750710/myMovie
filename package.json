@@ -1,13 +1,15 @@
 {
   "name": "vite-project",
   "private": true,
-  "version": "0.0.0",
+  "homepage": "https://fish750710.github.io/myMovie/",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "prebuild": "rm -rf dist",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -16,6 +18,7 @@
     "@mui/material": "^5.10.9",
     "@mui/styled-engine-sc": "^5.10.6",
     "@reduxjs/toolkit": "^1.8.6",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
