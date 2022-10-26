@@ -35,11 +35,11 @@ jobs:
           #cd myMovie # 进入项目目录
           npm install  # 安装依赖
           npm run build  # 执行打包
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           BRANCH: gh-pages # deploy 到 gh-pages 這個分支
           FOLDER: dist # build 後的資料夾
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1

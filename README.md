@@ -2,9 +2,9 @@
 
 
 專案架構：
+vite
 react 18
 redux toolkit
-vite
 material
 styled components
 
