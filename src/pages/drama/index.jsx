@@ -35,6 +35,11 @@ function index() {
     <style.content>
       <div className="filter-box">
         <div>test12312313</div>
+        <div>test12312313</div>
+        <div>test12312313</div>
+        <div>test12312313</div>
+        <div>test12312313</div>
+        <div>test12312313</div>
         <Filter title={movieType.title} data={movieType.data} />
         <Filter title={year.title} data={year.data} />
       </div>
