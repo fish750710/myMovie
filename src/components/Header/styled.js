@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import styles from "../../styles/_export.module.scss";
+import styles from "@/styles/_export.module.scss";
 
 const style = {};
 style.Navbar = styled.div`
@@ -10,14 +10,15 @@ style.Navbar = styled.div`
   padding: 0px 40px;
   gap: 60px;
   z-index: 999;
-
-  position: absolute;
+  
+  position: fixed;
+  /* position: absolute; */
   width: 100%;
   height: 58px;
   left: 0px;
   top: 0px;
 
-  background: rgba(27, 30, 37, 0.68);
+  /* background: rgba(27, 30, 37, 0.68); */
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
 `;
 style.Menu = styled.ul`
@@ -35,9 +36,19 @@ style.Menu = styled.ul`
 
     text-align: center;
     color: ${styles.font_light};
-
-    &:hover {
-      cursor: pointer;
+    position: relative;
+    margin: 0 4px;
+    .active {
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 77px;
+        height: 4px;
+        background: ${styles.btn_gradual_color};
+        border-radius: 50px;
+      }
     }
   }
 `;

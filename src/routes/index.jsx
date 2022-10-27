@@ -7,12 +7,13 @@ import {
   Link,
 } from "react-router-dom";
 
-import App from "../App";
-import Home from "../pages/home";
-import Movies from "../pages/movies";
-import Drama from "../pages/drama";
-import ThemePavilion from "../pages/themePavilion";
-import MyMovies from "../pages/myMovies";
+import App from "@/App";
+import Home from "@/pages/home";
+import Movies from "@/pages/movies";
+import Drama from "@/pages/drama";
+import ThemePavilion from "@/pages/themePavilion";
+import MyMovies from "@/pages/myMovies";
+import Detail from '@/pages/detail';
 
 const router = createHashRouter([
   {
@@ -38,6 +39,10 @@ const router = createHashRouter([
       {
         path: "myMovies",
         element: <MyMovies />,
+      },
+      {
+        path: "detail/:id",
+        element: <Detail />,
       },
     ],
   },

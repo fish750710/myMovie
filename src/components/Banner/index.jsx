@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import styles from "../../styles/_export.module.scss";
+import styles from "@/styles/_export.module.scss";
 
 const Banner = styled.div`
   background-color: ${styles.bg_color};

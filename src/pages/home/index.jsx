@@ -1,6 +1,6 @@
 import React from "react";
-import Banner from "../../components/Banner";
-import Section from "../../components/MovieList/Section";
+import Banner from "@/components/Banner";
+import Section from "@/components/MovieList/Section";
 import style from "./styled";
 import "./index.scss";
 

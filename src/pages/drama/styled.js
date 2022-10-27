@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import styles from "../../styles/_export.module.scss";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
 
 const style = {};
 style.content = styled.div`
@@ -7,17 +7,39 @@ style.content = styled.div`
   min-height: 100%;
   color: white;
   font-size: 16px; */
-  margin-top: 82px;
+  
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  .filter-box {
+  align-items: center;
+  .btn-submit {
+    width: 160px;
+    height: 42px;
+  }
+  .btn-more {
+    width: 300px;
+    height: 52px;
+  }
+  .main {
+    width: 1020px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .footer {
+    margin: 50px ;
+  }
+`;
+style.section = styled.div`
     width: 1200px;
-    height: 326px;
+    /* height: 326px; */
     background: rgba(104, 107, 114, 0.1);
+    /* background-color: #ffffff; */
     border-radius: 20px;
     padding: 24px;
-  }
+    margin: 6px;
 `;
 
 export default style;

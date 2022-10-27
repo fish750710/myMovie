@@ -7,7 +7,7 @@ import "./index.scss";
 function index() {
   return (
     <style.content>
-      <div className=""></div>
+      <div className="box"></div>
     </style.content>
   );
 }

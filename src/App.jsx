@@ -19,6 +19,7 @@ const AppStyled = styled.div`
     z-index: 1;
     color: white;
     font-size: 16px;
+    margin-top: 82px;
   }
 `;
 function App() {

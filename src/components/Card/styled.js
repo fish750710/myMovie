@@ -1,11 +1,13 @@
-import styled from "styled-components";
-import styles from "../../styles/_export.module.scss";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
 
 const style = {};
-style.Card = styled.div`
+style.CardBox = styled.div`
   margin: 8px;
+`;
+style.Card = styled.div`
   width: 152px;
-  height: 225px;
+  height: 200px;
   position: relative;
   &:hover {
     cursor: pointer;
@@ -13,7 +15,7 @@ style.Card = styled.div`
   .score {
     position: absolute;
     right: 4px;
-    bottom: 30px;
+    bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -38,19 +40,15 @@ style.Card = styled.div`
     margin-top: 4px;
   }
 `;
-style.Img = styled.img`
-  background: linear-gradient(
-      180deg,
-      rgba(22, 22, 22, 0) 30.58%,
-      rgba(22, 22, 22, 0.98) 100%
-    ),
-    url(image.png);
+style.Img = styled.div`
   /* 內層陰影 */
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
-
-  width: 152px;
-  height: 201px;
+  padding: 0;
+  margin: 0;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
-  background-color: #fff;
+
 `;
 export default style;

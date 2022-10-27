@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import style from "./styled";
+import React, { useState } from 'react';
+import style from './styled';
 
 function index({ title, data }) {
-  const [state, setState] = useState('全部')
-  const clickHandler = (name) => {
-    if(state === name) return;
-    console.log(name)
-    setState(name)
-  }
+  const [state, setState] = useState(0);
+  const clickHandler = (name, index) => {
+    if (state === index) return;
+    console.log(name, index);
+    setState(index);
+  };
   return (
     <style.Content>
-      <div className="title">{title}</div>
-      <div className="section">
-        {data?.map((item, index) => <div className='btn' onClick={() => clickHandler(item)} key={index}>{item}</div>)}
+      {title && (<div className='label'>{title}</div>)}
+      <div className='section'>
+        {data?.map((item, index) => (
+          <div className={`btn ${index === state ? 'active' : null}`} onClick={() => clickHandler(item, index)} key={index}>
+            {item}
+          </div>
+        ))}
       </div>
     </style.Content>
   );

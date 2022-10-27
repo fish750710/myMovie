@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import styles from "../../styles/_export.module.scss";
+import styles from "@/styles/_export.module.scss";
 
 const style = {};
 style.section = styled.div`
