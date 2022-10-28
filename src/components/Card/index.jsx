@@ -26,15 +26,11 @@ function index({ isLoading, item, toDetail }) {
         <style.Card onClick={() => toDetail(item)}>
           <style.Img
             style={{
-              background: `linear-gradient(
-                180deg,
-                rgba(22, 22, 22, 0) 30.58%,
-                rgba(22, 22, 22, 0.98) 100%
-              ), url(${item.imgUrl})`
+              backgroundImage: `url(https://image.tmdb.org/t/p/w154${item.poster_path})`
             }}
           />
-          <div className='score'>{item.score}</div>
-          <div className='move-name'>{item.name}</div>
+          <div className='score'>{item.vote_average}</div>
+          <div className='move-name'>{item.title}</div>
         </style.Card>
       )}
     </style.CardBox>

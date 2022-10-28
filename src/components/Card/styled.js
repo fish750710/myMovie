@@ -3,11 +3,11 @@ import styles from '@/styles/_export.module.scss';
 
 const style = {};
 style.CardBox = styled.div`
-  margin: 8px;
+  margin: 20px 8px;
 `;
 style.Card = styled.div`
-  width: 152px;
-  height: 200px;
+  width: 154px;
+  height: 250px;
   position: relative;
   &:hover {
     cursor: pointer;
@@ -15,7 +15,7 @@ style.Card = styled.div`
   .score {
     position: absolute;
     right: 4px;
-    bottom: 10px;
+    top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -41,13 +41,14 @@ style.Card = styled.div`
   }
 `;
 style.Img = styled.div`
+  background-repeat: no-repeat;
+  background-size: cover;
   /* 內層陰影 */
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
   padding: 0;
   margin: 0;
-  background-size: cover;
   width: 100%;
-  height: 100%;
+  height: 231px;
   border-radius: 8px;
 
 `;
