@@ -24,7 +24,7 @@ function index() {
         </div>
       </div> */}
       <div className="content">
-        <Section />
+        <Section title="熱門電影" />
       </div>
     </style.content>
   );

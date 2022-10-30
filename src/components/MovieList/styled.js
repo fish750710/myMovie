@@ -6,18 +6,18 @@ style.section = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 40px;
+  /* margin: 10px 40px; */
   border-radius: 20px;
 `;
 style.List = styled.div`
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 0px;
   gap: 14px; // 間距
-  
-  height: 350px;
+
   border-radius: 20px;
   .title {
     font-weight: 400;

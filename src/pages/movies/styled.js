@@ -22,11 +22,13 @@ style.content = styled.div`
     height: 52px;
   }
   .main {
-    width: 80%;
+    max-width: 1280px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    padding: 0 40px;
     .content {
       display: flex;
       flex-wrap: wrap;

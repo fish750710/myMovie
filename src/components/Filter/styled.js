@@ -10,7 +10,7 @@ style.Content = styled.div`
     margin-top: 18px;
   }
   .btn{
-    width: 66.36px;
+    padding: 3.5px 20px;
     height: 28px;
     background: ${styles.bg_color};
     border-radius: 4px;

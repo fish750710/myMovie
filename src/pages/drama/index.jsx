@@ -32,43 +32,6 @@ function index() {
   };
 
   const isLoading = false;
-  const itemList = [
-    {
-      id: 'tt',
-      name: '蛛蛛人',
-      imgUrl:
-        'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-      score: '8.2',
-    },
-    {
-      id: 'tt2',
-      name: '蛛蛛人2',
-      imgUrl:
-        'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-      score: '7.5',
-    },
-    {
-      id: 'tt3',
-      name: '蛛蛛人3',
-      imgUrl:
-        'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-      score: '6',
-    },
-    {
-      id: 'tt4',
-      name: '蛛蛛人4',
-      imgUrl:
-        'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-      score: '9.1',
-    },
-    {
-      id: 'tt5',
-      name: '蛛蛛人5',
-      imgUrl:
-        'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-      score: '2',
-    },
-  ];
 
   const toDetail = (item) => {
     console.log('item', item);

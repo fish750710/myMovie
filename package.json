@@ -17,10 +17,13 @@
     "@reduxjs/toolkit": "^1.8.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-overlay": "^6.0.9",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
+    "react-youtube": "^10.0.0",
     "sass": "^1.55.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "swiper": "^8.4.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",

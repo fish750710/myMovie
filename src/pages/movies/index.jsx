@@ -34,8 +34,9 @@ function index() {
   const [sortType, setSortType] = useState(0);
   const [sortBy, setSortBy] = useState('desc') // asc
   const sortList = {
-    data: [{id: 0, name: '人氣', key: 'popularity'}, {id: 1, name: '評分', key: ''}, {id: 2, name: '上映日', key: 'release_date'}, {id: 3, name: '片名', key: ''}],
+    data: [{id: 0, name: '人氣', key: 'popularity'}, {id: 1, name: '評分', key: 'vote_average'}, {id: 2, name: '上映日', key: 'release_date'}, {id: 3, name: '片名', key: 'original_title'}],
   };
+  const [page, setPage] = useState(1);
 
   const toDetail = (item) => {
     console.log('item', item);
@@ -65,7 +66,7 @@ function index() {
     const baseURL2 = `${baseURL}/discover/movie?api_key=${apiKey}&language=${lang}`
     // const url = `${baseURL}/movie/550?api_key=${apiKey}`;
     const url3 = `${baseURL2}&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
-    const url4 = `${baseURL2}&with_genres=${movieOptType}&year=${movieOptYear}&sort_by=${sortList?.data[sortType]?.key}.${sortBy}`
+    const url4 = `${baseURL2}&with_genres=${movieOptType}&year=${movieOptYear}&sort_by=${sortList?.data[sortType]?.key}.${sortBy}&page=${page}`;
     // &sort_by=popularity.desc&include_adult=false&include_video=false&page=1&year=2022&with_genres=27&with_watch_monetization_types=flatrate
     // https://image.tmdb.org/t/p/w300/
     // https://www.themoviedb.org/t/p/w300_and_h450_bestv2/
@@ -86,11 +87,11 @@ function index() {
         headers: { 'content-type': 'application/json' },
       }).then(res => res.json()).then( resData => {
         // console.log(resData);
-        setMoiveList(resData.results);
+        setMoiveList(movieList.concat(resData.results));
         // 模擬 loading..
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
+        setIsLoading(false);
+        // setTimeout(() => {
+        // }, 500);
       });
     } catch (err) {
       console.log(err);
@@ -98,9 +99,13 @@ function index() {
     }
   }
   const search = () => {
-    console.log('key', movieOptType, movieOptYear);
+    // console.log('key', movieOptType, movieOptYear);
     getMovieList();
   };
+  const loadMoreHandler = () => {
+    if (isLoading) return;
+    setPage(current => current+1);
+  }
 
   useEffect(() => {
     try {
@@ -109,26 +114,14 @@ function index() {
         return;
       }
       // 避免重複累加 List
-      if (genreList.data.length < 2)  {
+      if (genreList.data.length < 2) {
         getGenreList();
       }
       getMovieList();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }, [movieOptType, movieOptYear, sortType])
-
-  // useEffect(() => {
-  //   try {
-  //     if (renderRef.current) {
-  //       renderRef.current = false;
-  //       return;
-  //     }
-  //     getGenreList();
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }, [])
+  }, [movieOptType, movieOptYear, sortType, page]);
 
   return (
     <style.content>
@@ -154,7 +147,7 @@ function index() {
             ))}
         </div>
       </div>
-      <div className='btn btn-more btn-gradual w-80 my-14'>載入更多</div>
+      <div className='btn btn-more btn-gradual w-80 my-14' onClick={loadMoreHandler}>載入更多</div>
     </style.content>
   );
 }

@@ -13,7 +13,8 @@ import Movies from "@/pages/movies";
 import Drama from "@/pages/drama";
 import ThemePavilion from "@/pages/themePavilion";
 import MyMovies from "@/pages/myMovies";
-import Detail from '@/pages/detail';
+import Detail from "@/pages/detail";
+import Search from "@/pages/search";
 
 const router = createHashRouter([
   {
@@ -43,6 +44,10 @@ const router = createHashRouter([
       {
         path: "detail/:id",
         element: <Detail />,
+      },
+      {
+        path: "search/:key",
+        element: <Search />,
       },
     ],
   },
