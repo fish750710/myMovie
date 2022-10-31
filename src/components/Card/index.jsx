@@ -8,7 +8,11 @@ import base from "@/api/base";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
+
+
 function index({ isLoading, item, toDetail }) {
+  
+
   return (
     <style.CardBox>
       {isLoading ? (
@@ -30,11 +34,11 @@ function index({ isLoading, item, toDetail }) {
         <style.Card onClick={() => toDetail(item)}>
           <style.Img
             style={{
-              backgroundImage: `url(${base.originalURL}/w154${item.poster_path})`,
+              backgroundImage: `url(${base.originalURL}/w154/${item.poster_path})`,
             }}
           />
           <div className="score">{item.vote_average.toFixed(1)}</div>
-          <div className="move-name">{item.title}</div>
+          <div className="move-name">{item.title || item.name}</div>
         </style.Card>
       )}
     </style.CardBox>

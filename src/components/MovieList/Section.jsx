@@ -42,14 +42,6 @@ function section({ title, id }) {
   return (
     <style.section>
       <List isLoading={isLoading} itemList={itemList} title={title} />
-
-      {/* <style.btn>
-        <ArrowBackIosIcon />
-      </style.btn>
-      <List isLoading={isLoading} itemList={itemList} title={title} />
-      <style.btn>
-        <ArrowForwardIosIcon />
-      </style.btn> */}
     </style.section>
   );
 }

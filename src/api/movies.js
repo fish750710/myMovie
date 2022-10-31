@@ -50,4 +50,11 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
+  // 近期熱門電影
+  async getPopular() {
+    // https://api.themoviedb.org/3/movie/popular?api_key=313ea9371ca76d02621113d1bc97a665&language=en-US&page=1
+    return await fetch(`${baseURL}/popular?${baseParams}`, headers)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  }
 };

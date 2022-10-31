@@ -7,7 +7,9 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
 function Actor({ isLoading, item }) {
-  const search = () => {};
+  const toSearch = (item) => {
+    console.log('item', item)
+  };
   return (
     <>
       {isLoading ? (
@@ -29,7 +31,7 @@ function Actor({ isLoading, item }) {
         <style.Actor
           className="flex flex-wrap person btn"
           key={item.id}
-          onClick={() => search(item)}
+          onClick={() => toSearch(item)}
         >
           <img
             src={`${base.originalURL}/w92/${item.profile_path}`}

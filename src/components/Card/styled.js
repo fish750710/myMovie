@@ -20,7 +20,7 @@ style.Card = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     gap: 10px;
 
     /* width: 33px;
