@@ -27,7 +27,7 @@ function section({ title, id }) {
       try {
         setIsLoading(true);
         const { results: resSimilarList } = await getSimilarList(id);
-        console.log(resSimilarList);
+        console.log('resSimilarList =>', resSimilarList);
         setItemList(resSimilarList);
 
         setIsLoading(false);
@@ -37,7 +37,7 @@ function section({ title, id }) {
       }
     };
     getMoviesList();
-  }, []);
+  }, [id]);
 
   return (
     <style.section>

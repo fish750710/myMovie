@@ -6,10 +6,10 @@ import base from "@/api/base";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
-function Actor({ isLoading, item }) {
-  const toSearch = (item) => {
-    console.log('item', item)
-  };
+function Actor({ isLoading, item, toActorMovies }) {
+  // const toSearch = (item) => {
+  //   console.log('item', item)
+  // };
   return (
     <>
       {isLoading ? (
@@ -31,12 +31,13 @@ function Actor({ isLoading, item }) {
         <style.Actor
           className="flex flex-wrap person btn"
           key={item.id}
-          onClick={() => toSearch(item)}
+          onClick={() => toActorMovies(item)}
         >
-          <img
-            src={`${base.originalURL}/w92/${item.profile_path}`}
-            alt={item.name}
-          />
+            <img
+              src={`${base.originalURL}/w92/${item.profile_path}`}
+              alt={item.id}
+            />
+          
           <p>{item.name}</p>
         </style.Actor>
       )}

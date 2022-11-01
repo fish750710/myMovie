@@ -69,7 +69,7 @@ const Title = styled.div`
 function index() {
   return (
     <Banner className="">
-      <Title>
+      {/* <Title>
         <div className="score">8.8</div>
         <h2>殭屍校園</h2>
         <div className="info">
@@ -83,7 +83,7 @@ function index() {
           </a>
           <a className="add btn-bg">加入片單</a>
         </div>
-      </Title>
+      </Title> */}
     </Banner>
   );
 }

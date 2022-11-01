@@ -13,7 +13,7 @@ import Rating from "@mui/material/Rating";
 function index({ id }) {
   const renderRef = useRef(true);
   const [reviews, setReviews] = useState();
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState(null);
 
   const ratingHandler = (event, newValue) => {
     setRating(newValue);
@@ -35,6 +35,7 @@ function index({ id }) {
     const getReviews = async (id) => {
       try {
         const res = await moviesSVC.getReviews(id);
+        if(!res.success) return;
         setReviews(sortDate(res.results));
       } catch (error) {
         console.log("reviews:", error);

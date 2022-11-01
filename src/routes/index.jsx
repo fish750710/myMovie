@@ -15,6 +15,7 @@ import ThemePavilion from "@/pages/themePavilion";
 import MyMovies from "@/pages/myMovies";
 import Detail from "@/pages/detail";
 import Search from "@/pages/search";
+import Person from "@/pages/person";
 
 const router = createHashRouter([
   {
@@ -46,9 +47,13 @@ const router = createHashRouter([
         element: <Detail />,
       },
       {
-        path: "search/:key",
+        path: "search",
         element: <Search />,
       },
+      {
+        path: "person/:personId",
+        element: <Person />
+      }
     ],
   },
 ]);

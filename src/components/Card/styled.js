@@ -4,6 +4,7 @@ import styles from "@/styles/_export.module.scss";
 const style = {};
 style.CardBox = styled.div`
   margin: 20px 8px;
+  padding-bottom: 15px;
 `;
 style.Card = styled.div`
   width: 154px;
@@ -36,7 +37,7 @@ style.Card = styled.div`
     align-items: center;
     font-weight: 400;
     font-size: 14px;
-    line-height: 21px;
+    line-height: 18px;
     margin-top: 4px;
   }
 `;

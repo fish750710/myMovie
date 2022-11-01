@@ -37,7 +37,7 @@ function index({ isLoading, item, toDetail }) {
               backgroundImage: `url(${base.originalURL}/w154/${item.poster_path})`,
             }}
           />
-          <div className="score">{item.vote_average.toFixed(1)}</div>
+          <div className="score">{item.vote_average?.toFixed(1)}</div>
           <div className="move-name">{item.title || item.name}</div>
         </style.Card>
       )}
