@@ -30,10 +30,15 @@ const index = () => {
   }, []);
   return (
     <style.Navbar style={dynamicBg}>
-      <div>
-        <NavLink to='/'>Logo</NavLink>
+      <div className='flex items-center'>
+        <NavLink to='/' className='flex items-center'>
+          <i>
+            <img src="./images/logo/film-slate.png" alt="My Movie" />
+          </i>
+          <p className='pl-2'>My Movie</p>
+        </NavLink>
+        <Search />
       </div>
-      <Search />
       <style.Menu>
         <li className='btn'>
           <NavLink

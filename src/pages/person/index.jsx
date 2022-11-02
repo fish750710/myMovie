@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 
-// import Tag from '@/components/Tag';
 import Card from '@/components/Card';
 
 import { personSVC } from '@/api';
-// import base from '@/api/base';
 
 import style from './styled';
 

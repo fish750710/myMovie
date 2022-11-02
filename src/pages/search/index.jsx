@@ -1,53 +1,75 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 
 import Card from '@/components/Card';
-import Actor from '@/components/Card/Actor';
 import ActorList from '@/components/MovieList/ActorList';
 
-import { moviesSVC, searchSVC } from '@/api';
-import base from '@/api/base';
+import { searchSVC } from '@/api';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 // import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 // import { createTheme } from '@mui/material/styles';
 
 import style from './styled';
-// import styles from '@/styles/_export.module.scss';
 
 function index() {
   const renderRef = useRef(true);
-  const params = useParams();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [queryKey, seQueryKey] = useState('');
   const [total, setTotal] = useState(0);
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = useState(0);
+  const [page, setPage] = useState(1);
+  const pageTotal = useRef(0);
 
   const [movieList, setMovieList] = useState([]);
   const [tvList, setTVList] = useState([]);
   const [personList, setPersonList] = useState([]);
 
+  const [btnMoreVal, setBtnMoreVal] = useState('電影');
+  const [moreData, setMoreData] = useState([]);
+  const [moreShowFlag, setMoreShowFlag] = useState(false);
+
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
-  const getPerson = async (name) => {
-    try {
-      const res = await searchSVC.getPerson(name);
-      console.log(res);
-      setMovieList(res.results);
-      setTotal(res.total_results);
-    } catch (err) {
-      console.log(err);
-    }
+  const changePage = (e, p) => {
+    setPage(p);
   };
+  const moreClick = () => {
+    let val = null;
+    switch (tabValue) {
+      case 0:
+        val = '電影';
+        break;
+      case 1:
+        val = '電視節目';
+        break;
+      case 2:
+        val = '演員';
+        break;
+      default:
+        break;
+    }
+    // console.log('val', val)
+    setBtnMoreVal(val);
+    setMoreShowFlag(true);
+  };
+  const toDetail = (item) => {
+    navigate(`/detail/${item.id}`);
+  };
+
   const searchData = async (keyword) => {
     try {
-      const res = await searchSVC.searchData(keyword);
-      console.log(res);
+      setIsLoading(true);
+      const res = await searchSVC.searchData(keyword, page);
+      // console.log(res);
       let m = [];
       let t = [];
       let p = [];
@@ -63,7 +85,7 @@ function index() {
             p.push(item);
             break;
           default:
-            console.log(item.media_type)
+            console.log(item.media_type);
             break;
         }
       });
@@ -71,7 +93,9 @@ function index() {
       setTVList(t);
       setPersonList(p);
       setTotal(res.total_results);
+      setIsLoading(false);
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -83,43 +107,57 @@ function index() {
         return;
       }
       const key = searchParams.get('key');
-      console.log('key', key);
+      // console.log('key', key);
+      setTotal(0);
       seQueryKey(key);
       searchData(key);
+      setMoreShowFlag(false);
     } catch (error) {
       console.log(error);
     }
   }, [searchParams.get('key')]);
 
-  // const section = (item) => {
-  //   switch (item.media_type) {
-  //     case 'person':
-  //       return (
-  //         <Actor
-  //           isLoading={isLoading}
-  //           item={item}
-  //           // key={item.id}
-  //           // toActorMovies={toActorMovies}
-  //         />
-  //       );
-  //     case 'tv':
-  //     case 'movie':
-  //       return (
-  //         <Card
-  //           isLoading={isLoading}
-  //           item={item}
-  //           // key={index}
-  //           // toDetail={toDetail}
-  //         />
-  //       );
-  //     default:
-  //       return <>000</>;
-  //   }
-  // };
+  useEffect(() => {
+    try {
+      const getMoreData = async () => {
+        setIsLoading(true);
+        const key = searchParams.get('key');
+        let res = null;
+        switch (btnMoreVal) {
+          case '電影':
+            res = await searchSVC.getMovies(key, page);
+            break;
+          case '電視節目':
+            res = await searchSVC.getTV(key, page);
+            break;
+          case '演員':
+            res = await searchSVC.getPerson(key, page);
+            break;
+        }
+        // console.log('getMore res =>', res);
+        setMoreData(res.results);
+        setTotal(res.total_results);
+        if (res.total_results !== total) {
+          pageTotal.current = Math.ceil(res.total_results / res.results.length);
+        }
+        window.scrollTo(0, 0);
+        setIsLoading(false);
+      };
+      getMoreData();
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  }, [btnMoreVal, page]);
 
   return (
     <style.Content>
-      <style.Section>
+      <style.Section
+        style={{
+          visibility: !moreShowFlag ? 'visible' : 'hidden',
+          height: !moreShowFlag ? '100%' : '0',
+        }}
+      >
         <div className='label'>
           {queryKey} ({total})
         </div>
@@ -138,30 +176,90 @@ function index() {
                 <Tab label={`演員 (${personList.length})`} />
               </Tabs>
             </Box>
-            <div className='flex-wrap' style={{ display: tabValue === 0 ? 'flex' : 'none' }}>
+            <div
+              className='flex-wrap'
+              style={{ display: tabValue === 0 ? 'flex' : 'none' }}
+            >
               {movieList.map((item, index) => (
                 <Card
                   isLoading={isLoading}
                   item={item}
                   key={index}
-                  // toDetail={toDetail}
+                  toDetail={toDetail}
                 />
               ))}
             </div>
-            <div className='flex-wrap' style={{ display: tabValue === 1 ? 'flex' : 'none' }}>
+            <div
+              className='flex-wrap'
+              style={{ display: tabValue === 1 ? 'flex' : 'none' }}
+            >
               {tvList.map((item, index) => (
                 <Card
                   isLoading={isLoading}
                   item={item}
                   key={index}
-                  // toDetail={toDetail}
+                  toDetail={toDetail}
                 />
               ))}
             </div>
-            <div className='flex-wrap' style={{ display: tabValue === 2 ? 'flex' : 'none' }}>
+            <div
+              className='flex-wrap'
+              style={{ display: tabValue === 2 ? 'flex' : 'none' }}
+            >
               <ActorList isLoading={isLoading} personList={personList} />
             </div>
           </Box>
+          <Button
+            variant='outlined'
+            onClick={moreClick}
+            style={{
+              display:
+                total <= movieList.length ||
+                total <= tvList.length ||
+                total <= personList.length
+                  ? 'none'
+                  : 'block',
+            }}
+          >
+            More..
+          </Button>
+        </div>
+      </style.Section>
+      <style.Section style={{ display: moreShowFlag ? 'block' : 'none' }}>
+        <div className='label'>
+          {btnMoreVal} {queryKey} ({total})
+        </div>
+        <div className='content'>
+          <div className='flex-wrap flex'>
+            {moreData.map((item, index) => (
+              <Card
+                isLoading={isLoading}
+                item={item}
+                key={index}
+                toDetail={toDetail}
+              />
+            ))}
+          </div>
+        </div>
+        <div className='footer flex py-10'>
+          <Stack spacing={2}>
+            <Pagination
+              count={pageTotal.current}
+              page={page}
+              onChange={changePage}
+              size='large'
+              variant='outlined'
+              shape='rounded'
+              showFirstButton
+              showLastButton
+              color='primary'
+              sx={{
+                button: {
+                  color: '#fff',
+                },
+              }}
+            />
+          </Stack>
         </div>
       </style.Section>
     </style.Content>
