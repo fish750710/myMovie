@@ -1,16 +1,15 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import YouTube from 'react-youtube';
 
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
-// import Button from "@mui/material/Button";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-// import DialogActions from "@mui/material/DialogActions";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
@@ -24,6 +23,7 @@ import Forum from '@/components/Forum';
 
 import { moviesSVC } from '@/api';
 import base from '@/api/base';
+import { setIsLoading } from '@/store/slices/userSlice';
 
 import styles from '@/styles/_export.module.scss';
 import style from './styled';
@@ -31,7 +31,8 @@ import style from './styled';
 function index() {
   const renderRef = useRef(true);
   const params = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.user);
   const [movieData, setMovieData] = useState({});
   const [watchProviders, setWatchProviders] = useState();
   const [personList, setPersonList] = useState();
@@ -156,17 +157,18 @@ function index() {
         return;
       }
       const movieId = params.id;
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       getMovieDetail(movieId);
       getTrailer(movieId);
       getWatchProviders(movieId);
       getPersonList(movieId);
       setTimeout(() => {
         window.scrollTo(0, 0);
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       }, 300);
     } catch (error) {
       console.log(error);
+      dispatch(setIsLoading(false));
     }
   }, [params.id]);
 

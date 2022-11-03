@@ -1,42 +1,40 @@
+// 相關影片
 import React, { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import style from "./styled";
 import List from "./List";
 
 import { moviesSVC } from "@/api";
-import base from "@/api/base";
-
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
-const getSimilarList = async (id) => {
-  return await moviesSVC.getSimilar(id);
-};
+import { setIsLoading } from '@/store/slices/userSlice';
 
 function section({ title, id }) {
   const renderRef = useRef(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.user);
   const [itemList, setItemList] = useState();
 
+  // 類似影片
+  const getSimilarList = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const { results: resSimilarList } = await moviesSVC.getSimilar(id);
+      // console.log('resSimilarList =>', resSimilarList);
+      setItemList(resSimilarList);
+      dispatch(setIsLoading(false));
+    } catch (error) {
+      dispatch(setIsLoading(false));
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    if (!id) return;
     if (renderRef.current) {
       renderRef.current = false;
       return;
     }
-    const getMoviesList = async () => {
-      try {
-        setIsLoading(true);
-        const { results: resSimilarList } = await getSimilarList(id);
-        console.log('resSimilarList =>', resSimilarList);
-        setItemList(resSimilarList);
-
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      }
-    };
-    getMoviesList();
+    getSimilarList();
   }, [id]);
 
   return (

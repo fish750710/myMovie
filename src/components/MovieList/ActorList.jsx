@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-// import style from "./styled";
+
 import Actor from "../Card/Actor";
 
 import Button from "@mui/material/Button";
@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 function ActorList({ isLoading, personList }) {
   const navigate = useNavigate();
   const [showNumber, setShowNumber] = useState(7);
-  // console.log("actor loading", isLoading);
 
   const toActorMovies = ({id, name}) => {
     const encodeName = encodeURIComponent(name);

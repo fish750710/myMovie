@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import style from "./styled";
 
 import { moviesSVC } from "@/api";
-import base from "@/api/base";
+// import base from "@/api/base";
 
 import Message from "@/components/Card/Message";
 
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
+// import Skeleton from "@mui/material/Skeleton";
+// import Stack from "@mui/material/Stack";
 import Rating from "@mui/material/Rating";
 
 function index({ id }) {
@@ -16,6 +16,7 @@ function index({ id }) {
   const [rating, setRating] = useState(null);
 
   const ratingHandler = (event, newValue) => {
+    console.log('setRating', newValue)
     setRating(newValue);
   };
 
@@ -54,7 +55,21 @@ function index({ id }) {
               name="size-large"
               value={rating}
               size="large"
-              onChange={() => ratingHandler}
+              onChange={ratingHandler}
+              sx={{
+                '& .MuiRating-iconFilled': {
+                  color: 'red',
+                },
+                '& .MuiRating-iconFocus': {
+                  color: 'red',
+                },
+                '& .MuiRating-iconEmpty': {
+                  color: 'white',
+                },
+                '& .MuiRating-iconHover': {
+                  color: 'red',
+                },
+              }}
             />
           </div>
         </div>

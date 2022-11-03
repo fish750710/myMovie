@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+// import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 import Banner from "@/components/Banner";
 import Section from "@/components/MovieList/Section";
+
+// import { authenticationSVC } from '@/api';
+
+
 import style from "./styled";
-import "./index.scss";
+
 
 // background: rgba(104, 107, 114, 0.1);
 function index() {
+  const renderRef = useRef(true);
+
+  useEffect(() => {
+    if (renderRef.current) {
+      renderRef.current = false;
+      return;
+    }
+    
+  }, [])
   return (
     <style.content>
       <Banner />

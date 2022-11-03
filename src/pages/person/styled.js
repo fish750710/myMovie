@@ -11,9 +11,7 @@ style.Content = styled.div`
 
 style.Section = styled.div`
   width: 1200px;
-  /* height: 326px; */
   background: rgba(104, 107, 114, 0.1);
-  /* background-color: #ffffff; */
   border-radius: 20px;
   padding: 24px;
   margin: 6px;

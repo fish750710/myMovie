@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '@/components/Card';
 
@@ -10,9 +11,9 @@ import style from './styled';
 function index() {
   const navigate = useNavigate();
   const params = useParams();
+  const { isLoading } = useSelector((state) => state.user);
   const renderRef = useRef(true);
   const [searchParams, setSearchParams]= useSearchParams()
-  const [isLoading, setIsLoading] = useState(false);
   const [movieList, setMovieList] = useState([]);
   const [personName, setPersonName] = useState('');
 

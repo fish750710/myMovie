@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Filter from '@/components/Filter';
 import Card from '@/components/Card';
 
 import style from './styled';
 
 import { genreSVC, discoverSVC } from '@/api';
-import base from '@/api/base';
-
-// https://api.themoviedb.org/3/movie/550?api_key=313ea9371ca76d02621113d1bc97a665
+import { setIsLoading } from '@/store/slices/userSlice';
 
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
@@ -16,7 +15,8 @@ const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
 function index({ category }) {
   const navigate = useNavigate();
   const renderRef = useRef(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.user);
   const [movieList, setMoiveList] = useState([]);
   // 類型
   const [movieOptType, setMovieOptType] = useState();
@@ -98,17 +98,17 @@ function index({ category }) {
         return;
       }
       page.current = 1;
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       // 避免重複累加 List
       if (genreList.data.length < 2) {
         getGenreList();
       }
       getMovieList();
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       // setTimeout(() => {
       // }, 500);
     } catch (err) {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       console.log(err);
     }
   }, [movieOptType, movieOptYear, sortType]);

@@ -7,9 +7,6 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
 function Actor({ isLoading, item, toActorMovies }) {
-  // const toSearch = (item) => {
-  //   console.log('item', item)
-  // };
   return (
     <>
       {isLoading ? (

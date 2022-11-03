@@ -1,27 +1,28 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '@/components/Card';
 import ActorList from '@/components/MovieList/ActorList';
 
 import { searchSVC } from '@/api';
+import { setIsLoading } from '@/store/slices/userSlice';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-// import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-// import { createTheme } from '@mui/material/styles';
 
 import style from './styled';
 
 function index() {
   const renderRef = useRef(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading } = useSelector((state) => state.user);
   const [queryKey, seQueryKey] = useState('');
   const [total, setTotal] = useState(0);
   const [tabValue, setTabValue] = useState(0);
@@ -67,7 +68,7 @@ function index() {
 
   const searchData = async (keyword) => {
     try {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       const res = await searchSVC.searchData(keyword, page);
       // console.log(res);
       let m = [];
@@ -93,9 +94,9 @@ function index() {
       setTVList(t);
       setPersonList(p);
       setTotal(res.total_results);
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     } catch (err) {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       console.log(err);
     }
   };
@@ -107,7 +108,7 @@ function index() {
         return;
       }
       const key = searchParams.get('key');
-      // console.log('key', key);
+      // console.log('key', searchParams.get('test'));
       setTotal(0);
       seQueryKey(key);
       searchData(key);
@@ -120,7 +121,7 @@ function index() {
   useEffect(() => {
     try {
       const getMoreData = async () => {
-        setIsLoading(true);
+        dispatch(setIsLoading(true));
         const key = searchParams.get('key');
         let res = null;
         switch (btnMoreVal) {
@@ -141,11 +142,11 @@ function index() {
           pageTotal.current = Math.ceil(res.total_results / res.results.length);
         }
         window.scrollTo(0, 0);
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       };
       getMoreData();
     } catch (error) {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       console.log(error);
     }
   }, [btnMoreVal, page]);

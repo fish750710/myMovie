@@ -1,10 +1,12 @@
-import base from "./base";
+import base from './base';
+import StorageUtil from '@/utils/storageUtil';
+import { useSelector } from 'react-redux';
 
 const baseURL = `${base.apiURL}/movie`;
 const baseParams = `api_key=${base.apiKey}&language=${base.lang}`;
 const headers = {
-  method: "GET",
-  headers: { "content-type": "application/json" },
+  method: 'GET',
+  headers: { 'content-type': 'application/json' },
 };
 
 export default {
@@ -19,7 +21,7 @@ export default {
     // https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key=313ea9371ca76d02621113d1bc97a665
     return await fetch(
       `${baseURL}/${id}/watch/providers?${baseParams}`,
-      headers
+      headers,
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -56,5 +58,29 @@ export default {
     return await fetch(`${baseURL}/popular?${baseParams}`, headers)
       .then((res) => res.json())
       .catch((err) => console.log(err));
-  }
+  },
+  // 帳戶電影狀態 （收藏，監視）
+  async getAccountStates(id) {
+    const { sessionID } = useSelector(state => state.user);
+    console.log(sessionID)
+    return await fetch(`${baseURL}/${id}/account_states?${baseParams}&session_id=${sessionID}`, headers)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  },
+  // 評分
+  // async rateMovie(id, value) {
+  //   const session_id = StorageUtil.getGuestSessionID();
+  //   let url = `${baseURL}/${id}/rating?${baseParams}&guest_session_id=${session_id}`;
+  //   if (StorageUtil.getSessionID()) {
+  //     url = `${baseURL}/${id}/rating?${baseParams}&session_id=${StorageUtil.getSessionID()}`;
+  //   }
+  //   console.log('rate =>', id, value, url)
+  //   return await fetch(url, {
+  //     method: 'POST',
+  //     headers: { 'content-type': 'application/json' },
+  //     body: JSON.stringify(value),
+  //   })
+  //     .then((res) => res.json())
+  //     .catch((err) => console.log(err));
+  // },
 };

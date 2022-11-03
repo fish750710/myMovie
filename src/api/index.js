@@ -3,6 +3,8 @@ import genreSVC from './genre';
 import discoverSVC from './discover';
 import searchSVC from './search';
 import personSVC from './person';
+import authenticationSVC from './authentication';
+import accountSVC from './account';
 
 export {
   moviesSVC,
@@ -10,4 +12,6 @@ export {
   discoverSVC,
   searchSVC,
   personSVC,
+  authenticationSVC,
+  accountSVC,
 };

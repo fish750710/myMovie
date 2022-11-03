@@ -7,10 +7,6 @@ style.Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  /* width: 100%;
-  min-height: 100%;
-  color: white;
-  font-size: 16px; */
 `;
 style.Intro = styled.div`
   display: flex;
@@ -66,11 +62,6 @@ style.Intro = styled.div`
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
-
-        /* shadow */
-
-        /* text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48); */
-      }
     }
     .description {
       font-weight: 400;
@@ -91,9 +82,7 @@ style.Intro = styled.div`
 style.Section = styled.div`
   max-width: 1200px;
   width: 100%;
-  /* height: 326px; */
   background: rgba(104, 107, 114, 0.1);
-  /* background-color: #ffffff; */
   border-radius: 20px;
   padding: 24px;
   margin: 6px;

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styled from 'styled-components';
-import styles from '@/styles/_export.module.scss';
+// import styled from 'styled-components';
+// import styles from '@/styles/_export.module.scss';
 import style from './styled';
 
 import SearchIcon from '@mui/icons-material/Search';
