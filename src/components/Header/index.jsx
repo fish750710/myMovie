@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setUserData, setIsLogin, setSessionID } from '@/store/slices/userSlice';
+import {
+  setUserData,
+  setIsLogin,
+  setSessionID,
+} from '@/store/slices/userSlice';
 import Search from '../Search';
 import style from './styled';
 import StorageUtil from '@/utils/storageUtil';
@@ -10,6 +14,9 @@ import StorageUtil from '@/utils/storageUtil';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
 import { authenticationSVC, accountSVC } from '@/api';
 
@@ -17,13 +24,21 @@ const domain = 'http://localhost:5173/';
 
 const index = () => {
   const dispatch = useDispatch();
-  const { userData, isLogin } = useSelector(state => state.user);
+  const { userData, isLogin, sessionID } = useSelector((state) => state.user);
 
   const renderRef = useRef(true);
   const isActive = ({ isActive }) => (isActive ? 'active' : null);
   const [dynamicBg, changeDynamicBg] = useState({
     background: `rgba(27, 30, 37, 0.68)`,
   });
+
+  const logout = async () => {
+    const res = await authenticationSVC.logout({ session_id: sessionID });
+    StorageUtil.removeSessionID();
+    dispatch(setIsLogin(false));
+    location.href = domain;
+    console.log('登出', res);
+  };
 
   const handleScroll = (e) => {
     if (window.scrollY > 24) {
@@ -44,6 +59,7 @@ const index = () => {
   const handleProfile = () => {
     if (!isLogin) {
       login();
+    } else {
     }
   };
 
@@ -62,10 +78,12 @@ const index = () => {
   };
   const getGuestSessionID = async () => {
     const res = await authenticationSVC.getGuestSessionID();
-    if (res.success === false) {
+
+    if (res.success) {
       StorageUtil.saveGuestSessionID(res.guest_session_id);
-      console.log('<getGuestSessionID>');
+      dispatch(setSessionID(res.guest_session_id));
     }
+    console.log('<getGuestSessionID>', res);
   };
   const getSessionID = async (t) => {
     const body = {
@@ -88,7 +106,6 @@ const index = () => {
     const url = new URL(location.href);
     const request_token = url.searchParams.get('request_token');
 
-    
     if (sessionID || request_token) {
       console.log('sessionID =>', sessionID, 'token =>', request_token);
       sessionID ? getAccountData(sessionID) : getSessionID(request_token);
@@ -102,7 +119,7 @@ const index = () => {
       renderRef.current = false;
       return;
     }
-    initSessionData()
+    initSessionData();
   }, []);
 
   useEffect(() => {
@@ -169,7 +186,14 @@ const index = () => {
           onClick={handleProfile}
           color='inherit'
         >
-          {isLogin? (<><AccountCircle fontSize='large' /> {userData.name}</>): (<p>登錄</p>)}
+          {isLogin ? (
+            <>
+              <AccountCircle fontSize='large' /> {userData.name}
+              <MenuItem onClick={logout}>登出</MenuItem>
+            </>
+          ) : (
+            <p>登錄</p>
+          )}
         </IconButton>
         {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
         <IconButton
@@ -182,6 +206,17 @@ const index = () => {
           <AccountCircle />
         </IconButton>
       </Box> */}
+
+        {/* <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu> */}
       </style.Menu>
     </style.Navbar>
   );

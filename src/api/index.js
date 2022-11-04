@@ -5,6 +5,7 @@ import searchSVC from './search';
 import personSVC from './person';
 import authenticationSVC from './authentication';
 import accountSVC from './account';
+import guestSVC from './guest_session';
 
 export {
   moviesSVC,
@@ -14,4 +15,5 @@ export {
   personSVC,
   authenticationSVC,
   accountSVC,
+  guestSVC,
 };

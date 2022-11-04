@@ -47,4 +47,10 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
+  // 獲取評分
+  async getRatedMovies(sessionID, accountID) {
+    return await fetch(`${baseURL}/${accountID}/rated/movies?${baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`, headers)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  },
 };
