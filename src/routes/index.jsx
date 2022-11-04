@@ -35,7 +35,7 @@ const router = createHashRouter([
         element: <Movies />,
       },
       {
-        path: "theme-pavilion",
+        path: "themePavilion",
         element: <ThemePavilion />,
       },
       {

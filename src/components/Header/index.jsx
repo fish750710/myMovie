@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -23,6 +23,7 @@ import { authenticationSVC, accountSVC } from '@/api';
 const domain = 'http://localhost:5173/';
 
 const index = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
 
@@ -36,7 +37,8 @@ const index = () => {
     const res = await authenticationSVC.logout({ session_id: sessionID });
     StorageUtil.removeSessionID();
     dispatch(setIsLogin(false));
-    location.href = domain;
+    // location.href = domain;
+    navigate('/')
     console.log('登出', res);
   };
 
@@ -161,22 +163,14 @@ const index = () => {
         </li>
         <li>
           <NavLink
-            to='theme-pavilion'
+            to='themePavilion'
             className={isActive}
             style={{ display: 'block', width: '100%', height: '100%' }}
           >
             主題館
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to='myMovies'
-            className={isActive}
-            style={{ display: 'block', width: '100%', height: '100%' }}
-          >
-            我的片單
-          </NavLink>
-        </li>
+        
         <IconButton
           size='large'
           edge='end'
@@ -188,6 +182,15 @@ const index = () => {
         >
           {isLogin ? (
             <>
+              <li>
+                <NavLink
+                  to='myMovies'
+                  className={isActive}
+                  style={{ display: 'block', width: '100%', height: '100%' }}
+                >
+                  我的片單
+                </NavLink>
+              </li>
               <AccountCircle fontSize='large' /> {userData.name}
               <MenuItem onClick={logout}>登出</MenuItem>
             </>

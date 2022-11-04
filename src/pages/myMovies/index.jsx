@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { accountSVC } from '@/api';
 import { setIsLoading } from '@/store/slices/userSlice';
@@ -9,7 +10,8 @@ import style from './styled';
 
 function index() {
   const dispatch = useDispatch();
-  const { sessionID, userData, isLoading } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { sessionID, userData, isLoading, isLogin } = useSelector((state) => state.user);
   const renderRef = useRef(true);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteTV, setFavoriteTV] = useState([]);
@@ -40,6 +42,7 @@ function index() {
   };
 
   useEffect(() => {
+    if (!isLogin) navigate('/', { replace: true });
     if (renderRef.current) {
       renderRef.current = false;
       return;
