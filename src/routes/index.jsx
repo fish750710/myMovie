@@ -10,7 +10,7 @@ import {
 import App from "@/App";
 import Home from "@/pages/home";
 import Movies from "@/pages/movies";
-import Drama from "@/pages/drama";
+import TV from "@/pages/tv";
 import ThemePavilion from "@/pages/themePavilion";
 import MyMovies from "@/pages/myMovies";
 import Detail from "@/pages/detail";
@@ -27,11 +27,11 @@ const router = createHashRouter([
         element: <Home />,
       },
       {
-        path: "drama",
-        element: <Drama />,
+        path: "tv",
+        element: <TV />,
       },
       {
-        path: "movies",
+        path: "movie",
         element: <Movies />,
       },
       {
@@ -43,7 +43,11 @@ const router = createHashRouter([
         element: <MyMovies />,
       },
       {
-        path: "detail/:id",
+        path: "movie/detail/:id",
+        element: <Detail />,
+      },
+      {
+        path: "tv/detail/:id",
         element: <Detail />,
       },
       {
@@ -52,8 +56,8 @@ const router = createHashRouter([
       },
       {
         path: "person/:personId",
-        element: <Person />
-      }
+        element: <Person />,
+      },
     ],
   },
 ]);

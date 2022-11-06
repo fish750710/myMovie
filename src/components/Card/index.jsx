@@ -35,6 +35,7 @@ function index({ isLoading, item, toDetail }) {
           />
           <div className="score">{item.vote_average?.toFixed(1)}</div>
           <div className="move-name">{item.title || item.name}</div>
+          <div className="favoite"></div>
         </style.Card>
       )}
     </style.CardBox>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import Filter from '@/components/Filter';
-import Card from '@/components/Card';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Filter from "@/components/Filter";
+import Card from "@/components/Card";
 
-import style from './styled';
+import style from "./styled";
 
-import { genreSVC, discoverSVC } from '@/api';
-import { setIsLoading } from '@/store/slices/userSlice';
+import { genreSVC, discoverSVC } from "@/api";
+import { setIsLoading } from "@/store/slices/userSlice";
 
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
@@ -21,19 +21,19 @@ function index({ category }) {
   // 類型
   const [movieOptType, setMovieOptType] = useState();
   const [genreList, setGenreList] = useState({
-    title: '類型',
-    data: [{ id: 0, name: '全部' }],
+    title: "類型",
+    data: [{ id: 0, name: "全部" }],
   });
 
   const [movieOptYear, setMovieOptYear] = useState(); // 年份
   const [sortType, setSortType] = useState(0); // 排序
-  const [sortBy, setSortBy] = useState('desc'); // asc
+  const [sortBy, setSortBy] = useState("desc"); // asc
   const moreFlag = useRef(false);
   const page = useRef(1);
 
   const toDetail = (item) => {
-    console.log('item', item);
-    navigate(`/detail/${item.id}`);
+    // console.log("item", item);
+    navigate(`/${category}/detail/${item.id}`);
   };
 
   // 電影類別
@@ -70,7 +70,7 @@ function index({ category }) {
         movieOptYear,
         sortType,
         sortBy,
-        page.current,
+        page.current
       );
       moreFlag.current
         ? setMoiveList(movieList.concat(results))
@@ -115,7 +115,7 @@ function index({ category }) {
 
   return (
     <style.content>
-      <style.section className=''>
+      <style.section className="">
         <Filter
           title={genreList.title}
           data={genreList.data}
@@ -126,15 +126,15 @@ function index({ category }) {
           data={yearList.data}
           setOption={setMovieOptYear}
         />
-        <div className='btn btn-submit btn-gradual' onClick={search}>
+        <div className="btn btn-submit btn-gradual" onClick={search}>
           搜尋
         </div>
       </style.section>
-      <style.section className='sort-box'>
+      <style.section className="sort-box">
         <Filter data={sortList} setOption={setSortType} />
       </style.section>
-      <div className='main'>
-        <div className='content'>
+      <div className="main">
+        <div className="content">
           {movieList.map((item, index) => (
             <Card
               isLoading={isLoading}
@@ -146,7 +146,7 @@ function index({ category }) {
         </div>
       </div>
       <div
-        className='btn btn-more btn-gradual w-80 my-14'
+        className="btn btn-more btn-gradual w-80 my-14"
         onClick={loadMoreHandler}
       >
         載入更多

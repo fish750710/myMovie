@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import Actor from "../Card/Actor";
 
@@ -9,15 +9,20 @@ function ActorList({ isLoading, personList }) {
   const navigate = useNavigate();
   const [showNumber, setShowNumber] = useState(7);
 
-  const toActorMovies = ({id, name}) => {
+  const toActorMovies = ({ id, name }) => {
     const encodeName = encodeURIComponent(name);
-    navigate({pathname:`/person/${id}`, search: `?name=${encodeName}`});
-  }
+    navigate({ pathname: `/person/${id}`, search: `?name=${encodeName}` });
+  };
   return (
     <div className="flex flex-wrap">
       {personList?.map((item, index) =>
         index < showNumber ? (
-          <Actor isLoading={isLoading} item={item} key={item.id} toActorMovies={toActorMovies} />
+          <Actor
+            isLoading={isLoading}
+            item={item}
+            key={item.id}
+            toActorMovies={toActorMovies}
+          />
         ) : null
       )}
       {showNumber !== personList?.length && showNumber < personList?.length ? (

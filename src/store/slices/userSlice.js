@@ -1,24 +1,30 @@
-import { createSlice, createAsyncThunk, createAction, createReducer } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createAction,
+  createReducer,
+} from "@reduxjs/toolkit";
 
-import { accountSVC } from '@/api'
+import { accountSVC } from "@/api";
 
 // export const getData = createAsyncThunk('user/getData', async (params, thunkAPI) => {
 //   const url = 'https://api.justplus1.com.tw/api/mapcommon/list';
 //   const res = await fetch(url).then(res => res.json());
-//   console.log('resData2', params, thunkAPI, res) 
+//   console.log('resData2', params, thunkAPI, res)
 //   return res;
 // })
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
     isLoading: false,
     isLogin: false,
     userData: {
-      id: '',
-      name: '',
+      id: "",
+      name: "",
     },
-    sessionID: '',
+    sessionID: "",
+    favoriteList: [],
   },
   reducers: {
     setUserData: (state, action) => {
@@ -30,8 +36,11 @@ const userSlice = createSlice({
     setSessionID: (state, { payload }) => {
       state.sessionID = payload;
     },
-    setIsLoading: (state, { payload}) => {
+    setIsLoading: (state, { payload }) => {
       state.isLoading = payload;
+    },
+    setFavoriteList: (state, { payload }) => {
+      state.favoriteList = payload;
     },
   },
   extraReducers: (builder) => {
@@ -52,11 +61,16 @@ const userSlice = createSlice({
     //   console.log('fulfilled', action)
     // })
   },
-})
+});
 
 // reducers
 export default userSlice.reducer;
 
 // actions
-export const { setUserData, setIsLogin, setSessionID, setIsLoading } = userSlice.actions;
-
+export const {
+  setUserData,
+  setIsLogin,
+  setSessionID,
+  setIsLoading,
+  setFavoriteList,
+} = userSlice.actions;

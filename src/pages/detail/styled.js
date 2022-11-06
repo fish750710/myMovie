@@ -79,6 +79,7 @@ style.Intro = styled.div`
     }
   }
 `;
+
 style.Section = styled.div`
   max-width: 1200px;
   width: 100%;
@@ -88,4 +89,11 @@ style.Section = styled.div`
   margin: 6px;
 `;
 
+style.Favorite = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+  img {
+  }
+`;
 export default style;

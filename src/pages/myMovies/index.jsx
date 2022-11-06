@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { accountSVC } from '@/api';
-import { setIsLoading } from '@/store/slices/userSlice';
+import { accountSVC } from "@/api";
+import { setIsLoading } from "@/store/slices/userSlice";
 
-import BaseList from '@/components/MovieList/BaseList';
-import style from './styled';
+import BaseList from "@/components/MovieList/BaseList";
+import style from "./styled";
 
 function index() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { sessionID, userData, isLoading, isLogin } = useSelector((state) => state.user);
+  const { sessionID, userData, isLoading, isLogin } = useSelector(
+    (state) => state.user
+  );
   const renderRef = useRef(true);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteTV, setFavoriteTV] = useState([]);
@@ -20,7 +22,7 @@ function index() {
     try {
       dispatch(setIsLoading(true));
       const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
-      console.log('getFavoriteMovies', res);
+      console.log("getFavoriteMovies", res);
       setFavoriteMovies(res.results);
       dispatch(setIsLoading(false));
     } catch (error) {
@@ -32,7 +34,7 @@ function index() {
     try {
       dispatch(setIsLoading(true));
       const res = await accountSVC.getFavoriteTV(sessionID, userData.id);
-      console.log('getFavoriteTV', res);
+      console.log("getFavoriteTV", res);
       setFavoriteTV(res.results);
       dispatch(setIsLoading(false));
     } catch (error) {
@@ -42,7 +44,7 @@ function index() {
   };
 
   useEffect(() => {
-    if (!isLogin) navigate('/', { replace: true });
+    if (!isLogin) navigate("/", { replace: true });
     if (renderRef.current) {
       renderRef.current = false;
       return;
@@ -58,12 +60,19 @@ function index() {
       <style.section>
         <BaseList
           isLoading={isLoading}
-          itemList={favoriteMovies}Ｆ
-          title='電影'
+          itemList={favoriteMovies}
+          Ｆ
+          title="電影"
+          category="movie"
         />
       </style.section>
       <style.section>
-        <BaseList isLoading={isLoading} itemList={favoriteTV} title='電視節目' />
+        <BaseList
+          isLoading={isLoading}
+          itemList={favoriteTV}
+          title="電視節目"
+          category="tv"
+        />
       </style.section>
     </style.content>
   );

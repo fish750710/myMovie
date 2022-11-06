@@ -1,21 +1,21 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useEffect, useState } from "react";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import Card from '@/components/Card';
-import ActorList from '@/components/MovieList/ActorList';
+import Card from "@/components/Card";
+import ActorList from "@/components/MovieList/ActorList";
 
-import { searchSVC } from '@/api';
-import { setIsLoading } from '@/store/slices/userSlice';
+import { searchSVC } from "@/api";
+import { setIsLoading } from "@/store/slices/userSlice";
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
-import style from './styled';
+import style from "./styled";
 
 function index() {
   const renderRef = useRef(true);
@@ -23,7 +23,7 @@ function index() {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isLoading } = useSelector((state) => state.user);
-  const [queryKey, seQueryKey] = useState('');
+  const [queryKey, seQueryKey] = useState("");
   const [total, setTotal] = useState(0);
   const [tabValue, setTabValue] = useState(0);
   const [page, setPage] = useState(1);
@@ -33,9 +33,10 @@ function index() {
   const [tvList, setTVList] = useState([]);
   const [personList, setPersonList] = useState([]);
 
-  const [btnMoreVal, setBtnMoreVal] = useState('電影');
+  const [btnMoreVal, setBtnMoreVal] = useState("電影");
   const [moreData, setMoreData] = useState([]);
   const [moreShowFlag, setMoreShowFlag] = useState(false);
+  // const [category, setCategory] = useState('');
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -47,13 +48,13 @@ function index() {
     let val = null;
     switch (tabValue) {
       case 0:
-        val = '電影';
+        val = "電影";
         break;
       case 1:
-        val = '電視節目';
+        val = "電視節目";
         break;
       case 2:
-        val = '演員';
+        val = "演員";
         break;
       default:
         break;
@@ -63,7 +64,9 @@ function index() {
     setMoreShowFlag(true);
   };
   const toDetail = (item) => {
-    navigate(`/detail/${item.id}`);
+    const category = tabValue === 1 ? "tv" : "movie";
+    // console.log("search toDetail", item, tabValue, category);
+    navigate(`/${category}/detail/${item.id}`);
   };
 
   const searchData = async (keyword) => {
@@ -76,17 +79,17 @@ function index() {
       let p = [];
       res.results.forEach((item) => {
         switch (item.media_type) {
-          case 'movie':
+          case "movie":
             m.push(item);
             break;
-          case 'tv':
+          case "tv":
             t.push(item);
             break;
-          case 'person':
+          case "person":
             p.push(item);
             break;
           default:
-            console.log(item.media_type);
+            console.log("其他:", item.media_type);
             break;
         }
       });
@@ -107,7 +110,7 @@ function index() {
         renderRef.current = false;
         return;
       }
-      const key = searchParams.get('key');
+      const key = searchParams.get("key");
       // console.log('key', searchParams.get('test'));
       setTotal(0);
       seQueryKey(key);
@@ -116,26 +119,26 @@ function index() {
     } catch (error) {
       console.log(error);
     }
-  }, [searchParams.get('key')]);
+  }, [searchParams.get("key")]);
 
   useEffect(() => {
     try {
       const getMoreData = async () => {
         dispatch(setIsLoading(true));
-        const key = searchParams.get('key');
+        const key = searchParams.get("key");
         let res = null;
         switch (btnMoreVal) {
-          case '電影':
+          case "電影":
             res = await searchSVC.getMovies(key, page);
             break;
-          case '電視節目':
+          case "電視節目":
             res = await searchSVC.getTV(key, page);
             break;
-          case '演員':
+          case "演員":
             res = await searchSVC.getPerson(key, page);
             break;
         }
-        // console.log('getMore res =>', res);
+        // console.log("getMore res =>", res);
         setMoreData(res.results);
         setTotal(res.total_results);
         if (res.total_results !== total) {
@@ -155,22 +158,22 @@ function index() {
     <style.Content>
       <style.Section
         style={{
-          visibility: !moreShowFlag ? 'visible' : 'hidden',
-          height: !moreShowFlag ? '100%' : '0',
+          visibility: !moreShowFlag ? "visible" : "hidden",
+          height: !moreShowFlag ? "100%" : "0",
         }}
       >
-        <div className='label'>
+        <div className="label">
           {queryKey} ({total})
         </div>
-        <div className='content'>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <div className="content">
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={tabValue}
                 onChange={handleChange}
-                aria-label='tabs'
-                indicatorColor='secondary'
-                textColor='inherit'
+                aria-label="tabs"
+                indicatorColor="secondary"
+                textColor="inherit"
               >
                 <Tab label={`電影 (${movieList.length})`} />
                 <Tab label={`電視節目 (${tvList.length})`} />
@@ -178,8 +181,8 @@ function index() {
               </Tabs>
             </Box>
             <div
-              className='flex-wrap'
-              style={{ display: tabValue === 0 ? 'flex' : 'none' }}
+              className="flex-wrap"
+              style={{ display: tabValue === 0 ? "flex" : "none" }}
             >
               {movieList.map((item, index) => (
                 <Card
@@ -191,8 +194,8 @@ function index() {
               ))}
             </div>
             <div
-              className='flex-wrap'
-              style={{ display: tabValue === 1 ? 'flex' : 'none' }}
+              className="flex-wrap"
+              style={{ display: tabValue === 1 ? "flex" : "none" }}
             >
               {tvList.map((item, index) => (
                 <Card
@@ -204,34 +207,34 @@ function index() {
               ))}
             </div>
             <div
-              className='flex-wrap'
-              style={{ display: tabValue === 2 ? 'flex' : 'none' }}
+              className="flex-wrap"
+              style={{ display: tabValue === 2 ? "flex" : "none" }}
             >
               <ActorList isLoading={isLoading} personList={personList} />
             </div>
           </Box>
           <Button
-            variant='outlined'
+            variant="outlined"
             onClick={moreClick}
             style={{
               display:
                 total <= movieList.length ||
                 total <= tvList.length ||
                 total <= personList.length
-                  ? 'none'
-                  : 'block',
+                  ? "none"
+                  : "block",
             }}
           >
             More..
           </Button>
         </div>
       </style.Section>
-      <style.Section style={{ display: moreShowFlag ? 'block' : 'none' }}>
-        <div className='label'>
+      <style.Section style={{ display: moreShowFlag ? "block" : "none" }}>
+        <div className="label">
           {btnMoreVal} {queryKey} ({total})
         </div>
-        <div className='content'>
-          <div className='flex-wrap flex'>
+        <div className="content">
+          <div className="flex-wrap flex">
             {moreData.map((item, index) => (
               <Card
                 isLoading={isLoading}
@@ -242,21 +245,21 @@ function index() {
             ))}
           </div>
         </div>
-        <div className='footer flex py-10'>
+        <div className="footer flex py-10">
           <Stack spacing={2}>
             <Pagination
               count={pageTotal.current}
               page={page}
               onChange={changePage}
-              size='large'
-              variant='outlined'
-              shape='rounded'
+              size="large"
+              variant="outlined"
+              shape="rounded"
               showFirstButton
               showLastButton
-              color='primary'
+              color="primary"
               sx={{
                 button: {
-                  color: '#fff',
+                  color: "#fff",
                 },
               }}
             />

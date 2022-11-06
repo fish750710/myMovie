@@ -1,19 +1,27 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import Card from "../Card";
 
-function baseList({ isLoading, itemList, title }) {
+function baseList({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
-    navigate(`/detail/${item.id}`);
+    // console.log("baseList =>", item);
+    navigate(`/${category}/detail/${item.id}`);
   };
   return (
-    <div className='flex flex-wrap'>
+    <div className="flex flex-col">
       <div className="title label">{title}</div>
+      <div className="flex flex-wrap">
         {itemList?.map((item, index) => (
-            <Card isLoading={isLoading} item={item} key={index} toDetail={toDetail} />
+          <Card
+            isLoading={isLoading}
+            item={item}
+            key={index}
+            toDetail={toDetail}
+          />
         ))}
+      </div>
     </div>
   );
 }

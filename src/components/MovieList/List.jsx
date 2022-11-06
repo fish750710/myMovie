@@ -1,7 +1,7 @@
 // 首頁 有swiper功能
 
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
@@ -10,11 +10,11 @@ import "swiper/css/navigation";
 import style from "./styled";
 import Card from "../Card";
 
-function list({ isLoading, itemList, title }) {
+function list({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
-    // console.log('item', item);
-    navigate(`/detail/${item.id}`);
+    // console.log("item list =>", item);
+    navigate(`/${category}/detail/${item.id}`);
   };
   return (
     <style.List>
@@ -37,7 +37,12 @@ function list({ isLoading, itemList, title }) {
       >
         {itemList?.map((item, index) => (
           <SwiperSlide key={index}>
-            <Card isLoading={isLoading} item={item} key={index} toDetail={toDetail} />
+            <Card
+              isLoading={isLoading}
+              item={item}
+              key={index}
+              toDetail={toDetail}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

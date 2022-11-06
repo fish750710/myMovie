@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   setUserData,
   setIsLogin,
   setSessionID,
-} from '@/store/slices/userSlice';
-import Search from '../Search';
-import style from './styled';
-import StorageUtil from '@/utils/storageUtil';
+} from "@/store/slices/userSlice";
+import Search from "../Search";
+import style from "./styled";
+import StorageUtil from "@/utils/storageUtil";
 
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 
-import { authenticationSVC, accountSVC } from '@/api';
+import { authenticationSVC, accountSVC } from "@/api";
 
-const domain = 'http://localhost:5173/';
+const domain = "http://localhost:5173/";
 
 const index = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const index = () => {
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
 
   const renderRef = useRef(true);
-  const isActive = ({ isActive }) => (isActive ? 'active' : null);
+  const isActive = ({ isActive }) => (isActive ? "active" : null);
   const [dynamicBg, changeDynamicBg] = useState({
     background: `rgba(27, 30, 37, 0.68)`,
   });
@@ -38,8 +38,8 @@ const index = () => {
     StorageUtil.removeSessionID();
     dispatch(setIsLogin(false));
     // location.href = domain;
-    navigate('/')
-    console.log('登出', res);
+    navigate("/");
+    console.log("登出", res);
   };
 
   const handleScroll = (e) => {
@@ -67,9 +67,9 @@ const index = () => {
 
   const getAccountData = async (sessionID) => {
     const res = await accountSVC.getAccountDetails(sessionID);
-    console.log('getAccountDetails res', res);
+    // console.log("getAccountDetails res", res);
     if (res.success === false) {
-      console.log('remove id');
+      console.log("remove id");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       return;
@@ -85,16 +85,16 @@ const index = () => {
       StorageUtil.saveGuestSessionID(res.guest_session_id);
       dispatch(setSessionID(res.guest_session_id));
     }
-    console.log('<getGuestSessionID>', res);
+    console.log("<getGuestSessionID>", res);
   };
   const getSessionID = async (t) => {
     const body = {
       request_token: t,
     };
     const res = await authenticationSVC.getSessionID(body);
-    console.log('getSessionID', res);
+    console.log("getSessionID", res);
     if (res.success === false) {
-      console.log('remove id 2');
+      console.log("remove id 2");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       location.href = domain;
@@ -106,10 +106,10 @@ const index = () => {
   const initSessionData = () => {
     const sessionID = StorageUtil.getSessionID();
     const url = new URL(location.href);
-    const request_token = url.searchParams.get('request_token');
+    const request_token = url.searchParams.get("request_token");
 
     if (sessionID || request_token) {
-      console.log('sessionID =>', sessionID, 'token =>', request_token);
+      console.log("sessionID =>", sessionID, "token =>", request_token);
       sessionID ? getAccountData(sessionID) : getSessionID(request_token);
     } else {
       getGuestSessionID();
@@ -125,73 +125,73 @@ const index = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <style.Navbar style={dynamicBg}>
-      <div className='flex items-center'>
-        <NavLink to='/' className='flex items-center'>
+      <div className="flex items-center">
+        <NavLink to="/" className="flex items-center">
           <i>
-            <img src='./images/logo/film-slate.png' alt='My Movie' />
+            <img src="./images/logo/film-slate.png" alt="My Movie" />
           </i>
-          <p className='pl-2'>My Movie</p>
+          <p className="pl-2">My Movie</p>
         </NavLink>
         <Search />
       </div>
       <style.Menu>
-        <li className='btn'>
+        <li className="btn">
           <NavLink
-            to='movies'
+            to="movie"
             className={isActive}
-            style={{ display: 'block', width: '100%', height: '100%' }}
+            style={{ display: "block", width: "100%", height: "100%" }}
           >
             電影
           </NavLink>
         </li>
         <li>
           <NavLink
-            to='drama'
+            to="tv"
             className={isActive}
-            style={{ display: 'block', width: '100%', height: '100%' }}
+            style={{ display: "block", width: "100%", height: "100%" }}
           >
             電視節目
           </NavLink>
         </li>
         <li>
           <NavLink
-            to='themePavilion'
+            to="themePavilion"
             className={isActive}
-            style={{ display: 'block', width: '100%', height: '100%' }}
+            style={{ display: "block", width: "100%", height: "100%" }}
           >
             主題館
           </NavLink>
         </li>
-        
+
         <IconButton
-          size='large'
-          edge='end'
-          aria-label='account of current user'
+          size="large"
+          edge="end"
+          aria-label="account of current user"
           // aria-controls={menuId}
-          aria-haspopup='true'
+          aria-haspopup="true"
           onClick={handleProfile}
-          color='inherit'
+          color="inherit"
         >
           {isLogin ? (
             <>
               <li>
                 <NavLink
-                  to='myMovies'
+                  to="myMovies"
                   className={isActive}
-                  style={{ display: 'block', width: '100%', height: '100%' }}
+                  style={{ display: "block", width: "100%", height: "100%" }}
                 >
                   我的片單
                 </NavLink>
               </li>
-              <AccountCircle fontSize='large' /> {userData.name}
+              <AccountCircle fontSize="large" /> {userData.name}
               <MenuItem onClick={logout}>登出</MenuItem>
             </>
           ) : (
