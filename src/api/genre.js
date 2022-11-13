@@ -1,16 +1,18 @@
 import base from "./base";
 
 const baseURL = `${base.apiURL}/genre`;
-const baseParams = `api_key=${base.apiKey}&language=${base.lang}`;
-const headers = {
-  method: "GET",
-  headers: { "content-type": "application/json" },
-};
 
 export default {
-  // 電影類別
+  /**
+   * [GET] 電影類別
+   * @param {*} category
+   * @returns
+   */
   async getGenreList(category) {
-    return await fetch(`${baseURL}/${category}/list?${baseParams}`, headers)
+    return await fetch(
+      `${baseURL}/${category}/list?${base.baseParams}`,
+      base.headers
+    )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },

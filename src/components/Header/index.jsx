@@ -17,6 +17,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 import { authenticationSVC, accountSVC } from "@/api";
 
@@ -142,85 +143,67 @@ const index = () => {
         </NavLink>
         <Search />
       </div>
-      <style.Menu>
-        <li className="btn">
-          <NavLink
-            to="movie"
-            className={isActive}
-            style={{ display: "block", width: "100%", height: "100%" }}
-          >
-            電影
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="tv"
-            className={isActive}
-            style={{ display: "block", width: "100%", height: "100%" }}
-          >
-            電視節目
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="themePavilion"
-            className={isActive}
-            style={{ display: "block", width: "100%", height: "100%" }}
-          >
-            主題館
-          </NavLink>
-        </li>
+      <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+        <style.Menu>
+          <li className="btn">
+            <NavLink
+              to="movie"
+              className={isActive}
+              style={{ display: "block", width: "100%", height: "100%" }}
+            >
+              電影
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="tv"
+              className={isActive}
+              style={{ display: "block", width: "100%", height: "100%" }}
+            >
+              電視節目
+            </NavLink>
+          </li>
+          {/* <li>
+            <NavLink
+              to="themePavilion"
+              className={isActive}
+              style={{ display: "block", width: "100%", height: "100%" }}
+            >
+              主題館
+            </NavLink>
+          </li> */}
 
-        <IconButton
-          size="large"
-          edge="end"
-          aria-label="account of current user"
-          // aria-controls={menuId}
-          aria-haspopup="true"
-          onClick={handleProfile}
-          color="inherit"
-        >
-          {isLogin ? (
-            <>
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            // aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfile}
+            color="inherit"
+          >
+            {isLogin ? (
+              <>
+                <li>
+                  <NavLink
+                    to="myMovies"
+                    className={isActive}
+                    style={{ display: "block", width: "100%", height: "100%" }}
+                  >
+                    我的片單
+                  </NavLink>
+                </li>
+                <AccountCircle fontSize="large" /> {userData.name}
+                <MenuItem onClick={logout}>登出</MenuItem>
+              </>
+            ) : (
               <li>
-                <NavLink
-                  to="myMovies"
-                  className={isActive}
-                  style={{ display: "block", width: "100%", height: "100%" }}
-                >
-                  我的片單
-                </NavLink>
+                <p>登錄</p>
               </li>
-              <AccountCircle fontSize="large" /> {userData.name}
-              <MenuItem onClick={logout}>登出</MenuItem>
-            </>
-          ) : (
-            <p>登錄</p>
-          )}
-        </IconButton>
-        {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-        <IconButton
-          size='large'
-          aria-label='show more'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <MoreIcon />
-          <AccountCircle />
-        </IconButton>
-      </Box> */}
-
-        {/* <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu> */}
-      </style.Menu>
+            )}
+          </IconButton>
+        </style.Menu>
+      </Box>
     </style.Navbar>
   );
 };

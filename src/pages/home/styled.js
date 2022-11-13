@@ -7,6 +7,22 @@ style.content = styled.div`
   min-height: 100%;
   color: white;
   font-size: 16px; */
+  margin-top: -82px;
+  .content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .section {
+    max-width: 1200px;
+    width: 100%;
+    /* padding: 24px;
+    margin: 6px; */
+  }
+  .section-bg {
+    background: rgba(104, 107, 114, 0.1);
+    border-radius: 20px;
+  }
 `;
 
 export default style;

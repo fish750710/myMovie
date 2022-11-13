@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.StyledInputBase = styled.input`
@@ -17,6 +18,9 @@ style.StyledInputBase = styled.input`
   min-width: 100px;
   &:focus {
     outline: none;
+  }
+  @media ${devices.xs} {
+    min-width: 200px;
   }
 `;
 style.Search = styled.div`

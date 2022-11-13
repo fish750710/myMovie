@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.Navbar = styled.div`
@@ -10,7 +11,7 @@ style.Navbar = styled.div`
   padding: 0px 40px;
   gap: 60px;
   z-index: 999;
-  
+
   position: fixed;
   /* position: absolute; */
   width: 100%;
@@ -20,6 +21,10 @@ style.Navbar = styled.div`
 
   /* background: rgba(27, 30, 37, 0.68); */
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
+  @media ${devices.xs} {
+    height: 48px;
+    padding: 0px 16px;
+  }
 `;
 style.Menu = styled.ul`
   display: flex;
@@ -40,7 +45,7 @@ style.Menu = styled.ul`
     margin: 0 4px;
     .active {
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -4px;
         left: 0;
@@ -52,4 +57,5 @@ style.Menu = styled.ul`
     }
   }
 `;
+
 export default style;

@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 import styled from "styled-components";
 import styles from "./styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const AppStyled = styled.div`
   background-color: ${styles.bg_color};
@@ -20,6 +22,10 @@ const AppStyled = styled.div`
     color: white;
     font-size: 16px;
     margin-top: 82px;
+    @media ${devices.sm} {
+      /* color: red; */
+      /* height: calc(100% - 200px); */
+    }
   }
 `;
 function App() {
@@ -30,6 +36,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <Navbar />
     </AppStyled>
   );
 }
