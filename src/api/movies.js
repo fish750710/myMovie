@@ -9,13 +9,23 @@ const headers = {
 
 // movie & tv 共用
 export default {
-  // 電影詳情
+  /** [GET] 電影詳情
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getMovieDetail(id, category) {
     return await fetch(`${baseURL}/${category}/${id}?${baseParams}`, headers)
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 串流平台
+  /** [GET] 串流平台
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getWatchProviders(id, category) {
     // https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key=313ea9371ca76d02621113d1bc97a665
     return await fetch(
@@ -25,7 +35,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 演員和工作人員
+  /** [GET] 演員和工作人員
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getPersonList(id, category) {
     return await fetch(
       `${baseURL}/${category}/${id}/credits?${baseParams}`,
@@ -34,7 +49,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 預告片
+  /** [GET] 預告片
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getTrailer(id, category) {
     return await fetch(
       `${baseURL}/${category}/${id}/videos?${baseParams}`,
@@ -43,7 +63,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 獲取評論
+  /** [GET] 獲取評論
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getReviews(id, category) {
     // https://api.themoviedb.org/3/movie/436270/reviews?api_key=313ea9371ca76d02621113d1bc97a665&language=en-US&page=1
     return await fetch(
@@ -53,7 +78,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 類似影片
+  /** [GET] 類似影片
+   * 
+   * @param {*} id 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getSimilar(id, category) {
     // https://api.themoviedb.org/3/movie/928123/similar?api_key=313ea9371ca76d02621113d1bc97a665&language=zh-TW&page=1
     return await fetch(
@@ -63,14 +93,24 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 近期熱門電影
+  /** [GET] 近期熱門電影
+   * 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getPopular(category) {
     // https://api.themoviedb.org/3/movie/popular?api_key=313ea9371ca76d02621113d1bc97a665&language=en-US&page=1
     return await fetch(`${baseURL}/${category}/popular?${baseParams}`, headers)
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 帳戶電影狀態 （收藏，監視）
+  /** [GET] 帳戶電影狀態 （收藏，監視）
+   * 
+   * @param {*} id 
+   * @param {*} sessionID 
+   * @param {*} category 類別 （movie，tv）
+   * @returns 
+   */
   async getAccountStates(id, sessionID, category) {
     return await fetch(
       `${baseURL}/${category}/${id}/account_states?${baseParams}&session_id=${sessionID}`,
@@ -79,12 +119,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  /** 評分
+  /** [POST] 評分
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
-   * @param {*} data
-   * @param {*} category
+   * @param {*} data { "value": 8.5 }
+   * @param {*} category 類別 （movie，tv）
    * @returns
    */
   async rateMovie(id, sessionID, data, category) {
@@ -97,12 +137,12 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  /** 評分
+  /** [POST] 遊客評分
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
-   * @param {*} data
-   * @param {*} category
+   * @param {*} data { "value": 8.5 }
+   * @param {*} category 類別 （movie，tv）
    * @returns
    */
   async rateMovieGuest(id, guestSessionID, data, category) {
