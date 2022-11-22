@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import styles from "@/styles/_export.module.scss";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.Content = styled.div`
@@ -33,7 +34,7 @@ style.Intro = styled.div`
       border-radius: 50%;
       position: absolute;
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: calc(50% - 10px);
         left: calc(50% - 10px);
@@ -44,6 +45,42 @@ style.Intro = styled.div`
         border-width: 10px 0 10px 20px;
         border-color: transparent transparent transparent white;
       }
+    }
+  }
+  .main-img-m {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 100%;
+      height: 100%;
+      background: #686b72;
+      background-size: cover;
+      filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
+    }
+    .btn-play {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      position: absolute;
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(50% - 10px);
+        left: calc(50% - 10px);
+
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 10px 0 10px 20px;
+        border-color: transparent transparent transparent white;
+      }
+    }
+    .MuiButtonBase-root {
+      color: "#fff"
     }
   }
   .info-box {
@@ -62,6 +99,7 @@ style.Intro = styled.div`
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
+      }
     }
     .description {
       font-weight: 400;
@@ -87,6 +125,9 @@ style.Section = styled.div`
   border-radius: 20px;
   padding: 24px;
   margin: 6px;
+  @media ${devices.sm} {
+    padding: 0px 5px;
+  }
 `;
 
 style.Favorite = styled.div`

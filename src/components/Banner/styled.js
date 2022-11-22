@@ -15,6 +15,11 @@ style.BannerBox = styled.div`
   height: 720px;
   position: relative;
 `;
+style.BannerBoxM = styled.div`
+  width: 100%;
+  height: 250px;
+  position: relative;
+`;
 style.Title = styled.div`
   width: 345px;
   position: absolute;
@@ -54,6 +59,62 @@ style.Title = styled.div`
       padding: 10px;
       width: 160px;
       height: 42px;
+      background: #161616;
+      border-radius: 13px;
+    }
+    .btn-bg {
+      padding: 2px;
+      background: ${styles.btn_gradual_color};
+      .content {
+        width: 100%;
+        height: 100%;
+        background: ${styles.btn_color};
+        border-radius: 13px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+`;
+style.TitleM = styled.div`
+  width: 40%;
+  position: absolute;
+  left: 10%;
+  top: 30%;
+  z-index: 0;
+  line-height: 24px;
+  .score {
+    width: 40%;
+    /* height: 50px; */
+    font-weight: 700;
+    font-size: 4rem;
+    text-align: right;
+    background: ${styles.btn_gradual_color};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
+    line-height: 1;
+  }
+  h2 {
+    font-weight: 500;
+    font-size: 2rem;
+  }
+  .btn-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    a {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      width: 100%;
+      height: 3rem;
       background: #161616;
       border-radius: 13px;
     }

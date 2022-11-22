@@ -1,30 +1,47 @@
 // 首頁 有swiper功能
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Navigation, Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/scss";
-import "swiper/css/navigation";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import { Navigation, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/scss';
+import 'swiper/css/navigation';
 
-import style from "./styled";
-import Card from "../Card";
+import style from './styled';
+import Card from '../Card';
 
 function list({ isLoading, itemList, title, category }) {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const navigate = useNavigate();
   const toDetail = (item) => {
-    console.log("item list =>", item.id, category);
+    console.log('item list =>', item.id, category);
     navigate(`/${category}/detail/${item.id}`);
   };
   return (
     <style.List>
-      <div className="title">{title}</div>
+      <div className='title'>{title}</div>
       <Swiper
-        style={{
-          "--swiper-navigation-color": "#fff",
-          padding: "0 38px",
+        breakpoints={{
+          // when window width is >= 640px
+          375: {
+            slidesPerView: 2,
+          },
+          640: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 4,
+          },
+          1024: {
+            slidesPerView: 5,
+          },
         }}
-        className="w-full"
+        style={{
+          '--swiper-navigation-color': '#fff',
+          padding: '0 38px',
+        }}
+        className='w-full'
         navigation={true}
         modules={[Navigation, Autoplay]}
         autoplay={{
@@ -32,7 +49,6 @@ function list({ isLoading, itemList, title, category }) {
           disableOnInteraction: false,
         }}
         spaceBetween={30}
-        slidesPerView={5}
         loop
       >
         {itemList?.map((item, index) => (

@@ -1,13 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Filter from "@/components/Filter";
-import Card from "@/components/Card";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Filter from '@/components/Filter';
+import Card from '@/components/Card';
 
-import style from "./styled";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
-import { genreSVC, discoverSVC } from "@/api";
-import { setIsLoading } from "@/store/slices/userSlice";
+import style from './styled';
+
+import { genreSVC, discoverSVC } from '@/api';
+import { setIsLoading } from '@/store/slices/userSlice';
 
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
@@ -19,15 +25,15 @@ function index({ category }) {
   const { isLoading } = useSelector((state) => state.user);
   const [movieList, setMoiveList] = useState([]);
   // 類型
-  const [movieOptType, setMovieOptType] = useState();
+  const [movieOptType, setMovieOptType] = useState(0);
   const [genreList, setGenreList] = useState({
-    title: "類型",
-    data: [{ id: 0, name: "全部" }],
+    title: '類型',
+    data: [{ id: 0, name: '全部' }],
   });
 
-  const [movieOptYear, setMovieOptYear] = useState(); // 年份
+  const [movieOptYear, setMovieOptYear] = useState(0); // 年份
   const [sortType, setSortType] = useState(0); // 排序
-  const [sortBy, setSortBy] = useState("desc"); // asc
+  const [sortBy, setSortBy] = useState('desc'); // asc
   const moreFlag = useRef(false);
   const page = useRef(1);
 
@@ -66,11 +72,11 @@ function index({ category }) {
     try {
       const { results } = await discoverSVC.getMovieList(
         category,
-        movieOptType,
-        movieOptYear,
+        movieOptType === 0 ? null : movieOptType,
+        movieOptYear === 0 ? null : movieOptYear,
         sortType,
         sortBy,
-        page.current
+        page.current,
       );
       moreFlag.current
         ? setMoiveList(movieList.concat(results))
@@ -115,26 +121,78 @@ function index({ category }) {
 
   return (
     <style.content>
-      <style.section className="">
-        <Filter
-          title={genreList.title}
-          data={genreList.data}
-          setOption={setMovieOptType}
-        />
-        <Filter
-          title={yearList.title}
-          data={yearList.data}
-          setOption={setMovieOptYear}
-        />
-        <div className="btn btn-submit btn-gradual" onClick={search}>
+      <style.section className=''>
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Filter
+            title={genreList.title}
+            data={genreList.data}
+            setOption={setMovieOptType}
+            selectd={movieOptType}
+          />
+          <Filter
+            title={yearList.title}
+            data={yearList.data}
+            setOption={setMovieOptYear}
+            selectd={movieOptYear}
+          />
+        </Box>
+        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+          <FormControl fullWidth sx={{ margin: '10px 0' }}>
+            <InputLabel id='demo-simple-select-label' sx={{ color: '#fff' }}>
+              {genreList.title}
+            </InputLabel>
+            <Select
+              sx={{
+                border: '1px solid darkgrey',
+                color: '#fff',
+                '& .MuiSvgIcon-root': {
+                  color: '#fff',
+                },
+              }}
+              value={movieOptType}
+              label={genreList.title}
+              onChange={(e) => setMovieOptType(e.target.value)}
+            >
+              {genreList.data.map((item, index) => (
+                <MenuItem value={item.id} key={item.id}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ margin: '10px 0' }}>
+            <InputLabel id='demo-simple-select-label' sx={{ color: '#fff' }}>
+              {yearList.title}
+            </InputLabel>
+            <Select
+              sx={{
+                border: '1px solid darkgrey',
+                color: '#fff',
+                '& .MuiSvgIcon-root': {
+                  color: '#fff',
+                },
+              }}
+              value={movieOptYear}
+              label={yearList.title}
+              onChange={(e) => setMovieOptYear(e.target.value)}
+            >
+              {yearList.data.map((item, index) => (
+                <MenuItem value={item.id} key={index}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <div className='btn btn-submit btn-gradual' onClick={search}>
           搜尋
         </div>
       </style.section>
-      <style.section className="sort-box">
+      <style.section className='sort-box'>
         <Filter data={sortList} setOption={setSortType} />
       </style.section>
-      <div className="main">
-        <div className="content">
+      <div className='main'>
+        <div className='content'>
           {movieList.map((item, index) => (
             <Card
               isLoading={isLoading}
@@ -146,7 +204,7 @@ function index({ category }) {
         </div>
       </div>
       <div
-        className="btn btn-more btn-gradual w-80 my-14"
+        className='btn btn-more btn-gradual w-80 my-14'
         onClick={loadMoreHandler}
       >
         載入更多

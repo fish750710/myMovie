@@ -36,11 +36,12 @@ style.Menu = styled.ul`
     line-height: 21px;
 
     text-align: center;
-    color: ${styles.font_light};
+    color: ${styles.font_color};
     position: relative;
     margin: 0 4px;
     .active {
-      &::before {
+      color: ${styles.font_light};
+      /* &::before {
         content: "";
         position: absolute;
         bottom: -4px;
@@ -49,7 +50,7 @@ style.Menu = styled.ul`
         height: 4px;
         background: ${styles.btn_gradual_color};
         border-radius: 50px;
-      }
+      } */
     }
   }
 `;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import styles from '@/styles/_export.module.scss';
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.content = styled.div`
@@ -33,6 +34,9 @@ style.content = styled.div`
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
+    }
+    @media ${devices.xs} {
+      padding: 0px 16px;
     }
   }
   .footer {

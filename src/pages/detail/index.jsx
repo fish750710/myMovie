@@ -1,46 +1,51 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
-import YouTube from "react-youtube";
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import YouTube from 'react-youtube';
 
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
 // import Alert from "@mui/material/Alert";
-import MuiAlert from "@mui/material/Alert";
-import Rating from "@mui/material/Rating";
-import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from '@mui/material/Alert';
+import Rating from '@mui/material/Rating';
+import Snackbar from '@mui/material/Snackbar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 
-import Tag from "@/components/Tag";
-import ActorList from "@/components/MovieList/ActorList";
-import Section from "@/components/MovieList/Section";
-import Forum from "@/components/Forum";
+import Tag from '@/components/Tag';
+import ActorList from '@/components/MovieList/ActorList';
+import Section from '@/components/MovieList/Section';
+import Forum from '@/components/Forum';
 
-import { moviesSVC, accountSVC } from "@/api";
-import base from "@/api/base";
-import { setIsLoading, setFavoriteList } from "@/store/slices/userSlice";
+import { moviesSVC, accountSVC } from '@/api';
+import base from '@/api/base';
+import { setIsLoading, setFavoriteList } from '@/store/slices/userSlice';
 
-import styles from "@/styles/_export.module.scss";
-import style from "./styled";
+import styles from '@/styles/_export.module.scss';
+import style from './styled';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
 
 function index() {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const renderRef = useRef(true);
   const params = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoading, isLogin, sessionID, userData, favoriteList } = useSelector(
-    (state) => state.user
+    (state) => state.user,
   );
   const [movieData, setMovieData] = useState({});
   const [watchProviders, setWatchProviders] = useState();
@@ -50,15 +55,15 @@ function index() {
   const [director, setDirector] = useState();
   const [imdbID, setImdbID] = useState();
   const [alertMsg, setAlertMsg] = useState();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [favoriteState, setFavoriteState] = useState(false);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('');
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
+    '& .MuiDialogContent-root': {
       padding: theme.spacing(2),
     },
-    "& .MuiDialogActions-root": {
+    '& .MuiDialogActions-root': {
       padding: theme.spacing(1),
     },
   }));
@@ -71,10 +76,10 @@ function index() {
         {children}
         {onClose ? (
           <IconButton
-            aria-label="close"
+            aria-label='close'
             onClick={onClose}
             sx={{
-              position: "absolute",
+              position: 'absolute',
               right: 8,
               top: 8,
               color: (theme) => theme.palette.grey[500],
@@ -92,8 +97,8 @@ function index() {
     onClose: PropTypes.func.isRequired,
   };
   const youtubeOpts = {
-    height: "315",
-    width: "560",
+    height: '315',
+    width: '560',
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
@@ -110,7 +115,7 @@ function index() {
     if (isLogin) {
       editFavorite(bool);
     } else {
-      setMessage("請登錄");
+      setMessage('請登錄');
     }
   };
 
@@ -145,7 +150,7 @@ function index() {
   const editFavorite = async (bool) => {
     try {
       const data = {
-        media_type: location.pathname.split("/")[1],
+        media_type: location.pathname.split('/')[1],
         media_id: movieData.id,
         favorite: bool,
       };
@@ -155,9 +160,9 @@ function index() {
         setFavoriteState(bool);
         // updateFavoriteMovies();
         if (bool) {
-          setMessage("已成功加入收藏");
+          setMessage('已成功加入收藏');
         } else {
-          setMessage("已成功取消收藏");
+          setMessage('已成功取消收藏');
         }
       }
     } catch (err) {
@@ -228,7 +233,7 @@ function index() {
         return;
       }
       // console.log("getPersonList...", res);
-      setDirector(res.crew.find((item) => item.job === "Director"));
+      setDirector(res.crew.find((item) => item.job === 'Director'));
       setPersonList(res.cast);
     } catch (err) {
       console.log(err);
@@ -241,7 +246,7 @@ function index() {
         return;
       }
       const movieId = params.id;
-      const categoryVal = location.pathname.split("/")[1];
+      const categoryVal = location.pathname.split('/')[1];
       setCategory(categoryVal);
       dispatch(setIsLoading(true));
 
@@ -260,21 +265,26 @@ function index() {
   }, [params.id]);
 
   useEffect(() => {
-    if (isLogin) getAccountStates(params.id, location.pathname.split("/")[1]);
+    if (isLogin) getAccountStates(params.id, location.pathname.split('/')[1]);
   }, [isLogin]);
 
   const PreLoading = ({ w, h }) => {
     return (
       <Skeleton
-        animation="wave"
-        variant="text"
+        animation='wave'
+        variant='text'
         sx={{
           bgcolor: styles.bg_sub_color,
-          width: w + "px",
-          height: h + "px",
+          width: w + 'px',
+          height: h + 'px',
         }}
       />
     );
+  };
+
+  const [tabVal, setTabVal] = useState(0);
+  const handleChange = (event, index) => {
+    setTabVal(index);
   };
 
   return (
@@ -282,130 +292,260 @@ function index() {
       <Snackbar
         open={!!message}
         autoHideDuration={6000}
-        onClose={() => setMessage("")}
+        onClose={() => setMessage('')}
       >
         <Alert
-          onClose={() => setMessage("")}
-          severity="info"
-          sx={{ width: "100%" }}
+          onClose={() => setMessage('')}
+          severity='info'
+          sx={{ width: '100%' }}
         >
           {message}
         </Alert>
       </Snackbar>
 
       {alertMsg ? (
-        <MuiAlert variant="filled" severity="error">
+        <MuiAlert variant='filled' severity='error'>
           {alertMsg}
         </MuiAlert>
       ) : (
         <>
           <style.Section>
-            <style.Intro>
-              <div className="main-img">
-                {movieData?.poster_path && (
-                  <img
-                    src={`${base.originalURL}/w342/${movieData.poster_path}`}
-                    alt={movieData.original_title || movieData.name}
-                  />
-                )}
-                <div
-                  className="btn btn-gradual btn-play"
-                  onClick={handleClickOpen}
-                ></div>
-              </div>
-              <div className="info-box w-full">
-                <Stack spacing={1} className="">
-                  <div className="flex justify-between">
-                    <div className="flex">
-                      {movieData?.genres?.map((item) => (
-                        <Tag item={item.name} key={item.id} />
-                      ))}
-                    </div>
-                    <style.Favorite
-                      onClick={() => favoriteHandler(!favoriteState)}
-                    >
-                      {favoriteState ? (
-                        <img src="./images/icon/heart.png" alt="" />
-                      ) : (
-                        <img src="./images/icon/heart_.png" alt="" />
-                      )}
-                    </style.Favorite>
-                  </div>
-                  <div className="title mb-3">
-                    {isLoading ? (
-                      <>
-                        <PreLoading w="180" h="25" />
-                        <PreLoading w="100" h="25" />
-                      </>
-                    ) : (
-                      <>
-                        {movieData?.title || movieData?.name}
-                        <div className="score">
-                          {movieData?.vote_average?.toFixed(1)}
+            {isMobile ? (
+              <style.Intro style={{ display: isMobile ? 'block' : 'flex' }}>
+                <div className='main-img-m'>
+                  {movieData?.backdrop_path && (
+                    <img
+                      src={`${base.originalURL}/w780/${movieData.backdrop_path}`}
+                      alt={movieData.original_title || movieData.name}
+                    />
+                  )}
+                  <div
+                    className='btn btn-gradual btn-play'
+                    onClick={handleClickOpen}
+                  ></div>
+                </div>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs
+                    value={tabVal}
+                    onChange={handleChange}
+                    aria-label='tabs'
+                    indicatorColor='secondary'
+                    textColor='inherit'
+                  >
+                    <Tab label='介紹' />
+                    <Tab label='評論' />
+                  </Tabs>
+                </Box>
+                <Box sx={{ p: 1 }}>
+                  {tabVal !== 1 ? (
+                    <div className='info-box w-full'>
+                      <Stack spacing={1} className=''>
+                        <div className='flex justify-between'>
+                          <div className='flex'>
+                            {movieData?.genres?.map((item) => (
+                              <Tag item={item.name} key={item.id} />
+                            ))}
+                          </div>
+                          <style.Favorite
+                            onClick={() => favoriteHandler(!favoriteState)}
+                          >
+                            {favoriteState ? (
+                              <img src='./images/icon/heart.png' alt='' />
+                            ) : (
+                              <img src='./images/icon/heart_.png' alt='' />
+                            )}
+                          </style.Favorite>
                         </div>
-                      </>
-                    )}
-                  </div>
-                  <div className="flex mb-4">
-                    {isLoading ? (
-                      <>
-                        <div className="label">
-                          <PreLoading w="70" h="25" />
-                        </div>
-                        <div className="label">
-                          <PreLoading w="70" h="25" />
-                        </div>
-                        <div className="label">
-                          <PreLoading w="50" h="25" />
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex mb-4">
-                        <div className="label">
-                          {movieData?.release_date || movieData.last_air_date}
-                        </div>
-                        <div className="label">
-                          {movieData?.spoken_languages?.map((item, index) =>
-                            index > 0 ? "、" + item.name : item.name
+                        <div className='title mb-3'>
+                          {isLoading ? (
+                            <>
+                              <PreLoading w='180' h='25' />
+                              <PreLoading w='100' h='25' />
+                            </>
+                          ) : (
+                            <>
+                              {movieData?.title || movieData?.name}
+                              <div className='score'>
+                                {movieData?.vote_average?.toFixed(1)}
+                              </div>
+                            </>
                           )}
                         </div>
-                        {movieData?.runtime && (
-                          <div className="label">{movieData?.runtime}分</div>
+                        <div className='flex mb-4'>
+                          {isLoading ? (
+                            <>
+                              <div className='label'>
+                                <PreLoading w='70' h='25' />
+                              </div>
+                              <div className='label'>
+                                <PreLoading w='70' h='25' />
+                              </div>
+                              <div className='label'>
+                                <PreLoading w='50' h='25' />
+                              </div>
+                            </>
+                          ) : (
+                            <div className='flex mb-4'>
+                              <div className='label'>
+                                {movieData?.release_date ||
+                                  movieData.last_air_date}
+                              </div>
+                              <div className='label'>
+                                {movieData?.spoken_languages?.map(
+                                  (item, index) =>
+                                    index > 0 ? '、' + item.name : item.name,
+                                )}
+                              </div>
+                              {movieData?.runtime && (
+                                <div className='label'>
+                                  {movieData?.runtime}分
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        <div className='label mb-4'>導演 {director?.name}</div>
+                        <div className='label mb-4'>劇情介紹</div>
+                        {isLoading ? (
+                          <>
+                            <PreLoading h='25' />
+                            <PreLoading h='25' />
+                          </>
+                        ) : (
+                          <div className='description w-full leading-8'>
+                            {movieData?.overview}
+                          </div>
                         )}
+
+                        <div className='label'>播放平台</div>
+                        <div className='play-platform flex w-20'>
+                          {watchProviders?.[base.local]?.flatrate?.map(
+                            (item) => (
+                              <img
+                                src={`${base.originalURL}/original/${item.logo_path}`}
+                                alt={item.provider_name}
+                                key={item.provider_id}
+                              />
+                            ),
+                          )}
+                        </div>
+                      </Stack>
+                    </div>
+                  ) : (
+                    (movieData?.title || movieData?.name) && (
+                      <Forum id={params.id} category={category} />
+                    )
+                  )}
+                </Box>
+              </style.Intro>
+            ) : (
+              <style.Intro>
+                <div className='main-img'>
+                  {movieData?.poster_path && (
+                    <img
+                      src={`${base.originalURL}/w342/${movieData.poster_path}`}
+                      alt={movieData.original_title || movieData.name}
+                    />
+                  )}
+                  <div
+                    className='btn btn-gradual btn-play'
+                    onClick={handleClickOpen}
+                  ></div>
+                </div>
+                <div className='info-box w-full'>
+                  <Stack spacing={1} className=''>
+                    <div className='flex justify-between'>
+                      <div className='flex'>
+                        {movieData?.genres?.map((item) => (
+                          <Tag item={item.name} key={item.id} />
+                        ))}
+                      </div>
+                      <style.Favorite
+                        onClick={() => favoriteHandler(!favoriteState)}
+                      >
+                        {favoriteState ? (
+                          <img src='./images/icon/heart.png' alt='' />
+                        ) : (
+                          <img src='./images/icon/heart_.png' alt='' />
+                        )}
+                      </style.Favorite>
+                    </div>
+                    <div className='title mb-3'>
+                      {isLoading ? (
+                        <>
+                          <PreLoading w='180' h='25' />
+                          <PreLoading w='100' h='25' />
+                        </>
+                      ) : (
+                        <>
+                          {movieData?.title || movieData?.name}
+                          <div className='score'>
+                            {movieData?.vote_average?.toFixed(1)}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className='flex mb-4'>
+                      {isLoading ? (
+                        <>
+                          <div className='label'>
+                            <PreLoading w='70' h='25' />
+                          </div>
+                          <div className='label'>
+                            <PreLoading w='70' h='25' />
+                          </div>
+                          <div className='label'>
+                            <PreLoading w='50' h='25' />
+                          </div>
+                        </>
+                      ) : (
+                        <div className='flex mb-4'>
+                          <div className='label'>
+                            {movieData?.release_date || movieData.last_air_date}
+                          </div>
+                          <div className='label'>
+                            {movieData?.spoken_languages?.map((item, index) =>
+                              index > 0 ? '、' + item.name : item.name,
+                            )}
+                          </div>
+                          {movieData?.runtime && (
+                            <div className='label'>{movieData?.runtime}分</div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div className='label mb-4'>導演 {director?.name}</div>
+                    <div className='label mb-4'>劇情介紹</div>
+                    {isLoading ? (
+                      <>
+                        <PreLoading h='25' />
+                        <PreLoading h='25' />
+                      </>
+                    ) : (
+                      <div className='description w-full leading-8'>
+                        {movieData?.overview}
                       </div>
                     )}
-                  </div>
-                  <div className="label mb-4">導演 {director?.name}</div>
-                  <div className="label mb-4">劇情介紹</div>
-                  {isLoading ? (
-                    <>
-                      <PreLoading h="25" />
-                      <PreLoading h="25" />
-                    </>
-                  ) : (
-                    <div className="description w-full leading-8">
-                      {movieData?.overview}
-                    </div>
-                  )}
 
-                  <div className="label">播放平台</div>
-                  <div className="play-platform flex w-20">
-                    {watchProviders?.[base.local]?.flatrate?.map((item) => (
-                      <img
-                        src={`${base.originalURL}/original/${item.logo_path}`}
-                        alt={item.provider_name}
-                        key={item.provider_id}
-                      />
-                    ))}
-                  </div>
-                </Stack>
-              </div>
-            </style.Intro>
+                    <div className='label'>播放平台</div>
+                    <div className='play-platform flex w-20'>
+                      {watchProviders?.[base.local]?.flatrate?.map((item) => (
+                        <img
+                          src={`${base.originalURL}/original/${item.logo_path}`}
+                          alt={item.provider_name}
+                          key={item.provider_id}
+                        />
+                      ))}
+                    </div>
+                  </Stack>
+                </div>
+              </style.Intro>
+            )}
           </style.Section>
           <style.Section>
             <ActorList personList={personList} isLoading={isLoading} />
           </style.Section>
-          <style.Section>
+          <style.Section style={{ display: isMobile ? 'none' : 'block' }}>
             {(movieData?.title || movieData?.name) && (
               <Forum id={params.id} category={category} />
             )}
