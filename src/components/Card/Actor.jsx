@@ -30,11 +30,11 @@ function Actor({ isLoading, item, toActorMovies }) {
           key={item.id}
           onClick={() => toActorMovies(item)}
         >
-            <img
-              src={`${base.originalURL}/w92/${item.profile_path}`}
-              alt={item.id}
-            />
-          
+          <img
+            src={`${base.originalURL}/w92/${item.profile_path}`}
+            alt={item.id}
+          />
+
           <p>{item.name}</p>
         </style.Actor>
       )}

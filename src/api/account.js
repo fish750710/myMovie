@@ -1,41 +1,50 @@
 import base from "./base";
 
 const baseURL = `${base.apiURL}/account`;
-const baseParams = `api_key=${base.apiKey}&language=${base.lang}`;
-const headers = {
-  method: "GET",
-  headers: { "content-type": "application/json" },
-};
 
 export default {
-  // account Details
+  /**
+   * [GET] account Details
+   * @param {*} sessionID
+   * @returns
+   */
   async getAccountDetails(sessionID) {
     return await fetch(
-      `${baseURL}?${baseParams}&session_id=${sessionID}`,
-      headers
+      `${baseURL}?${base.baseParams}&session_id=${sessionID}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 我的最愛電影
+  /**
+   * [GET] 我的最愛電影
+   * @param {*} sessionID
+   * @param {*} accountID
+   * @returns
+   */
   async getFavoriteMovies(sessionID, accountID) {
     return await fetch(
-      `${baseURL}/${accountID}/favorite/movies?${baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      headers
+      `${baseURL}/${accountID}/favorite/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 我的最愛電視節目
+  /**
+   * [GET] 我的最愛電視節目
+   * @param {*} sessionID
+   * @param {*} accountID
+   * @returns
+   */
   async getFavoriteTV(sessionID, accountID) {
     return await fetch(
-      `${baseURL}/${accountID}/favorite/tv?${baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      headers
+      `${baseURL}/${accountID}/favorite/tv?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  /** 編輯我的最愛
+  /** [POST] 編輯我的最愛
    * 
    * @param {*} data 
    * {
@@ -49,7 +58,7 @@ export default {
    */
   async editFavorite(data, sessionID, accountID) {
     return await fetch(
-      `${baseURL}/${accountID}/favorite?${baseParams}&session_id=${sessionID}`,
+      `${baseURL}/${accountID}/favorite?${base.baseParams}&session_id=${sessionID}`,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -59,11 +68,16 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-  // 獲取評分
+  /** [GET] 獲取評分
+   *
+   * @param {*} sessionID
+   * @param {*} accountID
+   * @returns
+   */
   async getRatedMovies(sessionID, accountID) {
     return await fetch(
-      `${baseURL}/${accountID}/rated/movies?${baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      headers
+      `${baseURL}/${accountID}/rated/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));

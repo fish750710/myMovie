@@ -16,11 +16,13 @@ import MyMovies from "@/pages/myMovies";
 import Detail from "@/pages/detail";
 import Search from "@/pages/search";
 import Person from "@/pages/person";
+import Error from "@/error";
 
 const router = createHashRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -34,10 +36,10 @@ const router = createHashRouter([
         path: "movie",
         element: <Movies />,
       },
-      {
-        path: "themePavilion",
-        element: <ThemePavilion />,
-      },
+      // {
+      //   path: "themePavilion",
+      //   element: <ThemePavilion />,
+      // },
       {
         path: "myMovies",
         element: <MyMovies />,

@@ -1,19 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 // import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from "react-redux";
 
 import Banner from "@/components/Banner";
 import Section from "@/components/MovieList/Section";
 
-// import { authenticationSVC } from '@/api';
-
+import { discoverSVC } from "@/api";
+import { setIsLoading } from "@/store/slices/userSlice";
 
 import style from "./styled";
 
-
-// background: rgba(104, 107, 114, 0.1);
 function index() {
+  // const dispatch = useDispatch();
   const renderRef = useRef(true);
 
   useEffect(() => {
@@ -21,28 +19,30 @@ function index() {
       renderRef.current = false;
       return;
     }
-    
-  }, [])
+  }, []);
   return (
     <style.content>
       <Banner />
       {/* <div className="content">
-        <div className="">
-          <Section />
+        <div className="section">
+          <Section title="熱門電影" category="movie" />
         </div>
-        <div className="section-bg">
-          <Section />
+        <div className="section section-bg">
+          <Section title="熱門戲劇" category="tv" />
         </div>
-        <div className="">
-          <Section />
+        <div className="section">
+          <Section title="熱門韓國電影" category="movie" />
         </div>
-        <div className="section-bg">
-          <Section />
+        <div className="section section-bg">
+          <Section title="熱門韓劇" category="tv" />
+        </div>
+        <div className="section">
+          <Section title="熱門華語電影" category="movie" />
+        </div>
+        <div className="section section-bg">
+          <Section title="熱門華語劇" category="tv" />
         </div>
       </div> */}
-      <div className="content">
-        <Section title="熱門電影" />
-      </div>
     </style.content>
   );
 }

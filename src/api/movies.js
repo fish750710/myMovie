@@ -1,11 +1,6 @@
 import base from "./base";
 
 const baseURL = `${base.apiURL}`;
-const baseParams = `api_key=${base.apiKey}&language=${base.lang}`;
-const headers = {
-  method: "GET",
-  headers: { "content-type": "application/json" },
-};
 
 // movie & tv 共用
 export default {
@@ -16,7 +11,10 @@ export default {
    * @returns 
    */
   async getMovieDetail(id, category) {
-    return await fetch(`${baseURL}/${category}/${id}?${baseParams}`, headers)
+    return await fetch(
+      `${baseURL}/${category}/${id}?${base.baseParams}`,
+      base.headers
+    )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
@@ -27,10 +25,9 @@ export default {
    * @returns 
    */
   async getWatchProviders(id, category) {
-    // https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key=313ea9371ca76d02621113d1bc97a665
     return await fetch(
-      `${baseURL}/${category}/${id}/watch/providers?${baseParams}`,
-      headers
+      `${baseURL}/${category}/${id}/watch/providers?${base.baseParams}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -43,8 +40,8 @@ export default {
    */
   async getPersonList(id, category) {
     return await fetch(
-      `${baseURL}/${category}/${id}/credits?${baseParams}`,
-      headers
+      `${baseURL}/${category}/${id}/credits?${base.baseParams}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -57,8 +54,8 @@ export default {
    */
   async getTrailer(id, category) {
     return await fetch(
-      `${baseURL}/${category}/${id}/videos?${baseParams}`,
-      headers
+      `${baseURL}/${category}/${id}/videos?${base.baseParams}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -70,10 +67,9 @@ export default {
    * @returns 
    */
   async getReviews(id, category) {
-    // https://api.themoviedb.org/3/movie/436270/reviews?api_key=313ea9371ca76d02621113d1bc97a665&language=en-US&page=1
     return await fetch(
-      `${baseURL}/${category}/${id}/reviews?${baseParams}`,
-      headers
+      `${baseURL}/${category}/${id}/reviews?${base.baseParams}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -85,14 +81,14 @@ export default {
    * @returns 
    */
   async getSimilar(id, category) {
-    // https://api.themoviedb.org/3/movie/928123/similar?api_key=313ea9371ca76d02621113d1bc97a665&language=zh-TW&page=1
     return await fetch(
-      `${baseURL}/${category}/${id}/similar?${baseParams}`,
-      headers
+      `${baseURL}/${category}/${id}/similar?${base.baseParams}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
+<<<<<<< HEAD
   /** [GET] 近期熱門電影
    * 
    * @param {*} category 類別 （movie，tv）
@@ -111,15 +107,22 @@ export default {
    * @param {*} category 類別 （movie，tv）
    * @returns 
    */
+=======
+  // 帳戶電影狀態 （收藏，監視）
+>>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
   async getAccountStates(id, sessionID, category) {
     return await fetch(
-      `${baseURL}/${category}/${id}/account_states?${baseParams}&session_id=${sessionID}`,
-      headers
+      `${baseURL}/${category}/${id}/account_states?${base.baseParams}&session_id=${sessionID}`,
+      base.headers
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
+<<<<<<< HEAD
   /** [POST] 評分
+=======
+  /** [POST]評分
+>>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
@@ -128,7 +131,7 @@ export default {
    * @returns
    */
   async rateMovie(id, sessionID, data, category) {
-    const url = `${baseURL}/${category}/${id}/rating?${baseParams}&session_id=${sessionID}`;
+    const url = `${baseURL}/${category}/${id}/rating?${base.baseParams}&session_id=${sessionID}`;
     return await fetch(url, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -137,7 +140,11 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
+<<<<<<< HEAD
   /** [POST] 遊客評分
+=======
+  /** [POST]評分
+>>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
@@ -146,7 +153,7 @@ export default {
    * @returns
    */
   async rateMovieGuest(id, guestSessionID, data, category) {
-    const url = `${baseURL}/${category}/${id}/rating?${baseParams}&guest_session_id=${guestSessionID}`;
+    const url = `${baseURL}/${category}/${id}/rating?${base.baseParams}&guest_session_id=${guestSessionID}`;
     return await fetch(url, {
       method: "POST",
       headers: { "content-type": "application/json" },

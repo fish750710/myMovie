@@ -13,7 +13,7 @@ import Card from "../Card";
 function list({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
-    // console.log("item list =>", item);
+    console.log("item list =>", item.id, category);
     navigate(`/${category}/detail/${item.id}`);
   };
   return (

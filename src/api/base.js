@@ -6,4 +6,11 @@ export default {
   imgURL: import.meta.env.VITE_TMDB_IMG_URL,
   originalURL: import.meta.env.VITE_TMDB_ORIGINAL_URL,
   youtubeURL: import.meta.env.VITE_YOUTUBE_URL,
+  baseParams: `api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=${
+    import.meta.env.VITE_LANG
+  }`,
+  headers: {
+    method: "GET",
+    headers: { "content-type": "application/json" },
+  },
 };

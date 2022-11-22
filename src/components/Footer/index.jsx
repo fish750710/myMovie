@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const Footer = styled.div`
   display: flex;
@@ -14,12 +15,16 @@ const Footer = styled.div`
   line-height: 21px;
   z-index: 0;
   margin-top: 50px;
+  @media ${devices.sm} {
+    margin-top: 0px;
+    margin-bottom: 58px;
+  }
 `;
 function index() {
   return (
     <Footer>
       <p>© Copyright 2022</p>
-      <p>圖片與素材取自網路，僅供練習作品使用，非商業與營利用途</p>
+      <p>資料來源取自TMDB，僅供練習作品使用，非商業與營利用途</p>
     </Footer>
   );
 }

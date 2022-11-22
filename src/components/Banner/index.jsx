@@ -1,90 +1,222 @@
-import React from "react";
-import styled from "styled-components";
-import styles from "@/styles/_export.module.scss";
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/css/pagination";
+import Skeleton from "@mui/material/Skeleton";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
-const Banner = styled.div`
-  background-color: ${styles.bg_color};
-  /* width: 1280px; */
-  height: 720px;
-  position: relative;
-`;
-const Title = styled.div`
-  width: 345px;
-  position: absolute;
-  left: 110px;
-  top: 200px;
-  z-index: 0;
-  line-height: 24px;
-  .score {
-    width: 103px;
-    height: 80px;
-    font-weight: 700;
-    font-size: 70px;
-    text-align: right;
-    background: ${styles.btn_gradual_color};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
-    line-height: 1;
-  }
-  h2 {
-    font-weight: 500;
-    font-size: 76px;
-    line-height: 110px;
-  }
-  .btn-box {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-    a {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      width: 160px;
-      height: 42px;
-      background: #161616;
-      border-radius: 13px;
-    }
-    .btn-bg {
-      padding: 2px;
-      background: ${styles.btn_gradual_color};
-      .content {
-        width: 100%;
-        height: 100%;
-        background: ${styles.btn_color};
-        border-radius: 13px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-`;
+import styles from "@/styles/_export.module.scss";
+import style from "./styled";
+
+import { discoverSVC, accountSVC, moviesSVC } from "@/api";
+import base from "@/api/base";
+import { setIsLoading } from "@/store/slices/userSlice";
+
+// import useFavorite from "@/hooks/useFavorite";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function index() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [itemList, setItemList] = useState();
+  const renderRef = useRef(true);
+  const { isLoading, isLogin, sessionID, userData } = useSelector(
+    (state) => state.user
+  );
+  const [message, setMessage] = useState("");
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  // const { favoriteState, message, setFavorite, setMessage } = useFavorite();
+
+  // 最近 1個月上映電影
+  const getONMovies = async (category, dateStart, dateEnd) => {
+    try {
+      dispatch(setIsLoading(true));
+      const { results } = await discoverSVC.getONMovies(
+        category,
+        dateStart,
+        dateEnd
+      );
+      setItemList(results);
+      dispatch(setIsLoading(false));
+    } catch (error) {
+      dispatch(setIsLoading(false));
+      console.log(error);
+    }
+  };
+  const getDate = (isPrevMonth = false) => {
+    const date = new Date();
+    const d = date.getDate();
+    const m = date.getMonth();
+    const y = date.getFullYear();
+    return `${y}-${isPrevMonth ? m : m + 1}-${d}`;
+  };
+  const toDetail = (item) => {
+    navigate(`/movie/detail/${item.id}`);
+  };
+  // 我的最愛電影
+  const getFavoriteMovies = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
+      setFavoriteMovies(res.results);
+      dispatch(setIsLoading(false));
+    } catch (error) {
+      dispatch(setIsLoading(false));
+      console.log(error);
+    }
+  };
+  // 新增和移除收藏
+  const editFavorite = async (movieId, bool) => {
+    try {
+      const data = {
+        media_type: "movie",
+        media_id: movieId,
+        favorite: bool,
+      };
+      const res = await accountSVC.editFavorite(data, sessionID, userData.id);
+      // console.log("editFavorite =>", res);
+      if (res.success === true) {
+        // setFavoriteState(bool);
+        // updateFavoriteMovies();
+        getFavoriteMovies();
+        if (bool) {
+          setMessage("已成功加入收藏");
+        } else {
+          setMessage("已成功取消收藏");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const favoriteHandler = (movieId, bool) => {
+    if (isLogin) {
+      editFavorite(movieId, bool);
+    } else {
+      setMessage("請登錄");
+    }
+  };
+  const mappingId = (id) => {
+    let state = false;
+    if (favoriteMovies?.length) {
+      state = !!favoriteMovies?.find((item) => item.id === id);
+    }
+    return state;
+  };
+
+  useEffect(() => {
+    if (renderRef.current) {
+      renderRef.current = false;
+      return;
+    }
+    getONMovies("movie", getDate(true), getDate());
+  }, []);
+
+  useEffect(() => {
+    if (sessionID) {
+      getFavoriteMovies();
+    }
+  }, [sessionID]);
+
   return (
-    <Banner className="">
-      {/* <Title>
-        <div className="score">8.8</div>
-        <h2>殭屍校園</h2>
-        <div className="info">
-          <p>
-            開春鉅作《殭屍校園》短短一周在全球造成話題，「喪屍」熱潮再現！雖然，喪屍題材已是...
-          </p>
-        </div>
-        <div className="btn-box">
-          <a className="more btn-bg">
-            <div className="content">更多資訊</div>
-          </a>
-          <a className="add btn-bg">加入片單</a>
-        </div>
-      </Title> */}
-    </Banner>
+    <style.Banner className="">
+      {!itemList ? (
+        <>
+          <Skeleton
+            animation="wave"
+            variant="rounded"
+            width={1280}
+            height={720}
+            sx={{ bgcolor: styles.bg_sub_color }}
+          />
+          <style.Bg />
+        </>
+      ) : (
+        <>
+          <Snackbar
+            open={!!message}
+            autoHideDuration={6000}
+            onClose={() => setMessage("")}
+          >
+            <Alert
+              onClose={() => setMessage("")}
+              severity="info"
+              sx={{ width: "100%" }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#fff",
+              padding: "0 0",
+              width: "1280px",
+            }}
+            className="w-full"
+            modules={[Autoplay, Pagination]}
+            autoplay={{
+              delay: 5000,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            slidesPerView={1}
+            loop
+          >
+            {itemList?.map((item, index) => (
+              <SwiperSlide key={index}>
+                <style.BannerBox>
+                  <style.Img
+                    style={{
+                      backgroundImage: `url(${base.originalURL}/w1280/${item.poster_path})`,
+                      backgroundPositionY: "10%",
+                    }}
+                  />
+                  <style.Bg />
+                  <style.Title>
+                    <div className="score">{item.vote_average}</div>
+                    <h2>{item.title}</h2>
+                    <div className="info">
+                      <p>
+                        {item.overview.length > 60
+                          ? item.overview.slice(0, 60) + " ..."
+                          : item.overview}
+                      </p>
+                    </div>
+                    <div className="btn-box">
+                      <a className="more btn-bg">
+                        <div className="content" onClick={() => toDetail(item)}>
+                          更多資訊
+                        </div>
+                      </a>
+                      <a
+                        className="add btn-bg"
+                        // onClick={() =>
+                        //   setFavorite({ id: item.id, state: !favoriteState })
+                        // }
+                        onClick={() =>
+                          favoriteHandler(item.id, !mappingId(item.id))
+                        }
+                      >
+                        {mappingId(item.id) ? "取消收藏" : "加入收藏"}
+                      </a>
+                    </div>
+                  </style.Title>
+                </style.BannerBox>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </>
+      )}
+    </style.Banner>
   );
 }
 
