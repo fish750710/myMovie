@@ -38,12 +38,8 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-<<<<<<< HEAD
   /** 
    * [POST] 登入
-=======
-  /** [POST] 登入
->>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
    * {
    * "username": "account",
    * "password": "1234",

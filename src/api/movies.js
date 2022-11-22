@@ -88,7 +88,6 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-<<<<<<< HEAD
   /** [GET] 近期熱門電影
    * 
    * @param {*} category 類別 （movie，tv）
@@ -107,9 +106,6 @@ export default {
    * @param {*} category 類別 （movie，tv）
    * @returns 
    */
-=======
-  // 帳戶電影狀態 （收藏，監視）
->>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
   async getAccountStates(id, sessionID, category) {
     return await fetch(
       `${baseURL}/${category}/${id}/account_states?${base.baseParams}&session_id=${sessionID}`,
@@ -118,11 +114,7 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-<<<<<<< HEAD
   /** [POST] 評分
-=======
-  /** [POST]評分
->>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
@@ -140,11 +132,7 @@ export default {
       .then((res) => res.json())
       .catch((err) => console.log(err));
   },
-<<<<<<< HEAD
   /** [POST] 遊客評分
-=======
-  /** [POST]評分
->>>>>>> ddf978afd4d8696eeb5c1c8f7cfce15b33174612
    * data => { "value": 8.5 }
    * @param {*} id
    * @param {*} sessionID
