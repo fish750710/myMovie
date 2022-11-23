@@ -66,6 +66,7 @@ function index() {
   const getFavoriteMovies = async () => {
     try {
       dispatch(setIsLoading(true));
+      // console.log(sessionID, 'userData id =>', userData.id, 'getFavoriteMovies')
       const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
       setFavoriteMovies(res.results);
       dispatch(setIsLoading(false));
@@ -122,7 +123,7 @@ function index() {
   }, []);
 
   useEffect(() => {
-    if (sessionID) {
+    if (sessionID && isLogin) {
       getFavoriteMovies();
     }
   }, [sessionID]);

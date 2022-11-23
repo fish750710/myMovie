@@ -20,7 +20,7 @@ style.StyledInputBase = styled.input`
     outline: none;
   }
   @media ${devices.xs} {
-    min-width: 200px;
+    min-width: 120px;
   }
 `;
 style.Search = styled.div`

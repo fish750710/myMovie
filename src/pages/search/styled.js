@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.Content = styled.div`
@@ -111,6 +112,20 @@ style.Section = styled.div`
   border-radius: 20px;
   padding: 24px;
   margin: 6px;
+  @media ${devices.sm} {
+    padding: 0px 5px;
+  }
+`;
+style.MovieList = styled.div`
+  position: fixed;
+  top: 20%;
+  overflow-y: scroll;
+  height: 77vh;
+  padding-bottom: 20%;
+  background-color: ${styles.bg_color};
+  @media ${devices.sm} {
+    top: 16%;
+  }
 `;
 
 export default style;

@@ -14,6 +14,10 @@ style.content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* @media ${devices.xs} {
+    padding: 0px 16px;
+    margin: 0 auto;
+  } */
   .btn-submit {
     width: 160px;
     height: 42px;
@@ -52,6 +56,10 @@ style.section = styled.div`
     border-radius: 20px;
     padding: 24px;
     margin: 6px 0;
+    @media ${devices.xs} {
+      padding: 0px 16px;
+      margin: 0 auto;
+    }
 `;
 
 export default style;

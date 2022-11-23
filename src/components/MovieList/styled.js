@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.section = styled.div`
@@ -17,6 +18,9 @@ style.List = styled.div`
   align-items: flex-start;
   padding: 40px 0px;
   gap: 14px; // 間距
+  @media ${devices.xs} {
+    padding: 5px 0px;
+  }
 
   border-radius: 20px;
   .title {

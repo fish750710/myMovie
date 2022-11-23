@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -23,12 +24,15 @@ const AppStyled = styled.div`
     font-size: 16px;
     margin-top: 82px;
     @media ${devices.sm} {
+      margin-top: 50px;
+      min-height: 80vh;
       /* color: red; */
       /* height: calc(100% - 200px); */
     }
   }
 `;
 function App() {
+  const isMobile = useMediaQuery({ maxWidth: 599 });
   return (
     <AppStyled className="">
       <Header />
@@ -36,7 +40,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
-      <Navbar />
+      {isMobile && <Navbar />}
     </AppStyled>
   );
 }

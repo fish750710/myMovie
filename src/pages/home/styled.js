@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import styles from "@/styles/_export.module.scss";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
+import { devices } from '@/styles/devices';
 
 const style = {};
 style.content = styled.div`
@@ -8,6 +9,9 @@ style.content = styled.div`
   color: white;
   font-size: 16px; */
   margin-top: -82px;
+  @media ${devices.sm} {
+    margin-top: 0;
+  }
   .content {
     display: flex;
     justify-content: center;

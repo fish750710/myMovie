@@ -180,53 +180,69 @@ function index() {
                 <Tab label={`演員 (${personList.length})`} />
               </Tabs>
             </Box>
-            <div
-              className="flex-wrap"
-              style={{ display: tabValue === 0 ? "flex" : "none" }}
-            >
-              {movieList.map((item, index) => (
-                <Card
-                  isLoading={isLoading}
-                  item={item}
-                  key={index}
-                  toDetail={toDetail}
-                />
-              ))}
-            </div>
-            <div
-              className="flex-wrap"
-              style={{ display: tabValue === 1 ? "flex" : "none" }}
-            >
-              {tvList.map((item, index) => (
-                <Card
-                  isLoading={isLoading}
-                  item={item}
-                  key={index}
-                  toDetail={toDetail}
-                />
-              ))}
-            </div>
-            <div
-              className="flex-wrap"
-              style={{ display: tabValue === 2 ? "flex" : "none" }}
-            >
-              <ActorList isLoading={isLoading} personList={personList} />
-            </div>
+            <style.MovieList>
+              <div
+                className="flex-wrap"
+                style={{ display: tabValue === 0 ? "flex" : "none" }}
+              >
+                {movieList.map((item, index) => (
+                  <Card
+                    isLoading={isLoading}
+                    item={item}
+                    key={index}
+                    toDetail={toDetail}
+                  />
+                ))}
+              </div>
+              <div
+                className="flex-wrap"
+                style={{ display: tabValue === 1 ? "flex" : "none" }}
+              >
+                {tvList.map((item, index) => (
+                  <Card
+                    isLoading={isLoading}
+                    item={item}
+                    key={index}
+                    toDetail={toDetail}
+                  />
+                ))}
+              </div>
+              <div
+                className="flex-wrap"
+                style={{ display: tabValue === 2 ? "flex" : "none" }}
+              >
+                <ActorList isLoading={isLoading} personList={personList} />
+              </div>
+              <Button
+                  variant="outlined"
+                  onClick={moreClick}
+                  style={{
+                    display:
+                      (tabValue === 2 && personList.length === 0 ) ||
+                      (tabValue === 1 && tvList.length === 0) ||
+                      (tabValue === 0 && movieList.length === 0)
+                        ? "none"
+                        : "block",
+                  }}
+                >
+                  More..
+                </Button>
+              {/* <Button
+                  variant="outlined"
+                  onClick={moreClick}
+                  style={{
+                    display:
+                      total <= movieList.length ||
+                      total <= tvList.length ||
+                      total <= personList.length
+                        ? "none"
+                        : "block",
+                  }}
+                >
+                  More..
+                </Button> */}
+            </style.MovieList>
           </Box>
-          <Button
-            variant="outlined"
-            onClick={moreClick}
-            style={{
-              display:
-                total <= movieList.length ||
-                total <= tvList.length ||
-                total <= personList.length
-                  ? "none"
-                  : "block",
-            }}
-          >
-            More..
-          </Button>
         </div>
       </style.Section>
       <style.Section style={{ display: moreShowFlag ? "block" : "none" }}>

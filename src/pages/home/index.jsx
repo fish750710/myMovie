@@ -23,7 +23,7 @@ function index() {
   return (
     <style.content>
       <Banner />
-      {/* <div className="content">
+      <div className="content">
         <div className="section">
           <Section title="熱門電影" category="movie" />
         </div>
@@ -42,7 +42,7 @@ function index() {
         <div className="section section-bg">
           <Section title="熱門華語劇" category="tv" />
         </div>
-      </div> */}
+      </div>
     </style.content>
   );
 }

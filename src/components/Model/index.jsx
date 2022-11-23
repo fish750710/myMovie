@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import Filter from '@/components/Filter';
 import Card from '@/components/Card';
 
@@ -9,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import TuneIcon from '@mui/icons-material/Tune';
 
 import style from './styled';
 
@@ -19,6 +21,7 @@ const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
 
 function index({ category }) {
+  const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
   const renderRef = useRef(true);
   const dispatch = useDispatch();
@@ -36,6 +39,7 @@ function index({ category }) {
   const [sortBy, setSortBy] = useState('desc'); // asc
   const moreFlag = useRef(false);
   const page = useRef(1);
+  const [isFilterOption, setIsFilterOption] = useState(false);
 
   const toDetail = (item) => {
     // console.log("item", item);
@@ -99,6 +103,7 @@ function index({ category }) {
 
   useEffect(() => {
     try {
+      console.log('render')
       if (renderRef.current) {
         renderRef.current = false;
         return;
@@ -121,7 +126,7 @@ function index({ category }) {
 
   return (
     <style.content>
-      <style.section className=''>
+      <style.section className='' style={{ display: isFilterOption || !isMobile ? 'block': 'none'}}>
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           <Filter
             title={genreList.title}
@@ -188,8 +193,9 @@ function index({ category }) {
           搜尋
         </div>
       </style.section>
-      <style.section className='sort-box'>
-        <Filter data={sortList} setOption={setSortType} />
+      <style.section className='sort-box flex items-center'>
+        <Filter data={sortList} setOption={setSortType} selectd={sortType}/>
+        {isMobile && <TuneIcon sx={{fontSize: 26}} onClick={() => setIsFilterOption(!isFilterOption)}/>}
       </style.section>
       <div className='main'>
         <div className='content'>
