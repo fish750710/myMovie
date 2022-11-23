@@ -36,10 +36,10 @@ function index() {
 
   useEffect(() => {
     try {
-      if (renderRef.current) {
-        renderRef.current = false;
-        return;
-      }
+      // if (renderRef.current) {
+      //   renderRef.current = false;
+      //   return;
+      // }
       getPersonMovies(params.personId);
       setPersonName(searchParams.get("name"));
     } catch (error) {

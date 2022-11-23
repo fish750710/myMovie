@@ -91,10 +91,10 @@ function section({ title, id, category }) {
       }
       return;
     }
-    if (renderRef.current) {
-      renderRef.current = false;
-      return;
-    }
+    // if (renderRef.current) {
+    //   renderRef.current = false;
+    //   return;
+    // }
     getSimilarList();
   }, [id]);
 

@@ -50,10 +50,10 @@ const useFavorite = () => {
   };
 
   useEffect(() => {
-    if (renderRef.current) {
-      renderRef.current = false;
-      return;
-    }
+    // if (renderRef.current) {
+    //   renderRef.current = false;
+    //   return;
+    // }
     console.log("favoriteHandler =>", favorite);
     favoriteHandler(favorite.state);
   }, [favorite.id, favorite.state]);

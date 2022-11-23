@@ -45,10 +45,10 @@ function index() {
 
   useEffect(() => {
     if (!isLogin) navigate("/", { replace: true });
-    if (renderRef.current) {
-      renderRef.current = false;
-      return;
-    }
+    // if (renderRef.current) {
+    //   renderRef.current = false;
+    //   return;
+    // }
     if (sessionID) {
       getFavoriteMovies();
       getFavoriteTV();

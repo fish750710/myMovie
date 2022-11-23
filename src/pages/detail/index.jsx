@@ -241,10 +241,10 @@ function index() {
   };
   useEffect(() => {
     try {
-      if (renderRef.current) {
-        renderRef.current = false;
-        return;
-      }
+      // if (renderRef.current) {
+      //   renderRef.current = false;
+      //   return;
+      // }
       const movieId = params.id;
       const categoryVal = location.pathname.split('/')[1];
       setCategory(categoryVal);

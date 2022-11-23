@@ -81,10 +81,10 @@ function index({ id, category }) {
   }, [sessionID]);
 
   useEffect(() => {
-    if (renderRef.current) {
-      renderRef.current = false;
-      return;
-    }
+    // if (renderRef.current) {
+    //   renderRef.current = false;
+    //   return;
+    // }
     const sortDate = (arr) => {
       const newArr = arr.map((item) => {
         item.time = new Date(item.updated_at).toLocaleString();

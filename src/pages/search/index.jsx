@@ -106,10 +106,10 @@ function index() {
 
   useEffect(() => {
     try {
-      if (renderRef.current) {
-        renderRef.current = false;
-        return;
-      }
+      // if (renderRef.current) {
+      //   renderRef.current = false;
+      //   return;
+      // }
       const key = searchParams.get("key");
       // console.log('key', searchParams.get('test'));
       setTotal(0);

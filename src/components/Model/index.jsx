@@ -103,11 +103,10 @@ function index({ category }) {
 
   useEffect(() => {
     try {
-      console.log('render');
-      if (renderRef.current) {
-        renderRef.current = false;
-        return;
-      }
+      // if (renderRef.current) {
+      //   renderRef.current = false;
+      //   return;
+      // }
       page.current = 1;
       dispatch(setIsLoading(true));
       // 避免重複累加 List
