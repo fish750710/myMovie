@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import styles from "@/styles/_export.module.scss";
-import { devices } from "@/styles/devices";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
+import { devices } from '@/styles/devices';
 
 const style = {};
 style.Content = styled.div`
@@ -16,7 +16,7 @@ style.Content = styled.div`
       margin-top: 5px;
     }
   }
-  .btn{
+  .btn {
     padding: 3.5px 20px;
     height: 28px;
     background: ${styles.bg_color};
@@ -32,5 +32,5 @@ style.Content = styled.div`
   .active {
     background: ${styles.btn_gradual_color};
   }
-`
+`;
 export default style;

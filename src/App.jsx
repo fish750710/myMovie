@@ -1,12 +1,12 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
-import styled from "styled-components";
-import styles from "./styles/_export.module.scss";
-import { devices } from "@/styles/devices";
+import styled from 'styled-components';
+import styles from './styles/_export.module.scss';
+import { devices } from '@/styles/devices';
 
 const AppStyled = styled.div`
   background-color: ${styles.bg_color};
@@ -34,7 +34,7 @@ const AppStyled = styled.div`
 function App() {
   const isMobile = useMediaQuery({ maxWidth: 599 });
   return (
-    <AppStyled className="">
+    <AppStyled className=''>
       <Header />
       <main>
         <Outlet />

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import styles from '@/styles/_export.module.scss';
-import { devices } from "@/styles/devices";
+import { devices } from '@/styles/devices';
 
 const style = {};
 style.content = styled.div`
@@ -45,21 +45,21 @@ style.content = styled.div`
   }
   .footer {
     width: 100%;
-    margin: 50px ;
+    margin: 50px;
   }
 `;
 style.section = styled.div`
-    width: 100%;
-    max-width: 1200px;
-    background: rgba(104, 107, 114, 0.1);
-    /* background-color: #ffffff; */
-    border-radius: 20px;
-    padding: 24px;
-    margin: 6px 0;
-    @media ${devices.xs} {
-      padding: 0px 16px;
-      margin: 0 auto;
-    }
+  width: 100%;
+  max-width: 1200px;
+  background: rgba(104, 107, 114, 0.1);
+  /* background-color: #ffffff; */
+  border-radius: 20px;
+  padding: 24px;
+  margin: 6px 0;
+  @media ${devices.xs} {
+    padding: 0px 16px;
+    margin: 0 auto;
+  }
 `;
 
 export default style;

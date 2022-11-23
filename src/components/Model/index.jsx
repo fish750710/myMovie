@@ -103,7 +103,7 @@ function index({ category }) {
 
   useEffect(() => {
     try {
-      console.log('render')
+      console.log('render');
       if (renderRef.current) {
         renderRef.current = false;
         return;
@@ -126,7 +126,10 @@ function index({ category }) {
 
   return (
     <style.content>
-      <style.section className='' style={{ display: isFilterOption || !isMobile ? 'block': 'none'}}>
+      <style.section
+        className=''
+        style={{ display: isFilterOption || !isMobile ? 'block' : 'none' }}
+      >
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           <Filter
             title={genreList.title}
@@ -194,8 +197,13 @@ function index({ category }) {
         </div>
       </style.section>
       <style.section className='sort-box flex items-center'>
-        <Filter data={sortList} setOption={setSortType} selectd={sortType}/>
-        {isMobile && <TuneIcon sx={{fontSize: 26}} onClick={() => setIsFilterOption(!isFilterOption)}/>}
+        <Filter data={sortList} setOption={setSortType} selectd={sortType} />
+        {isMobile && (
+          <TuneIcon
+            sx={{ fontSize: 26 }}
+            onClick={() => setIsFilterOption(!isFilterOption)}
+          />
+        )}
       </style.section>
       <div className='main'>
         <div className='content'>

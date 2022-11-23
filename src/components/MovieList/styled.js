@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import styles from "@/styles/_export.module.scss";
-import { devices } from "@/styles/devices";
+import styled from 'styled-components';
+import styles from '@/styles/_export.module.scss';
+import { devices } from '@/styles/devices';
 
 const style = {};
 style.section = styled.div`
