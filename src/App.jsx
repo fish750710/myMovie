@@ -26,8 +26,6 @@ const AppStyled = styled.div`
     @media ${devices.sm} {
       margin-top: 50px;
       min-height: 80vh;
-      /* color: red; */
-      /* height: calc(100% - 200px); */
     }
   }
 `;

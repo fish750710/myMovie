@@ -135,6 +135,8 @@ style.Favorite = styled.div`
     cursor: pointer;
   }
   img {
+    width: 32px;
+    height: 32px;
   }
 `;
 export default style;

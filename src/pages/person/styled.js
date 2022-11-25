@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import styles from "@/styles/_export.module.scss";
+import { devices } from "@/styles/devices";
 
 const style = {};
 style.Content = styled.div`
@@ -19,6 +20,9 @@ style.Section = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  @media ${devices.sm} {
+    padding: 10px;
   }
 `;
 

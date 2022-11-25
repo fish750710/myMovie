@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+// import { useMediaQuery } from 'react-responsive';
 import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
@@ -12,10 +12,10 @@ import style from './styled';
 import Card from '../Card';
 
 function list({ isLoading, itemList, title, category }) {
-  const isMobile = useMediaQuery({ maxWidth: 640 });
+  // const isMobile = useMediaQuery({ maxWidth: 640 });
   const navigate = useNavigate();
   const toDetail = (item) => {
-    console.log('item list =>', item.id, category);
+    // console.log('item list =>', item.id, category);
     navigate(`/${category}/detail/${item.id}`);
   };
   return (

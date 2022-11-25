@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Actor from "../Card/Actor";
 
 import Button from "@mui/material/Button";
 
-function ActorList({ isLoading, personList }) {
+// 收藏觸發避免重複渲染 memo
+const ActorList = memo(({ isLoading, personList }) => {
   const navigate = useNavigate();
   const [showNumber, setShowNumber] = useState(7);
 
@@ -34,6 +35,6 @@ function ActorList({ isLoading, personList }) {
       ) : null}
     </div>
   );
-}
+});
 
 export default ActorList;

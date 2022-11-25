@@ -23,7 +23,6 @@ const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
 function index({ category }) {
   const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
-  const renderRef = useRef(true);
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.user);
   const [movieList, setMoiveList] = useState([]);
@@ -103,10 +102,6 @@ function index({ category }) {
 
   useEffect(() => {
     try {
-      // if (renderRef.current) {
-      //   renderRef.current = false;
-      //   return;
-      // }
       page.current = 1;
       dispatch(setIsLoading(true));
       // 避免重複累加 List

@@ -4,10 +4,6 @@ import { devices } from '@/styles/devices';
 
 const style = {};
 style.content = styled.div`
-  /* width: 100%;
-  min-height: 100%;
-  color: white;
-  font-size: 16px; */
   margin-top: -82px;
   @media ${devices.sm} {
     margin-top: 0;
@@ -20,8 +16,6 @@ style.content = styled.div`
   .section {
     max-width: 1200px;
     width: 100%;
-    /* padding: 24px;
-    margin: 6px; */
   }
   .section-bg {
     background: rgba(104, 107, 114, 0.1);

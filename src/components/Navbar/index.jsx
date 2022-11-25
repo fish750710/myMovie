@@ -29,7 +29,6 @@ const index = () => {
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
 
-  const renderRef = useRef(true);
   const isActive = ({ isActive }) => (isActive ? 'active' : null);
   // const [dynamicBg, changeDynamicBg] = useState({
   //   background: `rgba(27, 30, 37, 0.68)`,
@@ -118,10 +117,6 @@ const index = () => {
   };
 
   useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
     initSessionData();
   }, []);
 

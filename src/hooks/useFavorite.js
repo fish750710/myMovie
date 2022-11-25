@@ -6,7 +6,6 @@ import { moviesSVC, accountSVC } from "@/api";
 // 暫時不處理
 
 const useFavorite = () => {
-  const renderRef = useRef(true);
   const params = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -50,11 +49,7 @@ const useFavorite = () => {
   };
 
   useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
-    console.log("favoriteHandler =>", favorite);
+    // console.log("favoriteHandler =>", favorite);
     favoriteHandler(favorite.state);
   }, [favorite.id, favorite.state]);
 

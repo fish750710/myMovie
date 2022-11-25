@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Card from "@/components/Card";
+// import Card from "@/components/Card";
 import BaseList from "@/components/MovieList/BaseList";
 
 import { personSVC } from "@/api";
@@ -13,7 +13,6 @@ function index() {
   const navigate = useNavigate();
   const params = useParams();
   const { isLoading } = useSelector((state) => state.user);
-  const renderRef = useRef(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [movieList, setMovieList] = useState([]);
   const [tvList, setTVList] = useState([]);
@@ -36,10 +35,6 @@ function index() {
 
   useEffect(() => {
     try {
-      // if (renderRef.current) {
-      //   renderRef.current = false;
-      //   return;
-      // }
       getPersonMovies(params.personId);
       setPersonName(searchParams.get("name"));
     } catch (error) {
@@ -52,16 +47,6 @@ function index() {
       <style.Section>
         <div className="main">
           <div className="label">{personName} 的其他作品</div>
-          {/* <div className="content">
-            {movieList.map((item, index) => (
-              <Card
-                isLoading={isLoading}
-                item={item}
-                key={index}
-                toDetail={toDetail}
-              />
-            ))}
-          </div> */}
         </div>
       </style.Section>
       <style.Section>

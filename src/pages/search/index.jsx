@@ -18,7 +18,6 @@ import Button from "@mui/material/Button";
 import style from "./styled";
 
 function index() {
-  const renderRef = useRef(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -106,12 +105,7 @@ function index() {
 
   useEffect(() => {
     try {
-      // if (renderRef.current) {
-      //   renderRef.current = false;
-      //   return;
-      // }
       const key = searchParams.get("key");
-      // console.log('key', searchParams.get('test'));
       setTotal(0);
       seQueryKey(key);
       searchData(key);
@@ -227,20 +221,6 @@ function index() {
                 >
                   More..
                 </Button>
-              {/* <Button
-                  variant="outlined"
-                  onClick={moreClick}
-                  style={{
-                    display:
-                      total <= movieList.length ||
-                      total <= tvList.length ||
-                      total <= personList.length
-                        ? "none"
-                        : "block",
-                  }}
-                >
-                  More..
-                </Button> */}
             </style.MovieList>
           </Box>
         </div>

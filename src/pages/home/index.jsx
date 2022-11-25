@@ -1,25 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
-// import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 import Banner from "@/components/Banner";
 import Section from "@/components/MovieList/Section";
 
-import { discoverSVC } from "@/api";
-import { setIsLoading } from "@/store/slices/userSlice";
-
 import style from "./styled";
 
-function index() {
-  // const dispatch = useDispatch();
-  const renderRef = useRef(true);
-
-  useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
-  }, []);
+const index = () => {
   return (
     <style.content>
       <Banner />

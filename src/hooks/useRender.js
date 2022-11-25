@@ -3,10 +3,10 @@ const useRender = () => {
   const renderRef = useRef(true);
 
   useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
+    if (renderRef.current) {
+      renderRef.current = false;
+      return;
+    }
   }, []);
   return renderRef;
 };

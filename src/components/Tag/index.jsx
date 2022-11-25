@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { memo } from 'react';
 import style from './styled';
 
-function index({ item }) {
+const index = memo(({ item }) => {
   return (
     <style.Tag>
       {item}
     </style.Tag>
   );
-}
+});
 
 export default index;

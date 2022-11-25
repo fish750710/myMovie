@@ -27,7 +27,6 @@ function index() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [itemList, setItemList] = useState();
-  const renderRef = useRef(true);
   const { isLoading, isLogin, sessionID, userData } = useSelector(
     (state) => state.user,
   );
@@ -115,10 +114,6 @@ function index() {
   };
 
   useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
     getONMovies('movie', getDate(true), getDate());
   }, []);
 

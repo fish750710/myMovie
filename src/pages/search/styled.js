@@ -8,10 +8,6 @@ style.Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  /* width: 100%;
-  min-height: 100%;
-  color: white;
-  font-size: 16px; */
 `;
 style.Intro = styled.div`
   display: flex;
@@ -106,9 +102,7 @@ style.ActorList = styled.div`
 `;
 style.Section = styled.div`
   width: 1200px;
-  /* height: 326px; */
   background: rgba(104, 107, 114, 0.1);
-  /* background-color: #ffffff; */
   border-radius: 20px;
   padding: 24px;
   margin: 6px;

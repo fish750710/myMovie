@@ -1,5 +1,5 @@
 // 相關影片
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import style from "./styled";
@@ -8,8 +8,8 @@ import List from "./List";
 import { moviesSVC, discoverSVC } from "@/api";
 import { setIsLoading } from "@/store/slices/userSlice";
 
-function section({ title, id, category }) {
-  const renderRef = useRef(true);
+// 收藏觸發避免重複渲染 memo
+const section = memo(({ title, id, category }) => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.user);
   const [itemList, setItemList] = useState();
@@ -91,10 +91,6 @@ function section({ title, id, category }) {
       }
       return;
     }
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
     getSimilarList();
   }, [id]);
 
@@ -108,6 +104,6 @@ function section({ title, id, category }) {
       />
     </style.section>
   );
-}
+});
 
 export default section;

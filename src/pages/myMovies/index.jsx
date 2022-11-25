@@ -14,7 +14,7 @@ function index() {
   const { sessionID, userData, isLoading, isLogin } = useSelector(
     (state) => state.user
   );
-  const renderRef = useRef(true);
+
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteTV, setFavoriteTV] = useState([]);
 
@@ -22,7 +22,7 @@ function index() {
     try {
       dispatch(setIsLoading(true));
       const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
-      console.log("getFavoriteMovies", res);
+      // console.log("getFavoriteMovies", res);
       setFavoriteMovies(res.results);
       dispatch(setIsLoading(false));
     } catch (error) {
@@ -34,7 +34,7 @@ function index() {
     try {
       dispatch(setIsLoading(true));
       const res = await accountSVC.getFavoriteTV(sessionID, userData.id);
-      console.log("getFavoriteTV", res);
+      // console.log("getFavoriteTV", res);
       setFavoriteTV(res.results);
       dispatch(setIsLoading(false));
     } catch (error) {
@@ -45,10 +45,6 @@ function index() {
 
   useEffect(() => {
     if (!isLogin) navigate("/", { replace: true });
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
     if (sessionID) {
       getFavoriteMovies();
       getFavoriteTV();
@@ -61,7 +57,6 @@ function index() {
         <BaseList
           isLoading={isLoading}
           itemList={favoriteMovies}
-          Ｆ
           title="電影"
           category="movie"
         />

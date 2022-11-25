@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 import style from "./styled";
 
@@ -17,16 +17,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function index({ id, category }) {
-  const renderRef = useRef(true);
-  const [reviews, setReviews] = useState();
+// 收藏觸發避免重複渲染 memo
+const index = memo(({ id, category }) => {
+  const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const { sessionID, isLogin, userData } = useSelector((state) => state.user);
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
   const ratingHandler = async (event, newValue) => {
-    console.log("setRating", newValue);
     setRating(newValue);
     try {
       if (isLogin) {
@@ -81,10 +80,6 @@ function index({ id, category }) {
   }, [sessionID]);
 
   useEffect(() => {
-    // if (renderRef.current) {
-    //   renderRef.current = false;
-    //   return;
-    // }
     const sortDate = (arr) => {
       const newArr = arr.map((item) => {
         item.time = new Date(item.updated_at).toLocaleString();
@@ -147,12 +142,12 @@ function index({ id, category }) {
           </div>
         </div>
 
-        {reviews?.map((item) => (
+        {reviews && reviews.map((item) => (
           <Message item={item} key={item.id} />
         ))}
       </style.Card>
     </style.CardBox>
   );
-}
+});
 
 export default index;
