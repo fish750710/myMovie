@@ -1,32 +1,32 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
+import React, { useEffect, useState, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 import {
   setUserData,
   setIsLogin,
   setSessionID,
-} from '@/store/slices/userSlice';
-import Search from '../Search';
-import style from './styled';
-import StorageUtil from '@/utils/storageUtil';
+} from "@/store/slices/userSlice";
+import Search from "../Search";
+import style from "./styled";
+import StorageUtil from "@/utils/storageUtil";
 
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Logout from '@mui/icons-material/Logout';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import { common } from '@mui/material/colors';
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Logout from "@mui/icons-material/Logout";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import { common } from "@mui/material/colors";
 
-import { authenticationSVC, accountSVC } from '@/api';
+import { authenticationSVC, accountSVC } from "@/api";
 
-const domain = 'http://localhost:5173/';
+const domain = "http://localhost:5173/";
 
 const index = () => {
   const isMobile = useMediaQuery({ maxWidth: 599 });
@@ -34,7 +34,7 @@ const index = () => {
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
 
-  const isActive = ({ isActive }) => (isActive ? 'active' : null);
+  const isActive = ({ isActive }) => (isActive ? "active" : null);
   const [dynamicBg, changeDynamicBg] = useState({
     background: `rgba(27, 30, 37, 0.68)`,
   });
@@ -44,8 +44,8 @@ const index = () => {
     StorageUtil.removeSessionID();
     dispatch(setIsLogin(false));
     // location.href = domain;
-    navigate('/');
-    console.log('登出', res);
+    navigate("/");
+    console.log("登出", res);
   };
 
   const handleScroll = (e) => {
@@ -75,7 +75,7 @@ const index = () => {
     const res = await accountSVC.getAccountDetails(sessionID);
     // console.log("getAccountDetails res", res);
     if (res.success === false) {
-      console.log('remove id');
+      console.log("remove id");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       return;
@@ -89,9 +89,10 @@ const index = () => {
 
     if (res.success) {
       StorageUtil.saveGuestSessionID(res.guest_session_id);
-      dispatch(setSessionID(res.guest_session_id));
+      // 重複渲染問題
+      // dispatch(setSessionID(res.guest_session_id));
     }
-    console.log('<getGuestSessionID>', res);
+    // console.log("<getGuestSessionID>", res);
   };
   const getSessionID = async (t) => {
     const body = {
@@ -100,7 +101,7 @@ const index = () => {
     const res = await authenticationSVC.getSessionID(body);
     // console.log("getSessionID", res);
     if (res.success === false) {
-      console.log('remove id 2');
+      console.log("remove id 2");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       location.href = domain;
@@ -112,7 +113,7 @@ const index = () => {
   const initSessionData = () => {
     const sessionID = StorageUtil.getSessionID();
     const url = new URL(location.href);
-    const request_token = url.searchParams.get('request_token');
+    const request_token = url.searchParams.get("request_token");
     if (sessionID || request_token) {
       sessionID ? getAccountData(sessionID) : getSessionID(request_token);
     } else {
@@ -124,10 +125,11 @@ const index = () => {
     !isMobile && initSessionData();
   }, []);
 
+  // 效能不好 滾動就重新渲染
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -142,31 +144,31 @@ const index = () => {
 
   return (
     <style.Navbar style={dynamicBg}>
-      <div className='flex items-center'>
-        <NavLink to='/' className='flex items-center'>
+      <div className="flex items-center">
+        <NavLink to="/" className="flex items-center">
           <i>
-            <img src='./images/logo/film-slate.png' alt='My Movie' />
+            <img src="./images/logo/film-slate.png" alt="My Movie" />
           </i>
-          <p className='pl-2'>My Movie</p>
+          <p className="pl-2">My Movie</p>
         </NavLink>
         <Search />
       </div>
-      <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+      <Box sx={{ display: { xs: "none", sm: "flex" } }}>
         <style.Menu>
-          <li className='btn'>
+          <li className="btn">
             <NavLink
-              to='movie'
+              to="movie"
               className={isActive}
-              style={{ display: 'block', width: '100%', height: '100%' }}
+              style={{ display: "block", width: "100%", height: "100%" }}
             >
               電影
             </NavLink>
           </li>
           <li>
             <NavLink
-              to='tv'
+              to="tv"
               className={isActive}
-              style={{ display: 'block', width: '100%', height: '100%' }}
+              style={{ display: "block", width: "100%", height: "100%" }}
             >
               電視節目
             </NavLink>
@@ -183,9 +185,9 @@ const index = () => {
           {isLogin && (
             <li>
               <NavLink
-                to='myMovies'
+                to="myMovies"
                 className={isActive}
-                style={{ display: 'block', width: '100%', height: '100%' }}
+                style={{ display: "block", width: "100%", height: "100%" }}
               >
                 我的片單
               </NavLink>
@@ -193,18 +195,18 @@ const index = () => {
           )}
 
           <IconButton
-            size='large'
-            edge='end'
-            aria-label='account of current user'
+            size="large"
+            edge="end"
+            aria-label="account of current user"
             // aria-controls={menuId}
-            aria-haspopup='true'
+            aria-haspopup="true"
             onClick={handleProfile}
-            color='inherit'
+            color="inherit"
           >
             {isLogin ? (
               <>
                 <div onClick={handleClick}>
-                  <AccountCircle fontSize='large' /> {userData.name}
+                  <AccountCircle fontSize="large" /> {userData.name}
                 </div>
                 {/* <MenuItem onClick={logout}>登出</MenuItem> */}
               </>
@@ -216,10 +218,10 @@ const index = () => {
           </IconButton>
         </style.Menu>
       </Box>
-      <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+      <Box sx={{ display: { xs: "block", sm: "none" } }}>
         {isLogin && (
           <div onClick={handleClick}>
-            <MoreIcon sx={{ fontSize: 26 }} color='primary' />
+            <MoreIcon sx={{ fontSize: 26 }} color="primary" />
           </div>
         )}
       </Box>
@@ -234,38 +236,38 @@ const index = () => {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: '#686b72',
-            color: 'white',
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            background: "#686b72",
+            color: "white",
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
-            '& .MuiAvatar-root': {
+            "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            '&:before': {
+            "&:before": {
               content: '""',
-              display: 'block',
-              position: 'absolute',
+              display: "block",
+              position: "absolute",
               top: 0,
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
-              background: '#686b72',
+              background: "#686b72",
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={logout}>
           <ListItemIcon>
-            <Logout fontSize='large' sx={{ color: common['white'] }} />
+            <Logout fontSize="large" sx={{ color: common["white"] }} />
           </ListItemIcon>
           登出
         </MenuItem>

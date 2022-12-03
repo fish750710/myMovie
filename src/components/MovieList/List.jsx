@@ -1,15 +1,15 @@
 // 首頁 有swiper功能
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 // import { useMediaQuery } from 'react-responsive';
-import { Navigation, Autoplay } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/scss';
-import 'swiper/css/navigation';
+import { Navigation, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/css/navigation";
 
-import style from './styled';
-import Card from '../Card';
+import style from "./styled";
+import Card from "../Card";
 
 function list({ isLoading, itemList, title, category }) {
   // const isMobile = useMediaQuery({ maxWidth: 640 });
@@ -20,7 +20,7 @@ function list({ isLoading, itemList, title, category }) {
   };
   return (
     <style.List>
-      <div className='title'>{title}</div>
+      <div className="title">{title}</div>
       <Swiper
         breakpoints={{
           // when window width is >= 640px
@@ -38,10 +38,10 @@ function list({ isLoading, itemList, title, category }) {
           },
         }}
         style={{
-          '--swiper-navigation-color': '#fff',
-          padding: '0 38px',
+          "--swiper-navigation-color": "#fff",
+          padding: "0 38px",
         }}
-        className='w-full'
+        className="w-full"
         navigation={true}
         modules={[Navigation, Autoplay]}
         autoplay={{

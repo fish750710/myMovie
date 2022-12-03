@@ -1,36 +1,36 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Autoplay, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/scss';
-import 'swiper/css/pagination';
-import Skeleton from '@mui/material/Skeleton';
-import MuiAlert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import Box from '@mui/material/Box';
+import React, { useEffect, useState, useRef, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/css/pagination";
+import Skeleton from "@mui/material/Skeleton";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Box from "@mui/material/Box";
 
-import styles from '@/styles/_export.module.scss';
-import style from './styled';
+import styles from "@/styles/_export.module.scss";
+import style from "./styled";
 
-import { discoverSVC, accountSVC, moviesSVC } from '@/api';
-import base from '@/api/base';
-import { setIsLoading } from '@/store/slices/userSlice';
+import { discoverSVC, accountSVC, moviesSVC } from "@/api";
+import base from "@/api/base";
+// import { setIsLoading } from "@/store/slices/userSlice";
 
 // import useFavorite from "@/hooks/useFavorite";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function index() {
-  const dispatch = useDispatch();
+const index = () => {
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [itemList, setItemList] = useState();
   const { isLoading, isLogin, sessionID, userData } = useSelector(
-    (state) => state.user,
+    (state) => state.user
   );
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   // const { favoriteState, message, setFavorite, setMessage } = useFavorite();
@@ -38,25 +38,27 @@ function index() {
   // 最近 1個月上映電影
   const getONMovies = async (category, dateStart, dateEnd) => {
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       const { results } = await discoverSVC.getONMovies(
         category,
         dateStart,
-        dateEnd,
+        dateEnd
       );
       setItemList(results);
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
     } catch (error) {
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
   const getDate = (isPrevMonth = false) => {
     const date = new Date();
-    const d = date.getDate();
+    const d = String(date.getDate()).padStart(2, "0");
     const m = date.getMonth();
     const y = date.getFullYear();
-    return `${y}-${isPrevMonth ? m : m + 1}-${d}`;
+    return `${y}-${
+      isPrevMonth ? String(m).padStart(2, "0") : String(m + 1).padStart(2, "0")
+    }-${d}`;
   };
   const toDetail = (item) => {
     navigate(`/movie/detail/${item.id}`);
@@ -64,13 +66,13 @@ function index() {
   // 我的最愛電影
   const getFavoriteMovies = async () => {
     try {
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       // console.log(sessionID, 'userData id =>', userData.id, 'getFavoriteMovies')
       const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
       setFavoriteMovies(res.results);
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
     } catch (error) {
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
@@ -78,7 +80,7 @@ function index() {
   const editFavorite = async (movieId, bool) => {
     try {
       const data = {
-        media_type: 'movie',
+        media_type: "movie",
         media_id: movieId,
         favorite: bool,
       };
@@ -89,9 +91,9 @@ function index() {
         // updateFavoriteMovies();
         getFavoriteMovies();
         if (bool) {
-          setMessage('已成功加入收藏');
+          setMessage("已成功加入收藏");
         } else {
-          setMessage('已成功取消收藏');
+          setMessage("已成功取消收藏");
         }
       }
     } catch (err) {
@@ -102,7 +104,7 @@ function index() {
     if (isLogin) {
       editFavorite(movieId, bool);
     } else {
-      setMessage('請登錄');
+      setMessage("請登錄");
     }
   };
   const mappingId = (id) => {
@@ -114,7 +116,7 @@ function index() {
   };
 
   useEffect(() => {
-    getONMovies('movie', getDate(true), getDate());
+    getONMovies("movie", getDate(true), getDate());
   }, []);
 
   useEffect(() => {
@@ -124,12 +126,12 @@ function index() {
   }, [sessionID]);
 
   return (
-    <style.Banner className=''>
+    <style.Banner className="">
       {!itemList ? (
         <>
           <Skeleton
-            animation='wave'
-            variant='rounded'
+            animation="wave"
+            variant="rounded"
             width={1280}
             height={720}
             sx={{ bgcolor: styles.bg_sub_color }}
@@ -141,23 +143,23 @@ function index() {
           <Snackbar
             open={!!message}
             autoHideDuration={6000}
-            onClose={() => setMessage('')}
+            onClose={() => setMessage("")}
           >
             <Alert
-              onClose={() => setMessage('')}
-              severity='info'
-              sx={{ width: '100%' }}
+              onClose={() => setMessage("")}
+              severity="info"
+              sx={{ width: "100%" }}
             >
               {message}
             </Alert>
           </Snackbar>
-          <Box sx={{ display: { xs: 'block', sm: 'none' }, width: '100%' }}>
+          <Box sx={{ display: { xs: "block", sm: "none" }, width: "100%" }}>
             <Swiper
               style={{
-                '--swiper-navigation-color': '#fff',
-                padding: '0 0',
+                "--swiper-navigation-color": "#fff",
+                padding: "0 0",
               }}
-              className='w-full'
+              className="w-full"
               modules={[Autoplay, Pagination]}
               autoplay={{
                 delay: 5000,
@@ -165,26 +167,26 @@ function index() {
               pagination={{
                 clickable: true,
               }}
-              slidesPerView='auto'
+              slidesPerView="auto"
               loop
             >
               {itemList?.map((item, index) => (
-                <SwiperSlide key={index} className=''>
+                <SwiperSlide key={index} className="">
                   <style.BannerBoxM>
                     <style.Img
                       style={{
                         backgroundImage: `url(${base.originalURL}/w300/${item.backdrop_path})`,
-                        backgroundSize: 'contain',
+                        backgroundSize: "contain",
                       }}
                     />
                     <style.Bg />
                     <style.TitleM>
-                      <div className='score'>{item.vote_average}</div>
+                      <div className="score">{item.vote_average}</div>
                       <h2>{item.title}</h2>
-                      <div className='btn-box'>
-                        <a className='more btn-bg'>
+                      <div className="btn-box">
+                        <a className="more btn-bg">
                           <div
-                            className='content'
+                            className="content"
                             onClick={() => toDetail(item)}
                           >
                             更多資訊
@@ -197,14 +199,14 @@ function index() {
               ))}
             </Swiper>
           </Box>
-          <Box sx={{ display: { xs: 'none', sm: 'block' }, width: '100%' }}>
+          <Box sx={{ display: { xs: "none", sm: "block" }, width: "100%" }}>
             <Swiper
               style={{
-                '--swiper-navigation-color': '#fff',
-                padding: '0 0',
+                "--swiper-navigation-color": "#fff",
+                padding: "0 0",
                 maxWidth: 1280,
               }}
-              className='w-full'
+              className="w-full"
               modules={[Autoplay, Pagination]}
               autoplay={{
                 delay: 5000,
@@ -225,26 +227,26 @@ function index() {
                     />
                     <style.Bg />
                     <style.Title>
-                      <div className='score'>{item.vote_average}</div>
+                      <div className="score">{item.vote_average}</div>
                       <h2>{item.title}</h2>
-                      <div className='info'>
+                      <div className="info">
                         <p>
                           {item.overview.length > 60
-                            ? item.overview.slice(0, 60) + ' ...'
+                            ? item.overview.slice(0, 60) + " ..."
                             : item.overview}
                         </p>
                       </div>
-                      <div className='btn-box'>
-                        <a className='more btn-bg'>
+                      <div className="btn-box">
+                        <a className="more btn-bg">
                           <div
-                            className='content'
+                            className="content"
                             onClick={() => toDetail(item)}
                           >
                             更多資訊
                           </div>
                         </a>
                         <a
-                          className='add btn-bg'
+                          className="add btn-bg"
                           // onClick={() =>
                           //   setFavorite({ id: item.id, state: !favoriteState })
                           // }
@@ -252,7 +254,7 @@ function index() {
                             favoriteHandler(item.id, !mappingId(item.id))
                           }
                         >
-                          {mappingId(item.id) ? '取消收藏' : '加入收藏'}
+                          {mappingId(item.id) ? "取消收藏" : "加入收藏"}
                         </a>
                       </div>
                     </style.Title>
@@ -265,6 +267,6 @@ function index() {
       )}
     </style.Banner>
   );
-}
+};
 
 export default index;

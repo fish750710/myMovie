@@ -1,30 +1,30 @@
-import React, { memo } from 'react';
-import YouTube from 'react-youtube';
+import React, { memo } from "react";
+import YouTube from "react-youtube";
 
-import PropTypes from 'prop-types';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from "prop-types";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 // import style from './styled';
 
 const youtubeOpts = {
-  height: '315',
-  width: '560',
+  height: "315",
+  width: "560",
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
     autoplay: 1,
   },
 };
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
+  "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
+  "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
   },
 }));
@@ -36,10 +36,10 @@ const BootstrapDialogTitle = (props) => {
       {children}
       {onClose ? (
         <IconButton
-          aria-label='close'
+          aria-label="close"
           onClick={onClose}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
@@ -56,11 +56,18 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
+// 優化不重複渲染
+const arePropsEqual = (prevProps, nextProps) => {
+  // console.log(
+  //   prevProps,
+  //   prevProps.playShow === nextProps.playShow,
+  //   "prevProps, nextProps"
+  // );
+  return prevProps.playShow === nextProps.playShow;
+};
 const index = memo(({ handleClose, playShow, movieData, trailer }) => {
-
   return (
     <BootstrapDialog onClose={handleClose} open={playShow}>
-      {console.log('trailer =_=')}
       {trailer?.length === 0 ? (
         <>
           <BootstrapDialogTitle onClose={handleClose}>
@@ -91,6 +98,6 @@ const index = memo(({ handleClose, playShow, movieData, trailer }) => {
       )}
     </BootstrapDialog>
   );
-});
+}, arePropsEqual);
 
 export default index;

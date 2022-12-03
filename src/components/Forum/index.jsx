@@ -17,6 +17,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+// 優化不重複渲染
+const arePropsEqual = (prevProps, nextProps) => {
+  return prevProps.id === nextProps.id;
+};
 // 收藏觸發避免重複渲染 memo
 const index = memo(({ id, category }) => {
   const [reviews, setReviews] = useState([]);
@@ -99,6 +103,7 @@ const index = memo(({ id, category }) => {
     };
     getReviews(id, category);
   }, [id]);
+
   return (
     <style.CardBox>
       <Snackbar
@@ -142,12 +147,11 @@ const index = memo(({ id, category }) => {
           </div>
         </div>
 
-        {reviews && reviews.map((item) => (
-          <Message item={item} key={item.id} />
-        ))}
+        {reviews &&
+          reviews.map((item) => <Message item={item} key={item.id} />)}
       </style.Card>
     </style.CardBox>
   );
-});
+}, arePropsEqual);
 
 export default index;
