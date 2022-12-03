@@ -1,6 +1,6 @@
 ## My Movie 電影網站
 
-github pages:
+github pages: https://fish750710.github.io/myMovie/
 
 ## 專案架構
 
