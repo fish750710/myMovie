@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
-import Filter from '@/components/Filter';
-import Card from '@/components/Card';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TuneIcon from '@mui/icons-material/Tune';
+import Filter from "@/components/Filter";
+import Card from "@/components/Card";
 
-import style from './styled';
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import TuneIcon from "@mui/icons-material/Tune";
 
-import { genreSVC, discoverSVC } from '@/api';
-import { setIsLoading } from '@/store/slices/userSlice';
+import style from "./styled";
+
+import { genreSVC, discoverSVC } from "@/api";
+// import { setIsLoading } from '@/store/slices/userSlice';
 
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
@@ -24,18 +25,18 @@ function index({ category }) {
   const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.user);
+  // const { isLoading } = useSelector((state) => state.user);
   const [movieList, setMoiveList] = useState([]);
   // 類型
   const [movieOptType, setMovieOptType] = useState(0);
   const [genreList, setGenreList] = useState({
-    title: '類型',
-    data: [{ id: 0, name: '全部' }],
+    title: "類型",
+    data: [{ id: 0, name: "全部" }],
   });
 
   const [movieOptYear, setMovieOptYear] = useState(0); // 年份
   const [sortType, setSortType] = useState(0); // 排序
-  const [sortBy, setSortBy] = useState('desc'); // asc
+  const [sortBy, setSortBy] = useState("desc"); // asc
   const moreFlag = useRef(false);
   const page = useRef(1);
   const [isFilterOption, setIsFilterOption] = useState(false);
@@ -60,18 +61,6 @@ function index({ category }) {
     }
   };
   const getMovieList = async (more) => {
-    // https://image.tmdb.org/t/p/w300/
-    // https://www.themoviedb.org/t/p/w300_and_h450_bestv2/
-    // https://image.tmdb.org/t/p/w780/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg
-    // https://image.tmdb.org/t/p/w300/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg
-    // or with a poster
-    // https://image.tmdb.org/t/p/w92/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/w154/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/w185/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/w342/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/w500/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/w780/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
-    // https://image.tmdb.org/t/p/original/bvYjhsbxOBwpm8xLE5BhdA3a8CZ.jpg
     try {
       const { results } = await discoverSVC.getMovieList(
         category,
@@ -79,7 +68,7 @@ function index({ category }) {
         movieOptYear === 0 ? null : movieOptYear,
         sortType,
         sortBy,
-        page.current,
+        page.current
       );
       moreFlag.current
         ? setMoiveList(movieList.concat(results))
@@ -93,7 +82,7 @@ function index({ category }) {
     getMovieList();
   };
   const loadMoreHandler = () => {
-    if (isLoading) return;
+    // if (isLoading) return;
     moreFlag.current = true;
     page.current += 1;
     // setPage((current) => current + 1);
@@ -103,17 +92,17 @@ function index({ category }) {
   useEffect(() => {
     try {
       page.current = 1;
-      dispatch(setIsLoading(true));
+      // dispatch(setIsLoading(true));
       // 避免重複累加 List
       if (genreList.data.length < 2) {
         getGenreList();
       }
       getMovieList();
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
       // setTimeout(() => {
       // }, 500);
     } catch (err) {
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
       console.log(err);
     }
   }, [movieOptType, movieOptYear, sortType]);
@@ -121,10 +110,10 @@ function index({ category }) {
   return (
     <style.content>
       <style.section
-        className=''
-        style={{ display: isFilterOption || !isMobile ? 'block' : 'none' }}
+        className=""
+        style={{ display: isFilterOption || !isMobile ? "block" : "none" }}
       >
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <Filter
             title={genreList.title}
             data={genreList.data}
@@ -138,17 +127,17 @@ function index({ category }) {
             selectd={movieOptYear}
           />
         </Box>
-        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-          <FormControl fullWidth sx={{ margin: '10px 0' }}>
-            <InputLabel id='demo-simple-select-label' sx={{ color: '#fff' }}>
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
+          <FormControl fullWidth sx={{ margin: "10px 0" }}>
+            <InputLabel id="demo-simple-select-label" sx={{ color: "#fff" }}>
               {genreList.title}
             </InputLabel>
             <Select
               sx={{
-                border: '1px solid darkgrey',
-                color: '#fff',
-                '& .MuiSvgIcon-root': {
-                  color: '#fff',
+                border: "1px solid darkgrey",
+                color: "#fff",
+                "& .MuiSvgIcon-root": {
+                  color: "#fff",
                 },
               }}
               value={movieOptType}
@@ -162,16 +151,16 @@ function index({ category }) {
               ))}
             </Select>
           </FormControl>
-          <FormControl fullWidth sx={{ margin: '10px 0' }}>
-            <InputLabel id='demo-simple-select-label' sx={{ color: '#fff' }}>
+          <FormControl fullWidth sx={{ margin: "10px 0" }}>
+            <InputLabel id="demo-simple-select-label" sx={{ color: "#fff" }}>
               {yearList.title}
             </InputLabel>
             <Select
               sx={{
-                border: '1px solid darkgrey',
-                color: '#fff',
-                '& .MuiSvgIcon-root': {
-                  color: '#fff',
+                border: "1px solid darkgrey",
+                color: "#fff",
+                "& .MuiSvgIcon-root": {
+                  color: "#fff",
                 },
               }}
               value={movieOptYear}
@@ -186,11 +175,11 @@ function index({ category }) {
             </Select>
           </FormControl>
         </Box>
-        <div className='btn btn-submit btn-gradual' onClick={search}>
+        <div className="btn btn-submit btn-gradual" onClick={search}>
           搜尋
         </div>
       </style.section>
-      <style.section className='sort-box flex items-center'>
+      <style.section className="sort-box flex items-center">
         <Filter data={sortList} setOption={setSortType} selectd={sortType} />
         {isMobile && (
           <TuneIcon
@@ -199,11 +188,11 @@ function index({ category }) {
           />
         )}
       </style.section>
-      <div className='main'>
-        <div className='content'>
+      <div className="main">
+        <div className="content">
           {movieList.map((item, index) => (
             <Card
-              isLoading={isLoading}
+              // isLoading={isLoading}
               item={item}
               key={index}
               toDetail={toDetail}
@@ -212,7 +201,7 @@ function index({ category }) {
         </div>
       </div>
       <div
-        className='btn btn-more btn-gradual w-80 my-14'
+        className="btn btn-more btn-gradual w-80 my-14"
         onClick={loadMoreHandler}
       >
         載入更多

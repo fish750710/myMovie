@@ -1,13 +1,13 @@
-施工中．．．．．．．
+## My Movie 電影網站
 
+github pages:
 
-專案架構：
-vite
-react 18
-redux toolkit
-material
-styled components
+## 專案架構
 
-
-test中．．
-
+1. vite
+2. react 18
+3. redux toolkit
+4. material UI
+5. styled components
+6. tailwind css
+7. swiper

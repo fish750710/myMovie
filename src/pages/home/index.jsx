@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import Banner from "@/components/Banner";
 import Section from "@/components/MovieList/Section";

@@ -35,7 +35,6 @@ function index() {
   const [btnMoreVal, setBtnMoreVal] = useState("電影");
   const [moreData, setMoreData] = useState([]);
   const [moreShowFlag, setMoreShowFlag] = useState(false);
-  // const [category, setCategory] = useState('');
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -208,19 +207,19 @@ function index() {
                 <ActorList isLoading={isLoading} personList={personList} />
               </div>
               <Button
-                  variant="outlined"
-                  onClick={moreClick}
-                  style={{
-                    display:
-                      (tabValue === 2 && personList.length === 0 ) ||
-                      (tabValue === 1 && tvList.length === 0) ||
-                      (tabValue === 0 && movieList.length === 0)
-                        ? "none"
-                        : "block",
-                  }}
-                >
-                  More..
-                </Button>
+                variant="outlined"
+                onClick={moreClick}
+                style={{
+                  display:
+                    (tabValue === 2 && personList.length === 0) ||
+                    (tabValue === 1 && tvList.length === 0) ||
+                    (tabValue === 0 && movieList.length === 0)
+                      ? "none"
+                      : "block",
+                }}
+              >
+                More..
+              </Button>
             </style.MovieList>
           </Box>
         </div>

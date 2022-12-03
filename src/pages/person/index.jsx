@@ -10,7 +10,7 @@ import { personSVC } from "@/api";
 import style from "./styled";
 
 function index() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const params = useParams();
   const { isLoading } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,10 +28,6 @@ function index() {
       console.log(err);
     }
   };
-  // const toDetail = (item) => {
-  //   console.log("item =>", item);
-  //   navigate(`/movie/detail/${item.id}`);
-  // };
 
   useEffect(() => {
     try {

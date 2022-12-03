@@ -220,7 +220,6 @@ function index() {
 
   return (
     <style.Content>
-      {console.log("i render....")}
       <Snackbar
         open={!!message}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -282,7 +281,6 @@ function index() {
                             <Tag item={item.name} key={item.id} />
                           ))}
                         </div>
-                        {console.log("render.....")}
                         <style.Favorite
                           onClick={() => favoriteHandler(!favoriteState)}
                         >
@@ -477,6 +475,7 @@ function index() {
               </style.Intro>
             )}
           </style.Section>
+          {/* 演員 */}
           <style.Section>
             {personList.length > 0 && (
               <ActorList personList={personList} isLoading={isLoading} />

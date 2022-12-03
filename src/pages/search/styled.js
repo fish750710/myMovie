@@ -111,13 +111,13 @@ style.Section = styled.div`
   }
 `;
 style.MovieList = styled.div`
-  position: fixed;
-  top: 20%;
-  overflow-y: scroll;
-  height: 77vh;
   padding-bottom: 20%;
   background-color: ${styles.bg_color};
   @media ${devices.sm} {
+    position: fixed;
+    overflow-y: scroll;
+    height: 77vh;
+    /* top: 20%; */
     top: 16%;
   }
 `;

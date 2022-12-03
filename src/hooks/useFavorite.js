@@ -14,7 +14,7 @@ const useFavorite = () => {
   );
   const [favoriteState, setFavoriteState] = useState(false);
   const [message, setMessage] = useState(100);
-  const [movieId, setMovieId] = useState();
+  const [movieId, setMovieId] = useState("");
   const [favorite, setFavorite] = useState({ id: 0, state: false });
 
   // 新增和移除收藏

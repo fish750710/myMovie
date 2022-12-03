@@ -1,6 +1,6 @@
 // 相關影片
 import React, { useRef, useEffect, useState, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
 import style from "./styled";
 import List from "./List";

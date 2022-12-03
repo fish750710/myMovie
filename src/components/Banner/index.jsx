@@ -26,7 +26,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const index = () => {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [itemList, setItemList] = useState();
+  const [itemList, setItemList] = useState([]);
   const { isLoading, isLogin, sessionID, userData } = useSelector(
     (state) => state.user
   );
@@ -127,7 +127,7 @@ const index = () => {
 
   return (
     <style.Banner className="">
-      {!itemList ? (
+      {itemList.length === 0 ? (
         <>
           <Skeleton
             animation="wave"

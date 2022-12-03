@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import style from './styled';
+import React, { useState, memo } from "react";
+import style from "./styled";
 
-function index({ title, data, setOption, selectd }) {
+const index = memo(({ title, data, setOption, selectd }) => {
   // const [state, setState] = useState(selectd);
   // const clickHandler = (id) => {
   //   if (state === id) return;
@@ -12,11 +12,11 @@ function index({ title, data, setOption, selectd }) {
 
   return (
     <style.Content>
-      {title && <div className='label'>{title}</div>}
-      <div className='section'>
+      {title && <div className="label">{title}</div>}
+      <div className="section">
         {data?.map((item, index) => (
           <div
-            className={`btn ${item.id === selectd ? 'active' : null}`}
+            className={`btn ${item.id === selectd ? "active" : null}`}
             onClick={() => setOption(item.id)}
             key={index}
           >
@@ -26,6 +26,6 @@ function index({ title, data, setOption, selectd }) {
       </div>
     </style.Content>
   );
-}
+});
 
 export default index;
