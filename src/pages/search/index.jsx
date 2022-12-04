@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +22,8 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 import style from "./styled";
+
+// const set = new Set();
 
 function index() {
   const navigate = useNavigate();
@@ -102,6 +110,22 @@ function index() {
     }
   };
 
+  // const [count, setCount] = useState(0);
+  // const [value, setValue] = useState("");
+  // // 類似 Vue computed
+  // const useMemoTest = useMemo(() => {
+  //   console.log("render computed");
+  //   let sum = 0;
+  //   for (let i = 0; i < count * 100; i++) {
+  //     sum += i;
+  //   }
+  //   return sum;
+  // }, [count]);
+  // const callbackTest = useCallback(() => {
+  //   console.log(count, "callback !");
+  // }, [count]);
+  // set.add(callbackTest);
+
   useEffect(() => {
     try {
       const key = searchParams.get("key");
@@ -149,6 +173,10 @@ function index() {
 
   return (
     <style.Content>
+      {/* {useMemoTest}--{set.size}
+      {console.log("render", count)}
+      <button onClick={() => setCount(count + 1)}>按我</button>
+      <input type="text" onChange={(e) => setValue(e.target.value)} /> */}
       <style.Section
         style={{
           visibility: !moreShowFlag ? "visible" : "hidden",

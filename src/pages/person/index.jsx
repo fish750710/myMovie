@@ -21,7 +21,7 @@ function index() {
   const getPersonMovies = async (personId) => {
     try {
       const { cast, crew } = await personSVC.getPersonMovies(personId);
-      console.log("cast", cast, "crew", crew);
+      // console.log("cast", cast, "crew", crew);
       setMovieList(cast); //電影
       setTVList(crew); // tv
     } catch (err) {
@@ -36,7 +36,7 @@ function index() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [params.personId]);
 
   return (
     <style.Content>

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState, useEffect } from "react";
 import YouTube from "react-youtube";
 
 import PropTypes from "prop-types";
@@ -65,7 +65,14 @@ const arePropsEqual = (prevProps, nextProps) => {
   // );
   return prevProps.playShow === nextProps.playShow;
 };
-const index = memo(({ handleClose, playShow, movieData, trailer }) => {
+const index = memo(({ handleClose, playShow, movieData, trailerCallback }) => {
+  const [trailer, setTrailer] = useState(() => trailerCallback());
+
+  // props 傳入為 Function 必須重新 set Data
+  useEffect(() => {
+    setTrailer(trailerCallback());
+  }, [trailerCallback]);
+
   return (
     <BootstrapDialog onClose={handleClose} open={playShow}>
       {trailer?.length === 0 ? (
