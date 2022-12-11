@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  // useMemo,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
@@ -19,7 +25,7 @@ import Trailer from "@/components/Trailer";
 
 import { moviesSVC, accountSVC } from "@/api";
 import base from "@/api/base";
-// import { setIsLoading } from "@/store/slices/userSlice";
+import { setIsLoading } from "@/store/slices/userSlice";
 
 import styles from "@/styles/_export.module.scss";
 import style from "./styled";
@@ -83,7 +89,7 @@ function index() {
   // 收藏狀態
   const getAccountStates = async (id, category) => {
     try {
-      // dispatch(setIsLoading(true));
+      dispatch(setIsLoading(true));
       const res = await moviesSVC.getAccountStates(id, sessionID, category);
       // console.log("getAccountStates => ", res, id, sessionID, category);
       if (res.success === false) return;
@@ -92,6 +98,8 @@ function index() {
     } catch (error) {
       // dispatch(setIsLoading(false));
       console.log(error);
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
   // const updateFavoriteMovies = async () => {
@@ -134,11 +142,14 @@ function index() {
   const getTrailer = async (id, category) => {
     try {
       // console.log('預告片')
+      dispatch(setIsLoading(true));
       const res = await moviesSVC.getTrailer(id, category);
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
+      dispatch(setIsLoading(false));
+      // return res.results;
       // console.log("預告片", res);
       setTrailer(res.results);
     } catch (err) {
@@ -148,11 +159,14 @@ function index() {
   // 電影 或 tv 詳情
   const getMovieDetail = async (id, category) => {
     try {
+      dispatch(setIsLoading(true));
       const res = await moviesSVC.getMovieDetail(id, category);
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
+      dispatch(setIsLoading(false));
+      // return res;
       // console.log("detail", res);
       setMovieData(res);
       // imdbID.current = res.imdb_id;
@@ -164,12 +178,15 @@ function index() {
   // 串流平台
   const getWatchProviders = async (id, category) => {
     try {
+      dispatch(setIsLoading(true));
       const res = await moviesSVC.getWatchProviders(id, category);
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
+      dispatch(setIsLoading(false));
       setWatchProviders(res.results);
+      // return res.results;
     } catch (err) {
       console.log(err);
     }
@@ -177,11 +194,14 @@ function index() {
   // 演員和工作人員
   const getPersonList = async (id, category) => {
     try {
+      dispatch(setIsLoading(true));
       const res = await moviesSVC.getPersonList(id, category);
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
+      dispatch(setIsLoading(false));
+      // return res;
       // console.log("getPersonList...", res);
       setDirector(res.crew.find((item) => item.job === "Director"));
       setPersonList(res.cast);
@@ -195,7 +215,21 @@ function index() {
       const categoryVal = location.pathname.split("/")[1];
       setCategory(categoryVal);
       // dispatch(setIsLoading(true));
+      // Promise.all([
+      //   getMovieDetail(movieId, categoryVal),
+      //   getTrailer(movieId, categoryVal),
+      //   getWatchProviders(movieId, categoryVal),
+      //   getPersonList(movieId, categoryVal),
+      // ]).then((res) => {
+      //   console.log(res, "res");
+      //   setMovieData(res[0]);
+      //   setTrailer(res[1]);
+      //   setWatchProviders(res[2]);
+      //   setDirector(res[3].crew.find((item) => item.job === "Director"));
+      //   setPersonList(res[3].cast);
+      // });
 
+      // render 和 Promise all 效果依樣 setIsLoading 總共計算兩次
       getMovieDetail(movieId, categoryVal);
       getTrailer(movieId, categoryVal);
       getWatchProviders(movieId, categoryVal);
@@ -228,6 +262,7 @@ function index() {
     );
   };
 
+  // 頻繁 render 不建議使用 useCallback & useMemo
   // 優化效能避免非必要渲染 5次 => 2次
   const renderInfo = useCallback(
     () => (
@@ -486,14 +521,19 @@ function index() {
   // 評論
   const renderForum = useCallback(
     () => (
-      <style.Section style={{ display: isMobile ? "none" : "block" }}>
-        {(movieData?.title || movieData?.name) && (
-          <Forum id={params.id} category={category} />
-        )}
-      </style.Section>
+      <>
+        <style.Section style={{ display: isMobile ? "none" : "block" }}>
+          {(movieData?.title || movieData?.name) && (
+            <Forum id={params.id} category={category} />
+          )}
+        </style.Section>
+      </>
     ),
     [movieData, params.id]
   );
+  // const calcMemo = useMemo(() => {
+  //   return 1 + 1;
+  // });
   // set.add(renderInfo);
 
   return (
