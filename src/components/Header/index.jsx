@@ -51,7 +51,19 @@ const index = () => {
     // console.log("登出", res);
   };
 
-  const handleScroll = (e) => {
+  // 優化效能 節流
+  const throttle = (fn, delay = 500) => {
+    let timer = null;
+    return (...args) => {
+      if (timer) return;
+      timer = setTimeout(() => {
+        fn(...args);
+        timer = null;
+      }, delay);
+    };
+  };
+
+  const handleScroll = throttle((e) => {
     if (window.scrollY > 24) {
       changeDynamicBg({
         background: `rgba(27, 30, 37, ${window.scrollY / 300 + 0.68})`,
@@ -59,7 +71,7 @@ const index = () => {
     } else {
       changeDynamicBg({ background: `rgba(27, 30, 37, 0.68)` });
     }
-  };
+  }, 500);
   const login = async () => {
     const tokenParams = authenticationSVC.getToken();
     const res = await sendRequest(tokenParams.url, tokenParams.options);
@@ -132,7 +144,7 @@ const index = () => {
     !isMobile && initSessionData();
   }, []);
 
-  // 效能不好 滾動就重新渲染
+  // 效能不好 滾動就重新渲染，使用節流改善效能
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {

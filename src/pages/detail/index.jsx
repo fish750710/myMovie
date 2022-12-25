@@ -42,11 +42,9 @@ function index() {
   const location = useLocation();
   // const dispatch = useDispatch();
 
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   // 重複渲染問題
-  const { isLogin, sessionID, userData, favoriteList } = useSelector(
-    (state) => state.user
-  );
+  const { isLogin } = useSelector((state) => state.user);
   const { sendRequest, isLoading, error } = useFetch();
   const {
     getAccountStates,

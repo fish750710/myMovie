@@ -11,7 +11,18 @@ function index() {
   const navigate = useNavigate();
   const [inputVal, setInputVal] = useState("");
 
-  const handleEnter = (e) => {
+  // 防抖
+  const debounce = (fn, delay = 500) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  };
+  // 改善效能使用防抖 debounce
+  const handleEnter = debounce((e) => {
     if (e.keyCode === 13) {
       const encodeVal = encodeURIComponent(inputVal);
       navigate({ pathname: "/search", search: `?key=${encodeVal}` });
@@ -19,7 +30,7 @@ function index() {
     } else if (e.keyCode === 27) {
       setInputVal("");
     }
-  };
+  }, 500);
 
   return (
     <>

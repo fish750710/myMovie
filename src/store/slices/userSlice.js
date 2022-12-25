@@ -17,14 +17,14 @@ import { accountSVC } from "@/api";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    isLoading: false,
+    // isLoading: false,
     isLogin: false,
     userData: {
       id: "",
       name: "",
     },
     sessionID: "",
-    favoriteList: [],
+    // favoriteList: [],
   },
   reducers: {
     setUserData: (state, action) => {
@@ -36,12 +36,12 @@ const userSlice = createSlice({
     setSessionID: (state, { payload }) => {
       state.sessionID = payload;
     },
-    setIsLoading: (state, { payload }) => {
-      state.isLoading = payload;
-    },
-    setFavoriteList: (state, { payload }) => {
-      state.favoriteList = payload;
-    },
+    // setIsLoading: (state, { payload }) => {
+    //   state.isLoading = payload;
+    // },
+    // setFavoriteList: (state, { payload }) => {
+    //   state.favoriteList = payload;
+    // },
   },
   extraReducers: (builder) => {
     // builder.addCase(getData.pending, (state, action) => {
@@ -71,6 +71,6 @@ export const {
   setUserData,
   setIsLogin,
   setSessionID,
-  setIsLoading,
-  setFavoriteList,
+  // setIsLoading,
+  // setFavoriteList,
 } = userSlice.actions;

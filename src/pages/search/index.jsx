@@ -2,11 +2,11 @@ import React, {
   useRef,
   useEffect,
   useState,
-  useMemo,
-  useCallback,
+  // useMemo,
+  // useCallback,
 } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
 import useFetch from "@/hooks/useFetch";
 
@@ -28,7 +28,7 @@ import style from "./styled";
 
 function index() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [queryKey, seQueryKey] = useState("");
   const [total, setTotal] = useState(0);
