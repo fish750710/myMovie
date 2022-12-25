@@ -2,14 +2,6 @@ import React, { useState, memo } from "react";
 import style from "./styled";
 
 const index = memo(({ title, data, setOption, selectd }) => {
-  // const [state, setState] = useState(selectd);
-  // const clickHandler = (id) => {
-  //   if (state === id) return;
-  //   // console.log(id);
-  //   setState(id);
-  //   setOption(id);
-  // };
-
   return (
     <style.Content>
       {title && <div className="label">{title}</div>}

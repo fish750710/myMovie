@@ -1,68 +1,67 @@
 // 相關影片
 import React, { useRef, useEffect, useState, memo } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 
 import style from "./styled";
 import List from "./List";
 
 import { moviesSVC, discoverSVC } from "@/api";
-// import { setIsLoading } from "@/store/slices/userSlice";
+
+import useFetch from "@/hooks/useFetch";
 
 // 收藏觸發避免重複渲染 memo
 const section = memo(({ title, id, category }) => {
-  // const dispatch = useDispatch();
-  // const { isLoading } = useSelector((state) => state.user);
   const [itemList, setItemList] = useState();
+  const { sendRequest, isLoading, error } = useFetch();
 
   // 類似影片
   const getSimilarList = async () => {
     try {
-      // dispatch(setIsLoading(true));
-      const { results: resSimilarList } = await moviesSVC.getSimilar(
-        id,
-        category
+      const similarParams = moviesSVC.getSimilar(id, category);
+      const { results: resSimilarList } = await sendRequest(
+        similarParams.url,
+        similarParams.options
       );
-      // console.log('resSimilarList =>', resSimilarList);
       setItemList(resSimilarList);
-      // dispatch(setIsLoading(false));
     } catch (error) {
-      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
   // 最好的戲劇
   const getBestDramas = async () => {
     try {
-      // dispatch(setIsLoading(true));
-      const { results } = await discoverSVC.getBestDramas("movie");
+      const bestDramasParams = discoverSVC.getBestDramas("movie");
+      const { results } = await sendRequest(
+        bestDramasParams.url,
+        bestDramasParams.options
+      );
       setItemList(results);
-      // dispatch(setIsLoading(false));
     } catch (error) {
-      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
   // 最受歡迎的電影
   const getPopularMovies = async () => {
     try {
-      // dispatch(setIsLoading(true));
-      const { results } = await discoverSVC.getPopularMovies("movie");
+      const popularMoviesParams = discoverSVC.getPopularMovies("movie");
+      const { results } = await sendRequest(
+        popularMoviesParams.url,
+        popularMoviesParams.options
+      );
       setItemList(results);
-      // dispatch(setIsLoading(false));
     } catch (error) {
-      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
   // 熱門電影或戲劇
   const getPopData = async (lang) => {
     try {
-      // dispatch(setIsLoading(true));
-      const { results } = await discoverSVC.getPopData(category, lang);
+      const popDataParams = discoverSVC.getPopData(category, lang);
+      const { results } = await sendRequest(
+        popDataParams.url,
+        popDataParams.options
+      );
       setItemList(results);
-      // dispatch(setIsLoading(false));
     } catch (error) {
-      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
@@ -97,7 +96,7 @@ const section = memo(({ title, id, category }) => {
   return (
     <style.section>
       <List
-        // isLoading={isLoading}
+        isLoading={isLoading}
         itemList={itemList}
         title={title}
         category={category}

@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import style from "./styled";
 
 import { moviesSVC, guestSVC, accountSVC } from "@/api";
-// import base from "@/api/base";
+
+import useFetch from "@/hooks/useFetch";
+import useMessage from "@/hooks/useMessage";
 
 import Message from "@/components/Card/Message";
 
-// import Skeleton from "@mui/material/Skeleton";
-// import Stack from '@mui/material/Stack';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Rating from "@mui/material/Rating";
@@ -23,17 +23,21 @@ const arePropsEqual = (prevProps, nextProps) => {
 };
 // 收藏觸發避免重複渲染 memo
 const index = memo(({ id, category }) => {
+  const { sessionID, isLogin, userData } = useSelector((state) => state.user);
+  const { sendRequest, isLoading, error } = useFetch();
+  const [message, setMessage] = useMessage("");
+
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
-  const { sessionID, isLogin, userData } = useSelector((state) => state.user);
-  const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
   const ratingHandler = async (event, newValue) => {
     setRating(newValue);
     try {
+      let rateMovieParams = null;
+      let res = null;
       if (isLogin) {
-        const res = await moviesSVC.rateMovie(
+        rateMovieParams = moviesSVC.rateMovie(
           id,
           sessionID,
           {
@@ -43,7 +47,7 @@ const index = memo(({ id, category }) => {
         );
         console.log("評分", res);
       } else {
-        const res = await moviesSVC.rateMovieGuest(
+        rateMovieParams = moviesSVC.rateMovieGuest(
           id,
           sessionID,
           {
@@ -53,8 +57,9 @@ const index = memo(({ id, category }) => {
         );
         console.log("評分 guest", res);
         setOpen(true);
-        setMessage(res.status_message);
       }
+      res = await sendRequest(rateMovieParams.url, rateMovieParams.options);
+      setMessage(res.status_message);
     } catch (error) {
       console.log(error);
       setOpen(true);
@@ -64,12 +69,14 @@ const index = memo(({ id, category }) => {
 
   const getRatedMovies = async () => {
     // 有些電影獲取評分有問題！
+    let ratedMoviesParams = null;
     let res = null;
     if (isLogin) {
-      res = await accountSVC.getRatedMovies(sessionID, userData.id);
+      ratedMoviesParams = accountSVC.getRatedMovies(sessionID, userData.id);
     } else {
-      res = await guestSVC.getGuestRatedMovies(sessionID);
+      ratedMoviesParams = guestSVC.getGuestRatedMovies(sessionID);
     }
+    res = await sendRequest(ratedMoviesParams.url, ratedMoviesParams.options);
     if (res.success === false) return;
     if (res.results.length > 0) {
       const data = res.results.find((item) => item.id === Number(id));
@@ -94,7 +101,8 @@ const index = memo(({ id, category }) => {
     };
     const getReviews = async (id, category) => {
       try {
-        const res = await moviesSVC.getReviews(id, category);
+        const reviewsParams = moviesSVC.getReviews(id, category);
+        const res = await sendRequest(reviewsParams.url, reviewsParams.options);
         if (!res.success) return;
         setReviews(sortDate(res.results));
       } catch (error) {

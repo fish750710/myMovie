@@ -8,12 +8,10 @@ export default {
    * @param {*} category
    * @returns
    */
-  async getGenreList(category) {
-    return await fetch(
-      `${baseURL}/${category}/list?${base.baseParams}`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getGenreList(category) {
+    return {
+      url: `${baseURL}/${category}/list?${base.baseParams}`,
+      options: base.requestQptions("GET"),
+    };
   },
 };

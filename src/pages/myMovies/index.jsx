@@ -2,43 +2,46 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import useFetch from "@/hooks/useFetch";
+
 import { accountSVC } from "@/api";
-import { setIsLoading } from "@/store/slices/userSlice";
 
 import BaseList from "@/components/MovieList/BaseList";
 import style from "./styled";
 
 function index() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { sessionID, userData, isLoading, isLogin } = useSelector(
-    (state) => state.user
-  );
+  const { sendRequest, isLoading, error } = useFetch();
+  const { sessionID, userData, isLogin } = useSelector((state) => state.user);
 
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteTV, setFavoriteTV] = useState([]);
 
   const getFavoriteMovies = async () => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
-      // console.log("getFavoriteMovies", res);
+      const favoriteMoviesParams = accountSVC.getFavoriteMovies(
+        sessionID,
+        userData.id
+      );
+      const res = await sendRequest(
+        favoriteMoviesParams.url,
+        favoriteMoviesParams.options
+      );
       setFavoriteMovies(res.results);
-      dispatch(setIsLoading(false));
     } catch (error) {
-      dispatch(setIsLoading(false));
       console.log(error);
     }
   };
   const getFavoriteTV = async () => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await accountSVC.getFavoriteTV(sessionID, userData.id);
-      // console.log("getFavoriteTV", res);
+      const favoriteTVParams = accountSVC.getFavoriteTV(sessionID, userData.id);
+      const res = await sendRequest(
+        favoriteTVParams.url,
+        favoriteTVParams.options
+      );
       setFavoriteTV(res.results);
-      dispatch(setIsLoading(false));
     } catch (error) {
-      dispatch(setIsLoading(false));
       console.log(error);
     }
   };

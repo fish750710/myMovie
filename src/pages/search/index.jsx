@@ -8,11 +8,12 @@ import React, {
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import useFetch from "@/hooks/useFetch";
+
 import Card from "@/components/Card";
 import ActorList from "@/components/MovieList/ActorList";
 
 import { searchSVC } from "@/api";
-import { setIsLoading } from "@/store/slices/userSlice";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -29,7 +30,6 @@ function index() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading } = useSelector((state) => state.user);
   const [queryKey, seQueryKey] = useState("");
   const [total, setTotal] = useState(0);
   const [tabValue, setTabValue] = useState(0);
@@ -43,6 +43,8 @@ function index() {
   const [btnMoreVal, setBtnMoreVal] = useState("電影");
   const [moreData, setMoreData] = useState([]);
   const [moreShowFlag, setMoreShowFlag] = useState(false);
+
+  const { sendRequest, isLoading, error } = useFetch();
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -65,21 +67,22 @@ function index() {
       default:
         break;
     }
-    // console.log('val', val)
     setBtnMoreVal(val);
     setMoreShowFlag(true);
   };
   const toDetail = (item) => {
     const category = tabValue === 1 ? "tv" : "movie";
-    // console.log("search toDetail", item, tabValue, category);
     navigate(`/${category}/detail/${item.id}`);
   };
 
   const searchData = async (keyword) => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await searchSVC.searchData(keyword, page);
-      // console.log(res);
+      const searchDataParams = searchSVC.searchData(keyword, page);
+      const res = await sendRequest(
+        searchDataParams.url,
+        searchDataParams.options
+      );
+
       let m = [];
       let t = [];
       let p = [];
@@ -103,9 +106,7 @@ function index() {
       setTVList(t);
       setPersonList(p);
       setTotal(res.total_results);
-      dispatch(setIsLoading(false));
     } catch (err) {
-      dispatch(setIsLoading(false));
       console.log(err);
     }
   };
@@ -141,32 +142,30 @@ function index() {
   useEffect(() => {
     try {
       const getMoreData = async () => {
-        dispatch(setIsLoading(true));
         const key = searchParams.get("key");
+        let apiParams = null;
         let res = null;
         switch (btnMoreVal) {
           case "電影":
-            res = await searchSVC.getMovies(key, page);
+            apiParams = await searchSVC.getMovies(key, page);
             break;
           case "電視節目":
-            res = await searchSVC.getTV(key, page);
+            apiParams = await searchSVC.getTV(key, page);
             break;
           case "演員":
-            res = await searchSVC.getPerson(key, page);
+            apiParams = await searchSVC.getPerson(key, page);
             break;
         }
-        // console.log("getMore res =>", res);
+        res = await sendRequest(apiParams.url, apiParams.options);
         setMoreData(res.results);
         setTotal(res.total_results);
         if (res.total_results !== total) {
           pageTotal.current = Math.ceil(res.total_results / res.results.length);
         }
         window.scrollTo(0, 0);
-        dispatch(setIsLoading(false));
       };
       getMoreData();
     } catch (error) {
-      dispatch(setIsLoading(false));
       console.log(error);
     }
   }, [btnMoreVal, page]);

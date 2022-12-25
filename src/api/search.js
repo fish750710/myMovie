@@ -4,39 +4,31 @@ const baseURL = `${base.apiURL}/search`;
 
 export default {
   // 迷糊搜尋
-  async searchData(query, page = 1) {
-    return await fetch(
-      `${baseURL}/multi?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  searchData(query, page = 1) {
+    return {
+      url: `${baseURL}/multi?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
+      options: base.requestQptions("GET"),
+    };
   },
   // 搜尋電影
-  async getMovies(query, page = 1) {
-    return await fetch(
-      `${baseURL}/movie?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getMovies(query, page = 1) {
+    return {
+      url: `${baseURL}/movie?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
+      options: base.requestQptions("GET"),
+    };
   },
   // 搜尋演員
-  async getPerson(query, page = 1) {
-    return await fetch(
-      `${baseURL}/person?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getPerson(query, page = 1) {
+    return {
+      url: `${baseURL}/person?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
+      options: base.requestQptions("GET"),
+    };
   },
   // 搜尋電視
-  async getTV(query, page = 1) {
-    return await fetch(
-      `${baseURL}/tv?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getTV(query, page = 1) {
+    return {
+      url: `${baseURL}/tv?${base.baseParams}&query=${query}&page=${page}&include_adult=false`,
+      options: base.requestQptions("GET"),
+    };
   },
 };

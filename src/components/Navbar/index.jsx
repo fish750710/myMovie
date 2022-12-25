@@ -7,43 +7,31 @@ import {
   setIsLogin,
   setSessionID,
 } from "@/store/slices/userSlice";
-// import Search from "../Search";
 import style from "./styled";
 import StorageUtil from "@/utils/storageUtil";
 
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-// import MoreIcon from "@mui/icons-material/MoreVert";
-// import Menu from "@mui/material/Menu";
-// import MenuItem from "@mui/material/MenuItem";
-// import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
 
 import { authenticationSVC, accountSVC } from "@/api";
+
+import useFetch from "@/hooks/useFetch";
 
 const domain = "http://localhost:5173/";
 
 const index = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
+  const { sendRequest, isLoading, error } = useFetch();
 
   const isActive = ({ isActive }) => (isActive ? "active" : null);
 
-  const logout = async () => {
-    const res = await authenticationSVC.logout({ session_id: sessionID });
-    StorageUtil.removeSessionID();
-    dispatch(setIsLogin(false));
-    // location.href = domain;
-    navigate("/");
-    console.log("登出", res);
-  };
-
   const login = async () => {
-    const res = await authenticationSVC.getToken();
+    const tokenParams = authenticationSVC.getToken();
+    const res = await sendRequest(tokenParams.url, tokenParams.options);
     if (res.success) {
-      // token = res.request_token;
       location.href = `https://www.themoviedb.org/authenticate/${res.request_token}?redirect_to=${domain}`;
     }
   };
@@ -55,8 +43,11 @@ const index = () => {
   };
 
   const getAccountData = async (sessionID) => {
-    const res = await accountSVC.getAccountDetails(sessionID);
-    // console.log("getAccountDetails res", res);
+    const accountDetailsParams = accountSVC.getAccountDetails(sessionID);
+    const res = await sendRequest(
+      accountDetailsParams.url,
+      accountDetailsParams.options
+    );
     if (res.success === false) {
       console.log("remove id");
       StorageUtil.removeSessionID();
@@ -68,22 +59,23 @@ const index = () => {
     dispatch(setSessionID(sessionID));
   };
   const getGuestSessionID = async () => {
-    const res = await authenticationSVC.getGuestSessionID();
-
+    const guestSessionIDParams = authenticationSVC.getGuestSessionID();
+    const res = await sendRequest(
+      guestSessionIDParams.url,
+      guestSessionIDParams.options
+    );
     if (res.success) {
       StorageUtil.saveGuestSessionID(res.guest_session_id);
       dispatch(setSessionID(res.guest_session_id));
     }
-    console.log("<getGuestSessionID>", res);
   };
   const getSessionID = async (t) => {
     const body = {
       request_token: t,
     };
-    const res = await authenticationSVC.getSessionID(body);
-    // console.log("getSessionID", res);
+    const sessionIdParams = authenticationSVC.getSessionID(body);
+    const res = await sendRequest(sessionIdParams.url, sessionIdParams.options);
     if (res.success === false) {
-      console.log("remove id 2");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       location.href = domain;

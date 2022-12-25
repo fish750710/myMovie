@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,41 +13,38 @@ import Box from "@mui/material/Box";
 import styles from "@/styles/_export.module.scss";
 import style from "./styled";
 
-import { discoverSVC, accountSVC, moviesSVC } from "@/api";
+import { discoverSVC } from "@/api";
 import base from "@/api/base";
-// import { setIsLoading } from "@/store/slices/userSlice";
 
-// import useFavorite from "@/hooks/useFavorite";
+import useFetch from "@/hooks/useFetch";
+import useFavorite from "@/hooks/useFavorite";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const index = () => {
-  // const dispatch = useDispatch();
+  const { sendRequest, isLoading, error } = useFetch();
+  const { favoriteMovies, favoriteHandler, message, setMessage } =
+    useFavorite();
   const navigate = useNavigate();
   const [itemList, setItemList] = useState([]);
-  const { isLoading, isLogin, sessionID, userData } = useSelector(
-    (state) => state.user
-  );
-  const [message, setMessage] = useState("");
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  // const { favoriteState, message, setFavorite, setMessage } = useFavorite();
+  // const { isLogin, sessionID, userData } = useSelector((state) => state.user);
 
   // 最近 1個月上映電影
   const getONMovies = async (category, dateStart, dateEnd) => {
     try {
-      // dispatch(setIsLoading(true));
-      const { results } = await discoverSVC.getONMovies(
+      const ONMoviesParams = discoverSVC.getONMovies(
         category,
         dateStart,
         dateEnd
       );
+      const { results } = await sendRequest(
+        ONMoviesParams.url,
+        ONMoviesParams.options
+      );
       setItemList(results);
-      // dispatch(setIsLoading(false));
     } catch (error) {
-      // dispatch(setIsLoading(false));
       console.log(error);
     }
   };
@@ -63,50 +60,6 @@ const index = () => {
   const toDetail = (item) => {
     navigate(`/movie/detail/${item.id}`);
   };
-  // 我的最愛電影
-  const getFavoriteMovies = async () => {
-    try {
-      // dispatch(setIsLoading(true));
-      // console.log(sessionID, 'userData id =>', userData.id, 'getFavoriteMovies')
-      const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
-      setFavoriteMovies(res.results);
-      // dispatch(setIsLoading(false));
-    } catch (error) {
-      // dispatch(setIsLoading(false));
-      console.log(error);
-    }
-  };
-  // 新增和移除收藏
-  const editFavorite = async (movieId, bool) => {
-    try {
-      const data = {
-        media_type: "movie",
-        media_id: movieId,
-        favorite: bool,
-      };
-      const res = await accountSVC.editFavorite(data, sessionID, userData.id);
-      // console.log("editFavorite =>", res);
-      if (res.success === true) {
-        // setFavoriteState(bool);
-        // updateFavoriteMovies();
-        getFavoriteMovies();
-        if (bool) {
-          setMessage("已成功加入收藏");
-        } else {
-          setMessage("已成功取消收藏");
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const favoriteHandler = (movieId, bool) => {
-    if (isLogin) {
-      editFavorite(movieId, bool);
-    } else {
-      setMessage("請登錄");
-    }
-  };
   const mappingId = (id) => {
     let state = false;
     if (favoriteMovies?.length) {
@@ -118,12 +71,6 @@ const index = () => {
   useEffect(() => {
     getONMovies("movie", getDate(true), getDate());
   }, []);
-
-  useEffect(() => {
-    if (sessionID && isLogin) {
-      getFavoriteMovies();
-    }
-  }, [sessionID]);
 
   return (
     <style.Banner className="">

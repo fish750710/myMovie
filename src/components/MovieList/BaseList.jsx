@@ -6,7 +6,6 @@ import Card from "../Card";
 function baseList({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
-    // console.log("baseList =>", item);
     navigate(`/${category}/detail/${item.id}`);
   };
   return (

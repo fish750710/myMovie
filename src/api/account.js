@@ -8,13 +8,11 @@ export default {
    * @param {*} sessionID
    * @returns
    */
-  async getAccountDetails(sessionID) {
-    return await fetch(
-      `${baseURL}?${base.baseParams}&session_id=${sessionID}`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getAccountDetails(sessionID) {
+    return {
+      url: `${baseURL}?${base.baseParams}&session_id=${sessionID}`,
+      options: base.requestQptions("GET"),
+    };
   },
   /**
    * [GET] 我的最愛電影
@@ -22,13 +20,11 @@ export default {
    * @param {*} accountID
    * @returns
    */
-  async getFavoriteMovies(sessionID, accountID) {
-    return await fetch(
-      `${baseURL}/${accountID}/favorite/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getFavoriteMovies(sessionID, accountID) {
+    return {
+      url: `${baseURL}/${accountID}/favorite/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      options: base.requestQptions("GET"),
+    };
   },
   /**
    * [GET] 我的最愛電視節目
@@ -36,13 +32,11 @@ export default {
    * @param {*} accountID
    * @returns
    */
-  async getFavoriteTV(sessionID, accountID) {
-    return await fetch(
-      `${baseURL}/${accountID}/favorite/tv?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getFavoriteTV(sessionID, accountID) {
+    return {
+      url: `${baseURL}/${accountID}/favorite/tv?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      options: base.requestQptions("GET"),
+    };
   },
   /** [POST] 編輯我的最愛
    * 
@@ -56,17 +50,11 @@ export default {
    * @param {*} accountID 
    * @returns 
    */
-  async editFavorite(data, sessionID, accountID) {
-    return await fetch(
-      `${baseURL}/${accountID}/favorite?${base.baseParams}&session_id=${sessionID}`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  editFavorite(data, sessionID, accountID) {
+    return {
+      url: `${baseURL}/${accountID}/favorite?${base.baseParams}&session_id=${sessionID}`,
+      options: base.requestQptions("POST", data),
+    };
   },
   /** [GET] 獲取評分
    *
@@ -74,12 +62,10 @@ export default {
    * @param {*} accountID
    * @returns
    */
-  async getRatedMovies(sessionID, accountID) {
-    return await fetch(
-      `${baseURL}/${accountID}/rated/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getRatedMovies(sessionID, accountID) {
+    return {
+      url: `${baseURL}/${accountID}/rated/movies?${base.baseParams}&session_id=${sessionID}&sort_by=created_at.asc&page=1`,
+      options: base.requestQptions("GET"),
+    };
   },
 };

@@ -7,38 +7,34 @@ export default {
    * [GET]
    * @returns
    */
-  async getToken() {
-    return await fetch(`${baseURL}/token/new?${base.baseParams}`, base.headers)
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getToken() {
+    return {
+      url: `${baseURL}/token/new?${base.baseParams}`,
+      options: base.requestQptions("GET"),
+    };
   },
   /**
    * [GET] 遊客 session ID
    * @returns
    */
-  async getGuestSessionID() {
-    return await fetch(
-      `${baseURL}/guest_session/new?${base.baseParams}`,
-      base.headers
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getGuestSessionID() {
+    return {
+      url: `${baseURL}/guest_session/new?${base.baseParams}`,
+      options: base.requestQptions("GET"),
+    };
   },
   /**
    * [POST] session ID
    * @param {*} body
    * @returns
    */
-  async getSessionID(body) {
-    return await fetch(`${baseURL}/session/new?${base.baseParams}`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  getSessionID(body) {
+    return {
+      url: `${baseURL}/session/new?${base.baseParams}`,
+      options: base.requestQptions("POST", body),
+    };
   },
-  /** 
+  /**
    * [POST] 登入
    * {
    * "username": "account",
@@ -48,30 +44,21 @@ export default {
    * @param {*} loginData
    * @returns
    */
-  async login(loginData) {
-    return await fetch(
-      `${baseURL}/token/validate_with_login?${base.baseParams}`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(loginData),
-      }
-    )
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  login(loginData) {
+    return {
+      url: `${baseURL}/token/validate_with_login?${base.baseParams}`,
+      options: base.requestQptions("POST", loginData),
+    };
   },
   /** [DELETE] 登出
    * { "session_id": "xxxx" }
    * @param {*} data
    * @returns
    */
-  async logout(data) {
-    return await fetch(`${baseURL}/session?${base.baseParams}`, {
-      method: "DELETE",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  logout(data) {
+    return {
+      url: `${baseURL}/session?${base.baseParams}`,
+      options: base.requestQptions("DELETE", data),
+    };
   },
 };

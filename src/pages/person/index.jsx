@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
-// import Card from "@/components/Card";
+import useFetch from "@/hooks/useFetch";
+
 import BaseList from "@/components/MovieList/BaseList";
 
 import { personSVC } from "@/api";
@@ -12,16 +13,19 @@ import style from "./styled";
 function index() {
   // const navigate = useNavigate();
   const params = useParams();
-  const { isLoading } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const [movieList, setMovieList] = useState([]);
   const [tvList, setTVList] = useState([]);
   const [personName, setPersonName] = useState("");
+  const { sendRequest, isLoading, error } = useFetch();
 
   const getPersonMovies = async (personId) => {
     try {
-      const { cast, crew } = await personSVC.getPersonMovies(personId);
-      // console.log("cast", cast, "crew", crew);
+      const personMoviesParams = personSVC.getPersonMovies(personId);
+      const { cast, crew } = await sendRequest(
+        personMoviesParams.url,
+        personMoviesParams.options
+      );
       setMovieList(cast); //電影
       setTVList(crew); // tv
     } catch (err) {

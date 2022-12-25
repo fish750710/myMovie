@@ -16,16 +16,17 @@ import TuneIcon from "@mui/icons-material/Tune";
 import style from "./styled";
 
 import { genreSVC, discoverSVC } from "@/api";
-// import { setIsLoading } from '@/store/slices/userSlice';
+
+import useFetch from "@/hooks/useFetch";
 
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
 
 function index({ category }) {
+  const { sendRequest, isLoading, error } = useFetch();
   const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // const { isLoading } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
   const [movieList, setMoiveList] = useState([]);
   // 類型
   const [movieOptType, setMovieOptType] = useState(0);
@@ -42,15 +43,17 @@ function index({ category }) {
   const [isFilterOption, setIsFilterOption] = useState(false);
 
   const toDetail = (item) => {
-    // console.log("item", item);
     navigate(`/${category}/detail/${item.id}`);
   };
 
   // 電影類別
   const getGenreList = async () => {
     try {
-      const { genres } = await genreSVC.getGenreList(category);
-      // console.log('getGenreList =>', genres)
+      const genreListParams = genreSVC.getGenreList(category);
+      const { genres } = await sendRequest(
+        genreListParams.url,
+        genreListParams.options
+      );
       if (genreList.data.length > 1) return;
       setGenreList((current) => ({
         ...current,
@@ -62,13 +65,17 @@ function index({ category }) {
   };
   const getMovieList = async (more) => {
     try {
-      const { results } = await discoverSVC.getMovieList(
+      const movieListParams = discoverSVC.getMovieList(
         category,
         movieOptType === 0 ? null : movieOptType,
         movieOptYear === 0 ? null : movieOptYear,
         sortType,
         sortBy,
         page.current
+      );
+      const { results } = await sendRequest(
+        movieListParams.url,
+        movieListParams.options
       );
       moreFlag.current
         ? setMoiveList(movieList.concat(results))
@@ -92,17 +99,12 @@ function index({ category }) {
   useEffect(() => {
     try {
       page.current = 1;
-      // dispatch(setIsLoading(true));
       // 避免重複累加 List
       if (genreList.data.length < 2) {
         getGenreList();
       }
       getMovieList();
-      // dispatch(setIsLoading(false));
-      // setTimeout(() => {
-      // }, 500);
     } catch (err) {
-      // dispatch(setIsLoading(false));
       console.log(err);
     }
   }, [movieOptType, movieOptYear, sortType]);
@@ -192,7 +194,7 @@ function index({ category }) {
         <div className="content">
           {movieList.map((item, index) => (
             <Card
-              // isLoading={isLoading}
+              isLoading={isLoading}
               item={item}
               key={index}
               toDetail={toDetail}

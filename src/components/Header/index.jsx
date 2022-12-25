@@ -17,14 +17,16 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { common } from "@mui/material/colors";
 
 import { authenticationSVC, accountSVC } from "@/api";
+
+import useFetch from "@/hooks/useFetch";
 
 const domain = "http://localhost:5173/";
 
@@ -33,6 +35,7 @@ const index = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
+  const { sendRequest, isLoading, error } = useFetch();
 
   const isActive = ({ isActive }) => (isActive ? "active" : null);
   const [dynamicBg, changeDynamicBg] = useState({
@@ -40,12 +43,12 @@ const index = () => {
   });
 
   const logout = async () => {
-    const res = await authenticationSVC.logout({ session_id: sessionID });
+    const logouttParams = authenticationSVC.logout({ session_id: sessionID });
+    const res = await sendRequest(logouttParams.url, logouttParams.options);
     StorageUtil.removeSessionID();
     dispatch(setIsLogin(false));
-    // location.href = domain;
     navigate("/");
-    console.log("登出", res);
+    // console.log("登出", res);
   };
 
   const handleScroll = (e) => {
@@ -58,9 +61,9 @@ const index = () => {
     }
   };
   const login = async () => {
-    const res = await authenticationSVC.getToken();
+    const tokenParams = authenticationSVC.getToken();
+    const res = await sendRequest(tokenParams.url, tokenParams.options);
     if (res.success) {
-      // token = res.request_token;
       location.href = `https://www.themoviedb.org/authenticate/${res.request_token}?redirect_to=${domain}`;
     }
   };
@@ -72,8 +75,11 @@ const index = () => {
   };
 
   const getAccountData = async (sessionID) => {
-    const res = await accountSVC.getAccountDetails(sessionID);
-    // console.log("getAccountDetails res", res);
+    const getAccountDetailsParams = accountSVC.getAccountDetails(sessionID);
+    const res = await sendRequest(
+      getAccountDetailsParams.url,
+      getAccountDetailsParams.options
+    );
     if (res.success === false) {
       console.log("remove id");
       StorageUtil.removeSessionID();
@@ -85,23 +91,24 @@ const index = () => {
     dispatch(setSessionID(sessionID));
   };
   const getGuestSessionID = async () => {
-    const res = await authenticationSVC.getGuestSessionID();
-
+    const guestSessionIDParams = authenticationSVC.getGuestSessionID();
+    const res = await sendRequest(
+      guestSessionIDParams.url,
+      guestSessionIDParams.options
+    );
     if (res.success) {
       StorageUtil.saveGuestSessionID(res.guest_session_id);
       // 重複渲染問題
       // dispatch(setSessionID(res.guest_session_id));
     }
-    // console.log("<getGuestSessionID>", res);
   };
   const getSessionID = async (t) => {
     const body = {
       request_token: t,
     };
-    const res = await authenticationSVC.getSessionID(body);
-    // console.log("getSessionID", res);
+    const sessionIdParams = authenticationSVC.getSessionID(body);
+    const res = await sendRequest(sessionIdParams.url, sessionIdParams.options);
     if (res.success === false) {
-      console.log("remove id 2");
       StorageUtil.removeSessionID();
       dispatch(setIsLogin(false));
       location.href = domain;

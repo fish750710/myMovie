@@ -23,12 +23,14 @@ import Section from "@/components/MovieList/Section";
 import Forum from "@/components/Forum";
 import Trailer from "@/components/Trailer";
 
-import { moviesSVC, accountSVC } from "@/api";
+import { moviesSVC } from "@/api";
 import base from "@/api/base";
-import { setIsLoading } from "@/store/slices/userSlice";
 
 import styles from "@/styles/_export.module.scss";
 import style from "./styled";
+
+import useFetch from "@/hooks/useFetch";
+import useFavorite from "@/hooks/useFavorite";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -38,25 +40,28 @@ function index() {
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const params = useParams();
   const location = useLocation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [count, setCount] = useState(0);
   // 重複渲染問題
-  const { isLoading, isLogin, sessionID, userData, favoriteList } = useSelector(
+  const { isLogin, sessionID, userData, favoriteList } = useSelector(
     (state) => state.user
   );
+  const { sendRequest, isLoading, error } = useFetch();
+  const {
+    getAccountStates,
+    favoriteState,
+    favoriteHandler,
+    message,
+    setMessage,
+  } = useFavorite();
 
   const [movieData, setMovieData] = useState({});
   const [watchProviders, setWatchProviders] = useState({});
   const [personList, setPersonList] = useState([]);
   const [playShow, setPlayShow] = useState(false);
-
   const [director, setDirector] = useState({});
-  // const [imdbID, setImdbID] = useState("");
-  // const imdbID = useRef("");
   const [alertMsg, setAlertMsg] = useState("");
-  const [message, setMessage] = useState("");
-  const [favoriteState, setFavoriteState] = useState(false);
   const [category, setCategory] = useState("");
   const [tabVal, setTabVal] = useState(0);
 
@@ -74,83 +79,18 @@ function index() {
   const handleClose = () => {
     setPlayShow(false);
   };
-  const favoriteHandler = (bool) => {
-    if (isLogin) {
-      editFavorite(bool);
-    } else {
-      setMessage("請登錄");
-    }
-  };
-
   const handleChangeTab = (event, index) => {
     setTabVal(index);
-  };
-
-  // 收藏狀態
-  const getAccountStates = async (id, category) => {
-    try {
-      dispatch(setIsLoading(true));
-      const res = await moviesSVC.getAccountStates(id, sessionID, category);
-      // console.log("getAccountStates => ", res, id, sessionID, category);
-      if (res.success === false) return;
-      setFavoriteState(res.favorite);
-      // dispatch(setIsLoading(false));
-    } catch (error) {
-      // dispatch(setIsLoading(false));
-      console.log(error);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
-  };
-  // const updateFavoriteMovies = async () => {
-  //   try {
-  //     dispatch(setIsLoading(true));
-  //     const res = await accountSVC.getFavoriteMovies(sessionID, userData.id);
-  //     console.log("getFavoriteMovies", sessionID, userData.id, res);
-  //     if (res.success === false) return;
-  //     dispatch(setFavoriteList(res.results));
-  //     dispatch(setIsLoading(false));
-  //   } catch (error) {
-  //     dispatch(setIsLoading(false));
-  //     console.log(error);
-  //   }
-  // };
-  // 新增和移除收藏
-  const editFavorite = async (bool) => {
-    try {
-      const data = {
-        media_type: location.pathname.split("/")[1],
-        media_id: movieData.id,
-        favorite: bool,
-      };
-      const res = await accountSVC.editFavorite(data, sessionID, userData.id);
-      // console.log("editFavorite =>", res);
-      if (res.success === true) {
-        setFavoriteState(bool);
-        // updateFavoriteMovies();
-        if (bool) {
-          setMessage("已成功加入收藏");
-        } else {
-          setMessage("已成功取消收藏");
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
   // 預告片
   const getTrailer = async (id, category) => {
     try {
-      // console.log('預告片')
-      dispatch(setIsLoading(true));
-      const res = await moviesSVC.getTrailer(id, category);
+      const trailerParams = moviesSVC.getTrailer(id, category);
+      const res = await sendRequest(trailerParams.url, trailerParams.options);
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
-      dispatch(setIsLoading(false));
-      // return res.results;
-      // console.log("預告片", res);
       setTrailer(res.results);
     } catch (err) {
       console.log(err);
@@ -159,18 +99,16 @@ function index() {
   // 電影 或 tv 詳情
   const getMovieDetail = async (id, category) => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await moviesSVC.getMovieDetail(id, category);
+      const movieDetailParams = moviesSVC.getMovieDetail(id, category);
+      const res = await sendRequest(
+        movieDetailParams.url,
+        movieDetailParams.options
+      );
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
-      dispatch(setIsLoading(false));
-      // return res;
-      // console.log("detail", res);
       setMovieData(res);
-      // imdbID.current = res.imdb_id;
-      // setImdbID(res.imdb_id);
     } catch (err) {
       console.log(err);
     }
@@ -178,15 +116,16 @@ function index() {
   // 串流平台
   const getWatchProviders = async (id, category) => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await moviesSVC.getWatchProviders(id, category);
+      const watchProvidersParams = moviesSVC.getWatchProviders(id, category);
+      const res = await sendRequest(
+        watchProvidersParams.url,
+        watchProvidersParams.options
+      );
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
-      dispatch(setIsLoading(false));
       setWatchProviders(res.results);
-      // return res.results;
     } catch (err) {
       console.log(err);
     }
@@ -194,15 +133,15 @@ function index() {
   // 演員和工作人員
   const getPersonList = async (id, category) => {
     try {
-      dispatch(setIsLoading(true));
-      const res = await moviesSVC.getPersonList(id, category);
+      const personListParams = moviesSVC.getPersonList(id, category);
+      const res = await sendRequest(
+        personListParams.url,
+        personListParams.options
+      );
       if (res.success === false) {
         setAlertMsg(res.status_message);
         return;
       }
-      dispatch(setIsLoading(false));
-      // return res;
-      // console.log("getPersonList...", res);
       setDirector(res.crew.find((item) => item.job === "Director"));
       setPersonList(res.cast);
     } catch (err) {
@@ -214,7 +153,7 @@ function index() {
       const movieId = params.id;
       const categoryVal = location.pathname.split("/")[1];
       setCategory(categoryVal);
-      // dispatch(setIsLoading(true));
+
       // Promise.all([
       //   getMovieDetail(movieId, categoryVal),
       //   getTrailer(movieId, categoryVal),
@@ -236,11 +175,11 @@ function index() {
       getPersonList(movieId, categoryVal);
       setTimeout(() => {
         window.scrollTo(0, 0);
-        // dispatch(setIsLoading(false));
+        //
       }, 300);
     } catch (error) {
       console.log(error);
-      // dispatch(setIsLoading(false));
+      //
     }
   }, [params.id]);
 
@@ -287,7 +226,9 @@ function index() {
                   <Tag item={item.name} key={item.id} />
                 ))}
               </div>
-              <style.Favorite onClick={() => favoriteHandler(!favoriteState)}>
+              <style.Favorite
+                onClick={() => favoriteHandler(params.id, !favoriteState)}
+              >
                 {favoriteState ? (
                   <img src="./images/icon/heart.png" alt="" />
                 ) : (

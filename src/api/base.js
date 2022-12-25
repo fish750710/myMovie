@@ -9,8 +9,11 @@ export default {
   baseParams: `api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=${
     import.meta.env.VITE_LANG
   }`,
-  headers: {
-    method: "GET",
-    headers: { "content-type": "application/json" },
+  requestQptions: (method, data) => {
+    return {
+      method: method,
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    };
   },
 };
