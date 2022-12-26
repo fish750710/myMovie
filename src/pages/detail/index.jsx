@@ -57,7 +57,7 @@ function index() {
   const [movieData, setMovieData] = useState({});
   const [watchProviders, setWatchProviders] = useState({});
   const [personList, setPersonList] = useState([]);
-  const [playShow, setPlayShow] = useState(false);
+  const [isPlayShow, setIsPlayShow] = useState(false);
   const [director, setDirector] = useState({});
   const [alertMsg, setAlertMsg] = useState("");
   const [category, setCategory] = useState("");
@@ -72,10 +72,10 @@ function index() {
   // set.add(trailerCallback);
 
   const handleClickOpen = () => {
-    setPlayShow(true);
+    setIsPlayShow(true);
   };
   const handleClose = () => {
-    setPlayShow(false);
+    setIsPlayShow(false);
   };
   const handleChangeTab = (event, index) => {
     setTabVal(index);
@@ -509,7 +509,7 @@ function index() {
           {/* 預告片 */}
           <Trailer
             handleClose={handleClose}
-            playShow={playShow}
+            playShow={isPlayShow}
             movieData={movieData}
             trailerCallback={trailerCallback}
           />
