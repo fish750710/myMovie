@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import style from "./styled";
 
-const index = memo(({ title, data, setOption, selectd }) => {
+export default memo(({ title, data, setOption, selectd }) => {
   return (
     <style.Content>
       {title && <div className="label">{title}</div>}
@@ -19,5 +19,3 @@ const index = memo(({ title, data, setOption, selectd }) => {
     </style.Content>
   );
 });
-
-export default index;

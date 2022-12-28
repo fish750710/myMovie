@@ -20,7 +20,7 @@ const Footer = styled.div`
     margin-bottom: 58px;
   }
 `;
-function index() {
+export default function () {
   return (
     <Footer>
       <p>© Copyright 2022</p>
@@ -28,5 +28,3 @@ function index() {
     </Footer>
   );
 }
-
-export default index;

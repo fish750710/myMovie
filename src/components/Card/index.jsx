@@ -8,7 +8,7 @@ import base from "@/api/base";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
-function index({ isLoading, item, toDetail }) {
+export default function ({ isLoading, item, toDetail }) {
   return (
     <style.CardBox>
       {isLoading ? (
@@ -41,5 +41,3 @@ function index({ isLoading, item, toDetail }) {
     </style.CardBox>
   );
 }
-
-export default index;

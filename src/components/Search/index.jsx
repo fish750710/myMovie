@@ -7,7 +7,7 @@ import style from "./styled";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-function index() {
+export default function () {
   const navigate = useNavigate();
   const [inputVal, setInputVal] = useState("");
 
@@ -50,5 +50,3 @@ function index() {
     </>
   );
 }
-
-export default index;

@@ -20,7 +20,7 @@ import useFetch from "@/hooks/useFetch";
 
 const domain = "http://localhost:5173/";
 
-const index = () => {
+export default () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData, isLogin, sessionID } = useSelector((state) => state.user);
@@ -167,5 +167,3 @@ const index = () => {
     </Box>
   );
 };
-
-export default index;

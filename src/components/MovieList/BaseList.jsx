@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Card from "../Card";
 
-function baseList({ isLoading, itemList, title, category }) {
+export default function ({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
     navigate(`/${category}/detail/${item.id}`);
@@ -24,5 +24,3 @@ function baseList({ isLoading, itemList, title, category }) {
     </div>
   );
 }
-
-export default baseList;

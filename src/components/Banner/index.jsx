@@ -23,7 +23,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const index = () => {
+export default () => {
   const { sendRequest, isLoading, error } = useFetch();
   const { favoriteMovies, favoriteHandler, message, setMessage } =
     useFavorite();
@@ -215,5 +215,3 @@ const index = () => {
     </style.Banner>
   );
 };
-
-export default index;

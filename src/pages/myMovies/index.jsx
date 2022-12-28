@@ -9,7 +9,7 @@ import { accountSVC } from "@/api";
 import BaseList from "@/components/MovieList/BaseList";
 import style from "./styled";
 
-function index() {
+export default function () {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
   const { sendRequest, isLoading, error } = useFetch();
@@ -75,5 +75,3 @@ function index() {
     </style.content>
   );
 }
-
-export default index;

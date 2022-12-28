@@ -6,7 +6,7 @@ import base from "@/api/base";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
-function Actor({ isLoading, item, toActorMovies }) {
+export default function ({ isLoading, item, toActorMovies }) {
   return (
     <>
       {isLoading ? (
@@ -41,5 +41,3 @@ function Actor({ isLoading, item, toActorMovies }) {
     </>
   );
 }
-
-export default Actor;

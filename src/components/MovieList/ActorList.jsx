@@ -6,7 +6,7 @@ import Actor from "../Card/Actor";
 import Button from "@mui/material/Button";
 
 // 收藏觸發避免重複渲染 memo
-const ActorList = memo(({ isLoading, personList }) => {
+export default memo(({ isLoading, personList }) => {
   const navigate = useNavigate();
   const [showNumber, setShowNumber] = useState(7);
 
@@ -36,5 +36,3 @@ const ActorList = memo(({ isLoading, personList }) => {
     </div>
   );
 });
-
-export default ActorList;

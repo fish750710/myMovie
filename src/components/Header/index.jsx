@@ -30,7 +30,7 @@ import useFetch from "@/hooks/useFetch";
 
 const domain = "http://localhost:5173/";
 
-const index = () => {
+export default () => {
   const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -294,5 +294,3 @@ const index = () => {
     </style.Navbar>
   );
 };
-
-export default index;

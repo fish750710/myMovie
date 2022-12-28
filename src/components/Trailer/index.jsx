@@ -63,7 +63,7 @@ const arePropsEqual = (prevProps, nextProps) => {
   // );
   return prevProps.playShow === nextProps.playShow;
 };
-const index = memo(({ handleClose, playShow, movieData, trailerCallback }) => {
+export default memo(({ handleClose, playShow, movieData, trailerCallback }) => {
   const [trailer, setTrailer] = useState(() => trailerCallback());
 
   // props 傳入為 Function 必須重新 set Data
@@ -104,5 +104,3 @@ const index = memo(({ handleClose, playShow, movieData, trailerCallback }) => {
     </BootstrapDialog>
   );
 }, arePropsEqual);
-
-export default index;

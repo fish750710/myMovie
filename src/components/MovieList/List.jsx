@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import style from "./styled";
 import Card from "../Card";
 
-function list({ isLoading, itemList, title, category }) {
+export default function ({ isLoading, itemList, title, category }) {
   const navigate = useNavigate();
   const toDetail = (item) => {
     navigate(`/${category}/detail/${item.id}`);
@@ -63,5 +63,3 @@ function list({ isLoading, itemList, title, category }) {
     </style.List>
   );
 }
-
-export default list;

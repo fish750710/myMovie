@@ -10,7 +10,7 @@ import { personSVC } from "@/api";
 
 import style from "./styled";
 
-function index() {
+export default function () {
   // const navigate = useNavigate();
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,5 +68,3 @@ function index() {
     </style.Content>
   );
 }
-
-export default index;

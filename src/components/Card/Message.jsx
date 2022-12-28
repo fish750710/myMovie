@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import Rating from "@mui/material/Rating";
 import Avatar from "@mui/material/Avatar";
 
-function Actor({ item }) {
+export default function ({ item }) {
   return (
     <style.MessageCard>
       <div className="flex justify-between">
@@ -32,5 +32,3 @@ function Actor({ item }) {
     </style.MessageCard>
   );
 }
-
-export default Actor;

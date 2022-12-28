@@ -36,7 +36,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 // const set = new Set();
-function index() {
+export default function () {
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const params = useParams();
   const location = useLocation();
@@ -518,5 +518,3 @@ function index() {
     </style.Content>
   );
 }
-
-export default index;

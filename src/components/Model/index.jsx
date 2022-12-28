@@ -22,7 +22,7 @@ import useFetch from "@/hooks/useFetch";
 const yearList = JSON.parse(import.meta.env.VITE_YEAR_LIST);
 const sortList = JSON.parse(import.meta.env.VITE_SORT_LIST);
 
-function index({ category }) {
+export default function ({ category }) {
   const { sendRequest, isLoading, error } = useFetch();
   const isMobile = useMediaQuery({ maxWidth: 599 });
   const navigate = useNavigate();
@@ -211,5 +211,3 @@ function index({ category }) {
     </style.content>
   );
 }
-
-export default index;

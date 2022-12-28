@@ -9,7 +9,7 @@ import { moviesSVC, discoverSVC } from "@/api";
 import useFetch from "@/hooks/useFetch";
 
 // 收藏觸發避免重複渲染 memo
-const section = memo(({ title, id, category }) => {
+export default memo(({ title, id, category }) => {
   const [itemList, setItemList] = useState();
   const { sendRequest, isLoading, error } = useFetch();
 
@@ -104,5 +104,3 @@ const section = memo(({ title, id, category }) => {
     </style.section>
   );
 });
-
-export default section;

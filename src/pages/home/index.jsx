@@ -5,7 +5,7 @@ import Section from "@/components/MovieList/Section";
 
 import style from "./styled";
 
-const index = () => {
+export default () => {
   return (
     <style.content>
       <Banner />
@@ -32,5 +32,3 @@ const index = () => {
     </style.content>
   );
 };
-
-export default index;

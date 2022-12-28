@@ -22,7 +22,7 @@ const arePropsEqual = (prevProps, nextProps) => {
   return prevProps.id === nextProps.id;
 };
 // 收藏觸發避免重複渲染 memo
-const index = memo(({ id, category }) => {
+export default memo(({ id, category }) => {
   const { sessionID, isLogin, userData } = useSelector((state) => state.user);
   const { sendRequest, isLoading, error } = useFetch();
   const [message, setMessage] = useMessage("");
@@ -161,5 +161,3 @@ const index = memo(({ id, category }) => {
     </style.CardBox>
   );
 }, arePropsEqual);
-
-export default index;

@@ -26,7 +26,7 @@ import style from "./styled";
 
 // const set = new Set();
 
-function index() {
+export default function () {
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -291,5 +291,3 @@ function index() {
     </style.Content>
   );
 }
-
-export default index;
