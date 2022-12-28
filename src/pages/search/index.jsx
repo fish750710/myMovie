@@ -42,7 +42,7 @@ export default function () {
 
   const [btnMoreVal, setBtnMoreVal] = useState("電影");
   const [moreData, setMoreData] = useState([]);
-  const [moreShowFlag, setMoreShowFlag] = useState(false);
+  const [isMoreShowFlag, setIsMoreShowFlag] = useState(false);
 
   const { sendRequest, isLoading, error } = useFetch();
 
@@ -68,7 +68,7 @@ export default function () {
         break;
     }
     setBtnMoreVal(val);
-    setMoreShowFlag(true);
+    setIsMoreShowFlag(true);
   };
   const toDetail = (item) => {
     const category = tabValue === 1 ? "tv" : "movie";
@@ -133,7 +133,7 @@ export default function () {
       setTotal(0);
       seQueryKey(key);
       searchData(key);
-      setMoreShowFlag(false);
+      setIsMoreShowFlag(false);
     } catch (error) {
       console.log(error);
     }
@@ -178,8 +178,8 @@ export default function () {
       <input type="text" onChange={(e) => setValue(e.target.value)} /> */}
       <style.Section
         style={{
-          visibility: !moreShowFlag ? "visible" : "hidden",
-          height: !moreShowFlag ? "100%" : "0",
+          visibility: !isMoreShowFlag ? "visible" : "hidden",
+          height: !isMoreShowFlag ? "100%" : "0",
         }}
       >
         <div className="label">
@@ -251,7 +251,7 @@ export default function () {
           </Box>
         </div>
       </style.Section>
-      <style.Section style={{ display: moreShowFlag ? "block" : "none" }}>
+      <style.Section style={{ display: isMoreShowFlag ? "block" : "none" }}>
         <div className="label">
           {btnMoreVal} {queryKey} ({total})
         </div>

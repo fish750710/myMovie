@@ -29,7 +29,7 @@ export default memo(({ id, category }) => {
 
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const ratingHandler = async (event, newValue) => {
     setRating(newValue);
@@ -56,13 +56,13 @@ export default memo(({ id, category }) => {
           category
         );
         console.log("評分 guest", res);
-        setOpen(true);
+        setIsOpen(true);
       }
       res = await sendRequest(rateMovieParams.url, rateMovieParams.options);
       setMessage(res.status_message);
     } catch (error) {
       console.log(error);
-      setOpen(true);
+      setIsOpen(true);
       setMessage(error);
     }
   };
@@ -115,12 +115,12 @@ export default memo(({ id, category }) => {
   return (
     <style.CardBox>
       <Snackbar
-        open={open}
+        open={isOpen}
         autoHideDuration={6000}
-        onClose={() => setOpen(false)}
+        onClose={() => setIsOpen(false)}
       >
         <Alert
-          onClose={() => setOpen(false)}
+          onClose={() => setIsOpen(false)}
           severity="success"
           sx={{ width: "100%" }}
         >

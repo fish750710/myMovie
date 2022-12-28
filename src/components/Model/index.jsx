@@ -38,7 +38,7 @@ export default function ({ category }) {
   const [movieOptYear, setMovieOptYear] = useState(0); // 年份
   const [sortType, setSortType] = useState(0); // 排序
   const [sortBy, setSortBy] = useState("desc"); // asc
-  const moreFlag = useRef(false);
+  const isMoreFlag = useRef(false);
   const page = useRef(1);
   const [isFilterOption, setIsFilterOption] = useState(false);
 
@@ -77,10 +77,10 @@ export default function ({ category }) {
         movieListParams.url,
         movieListParams.options
       );
-      moreFlag.current
+      isMoreFlag.current
         ? setMoiveList(movieList.concat(results))
         : setMoiveList(results);
-      moreFlag.current = false;
+      isMoreFlag.current = false;
     } catch (err) {
       console.log(err);
     }
@@ -90,7 +90,7 @@ export default function ({ category }) {
   };
   const loadMoreHandler = () => {
     // if (isLoading) return;
-    moreFlag.current = true;
+    isMoreFlag.current = true;
     page.current += 1;
     // setPage((current) => current + 1);
     getMovieList();
