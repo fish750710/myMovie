@@ -43,6 +43,10 @@ export default () => {
         ONMoviesParams.url,
         ONMoviesParams.options
       );
+      // if (results.length === 0) {
+      //   getONMovies("movie", "2022-12-06", "2023-01-06");
+      // }
+      // console.log(results, "results");
       setItemList(results);
     } catch (error) {
       console.log(error);
@@ -51,11 +55,15 @@ export default () => {
   const getDate = (isPrevMonth = false) => {
     const date = new Date();
     const d = String(date.getDate()).padStart(2, "0");
-    const m = date.getMonth();
-    const y = date.getFullYear();
-    return `${y}-${
-      isPrevMonth ? String(m).padStart(2, "0") : String(m + 1).padStart(2, "0")
-    }-${d}`;
+    let m = date.getMonth();
+    let y = date.getFullYear();
+    if (isPrevMonth) {
+      y = m === 0 ? y - 1 : y;
+      m = String(m === 0 ? 12 : m).padStart(2, "0");
+    } else {
+      m = String(m + 1).padStart(2, "0");
+    }
+    return `${y}-${m}-${d}`;
   };
   const toDetail = (item) => {
     navigate(`/movie/detail/${item.id}`);
